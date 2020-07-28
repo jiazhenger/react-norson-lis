@@ -2,13 +2,13 @@ import React from 'react'
 // =====================================================================
 const { $fn } = window
 // =====================================================================
-const Fv = ({ className, header, footer, contentClassName, children }) => (
+const Fv = ({ className, header, footer, scrollClass, children }) => (
 	<Content y={false} className={`fv ${ $fn.css(className) }`}>
 	
 		{ header && header }
 		
 		<section className='rel ex'>
-			<Content className={ $fn.css(contentClassName) }>
+			<Content className={ $fn.css(scrollClass) }>
 				{ children }
 			</Content>
 		</section>
@@ -18,7 +18,7 @@ const Fv = ({ className, header, footer, contentClassName, children }) => (
 )
 // =====================================================================
 export default class Content extends React.Component{
-	static Fv = Fv
+	static Fv = <Fv {...this.props} />
 	render(){
 		const { id, className, style, children, onClick, x, y, xy } = this.props
 		let scroll = 'oys'
