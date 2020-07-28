@@ -1,6 +1,7 @@
-﻿import React from 'react'
+import React from 'react'
+import Async from '@com/async'
 // ===================================================================== public component
- 
+ const Content  =  Async(()=>import('@cpx/content'))
 // ===================================================================== antd
 
 // ===================================================================== image
@@ -9,8 +10,8 @@
 // ===================================================================== component
 export default () => {
 	return (
-		<>
+		<Content>
 			<div>登录</div>
-		</>
+		</Content>
 	)
 }
