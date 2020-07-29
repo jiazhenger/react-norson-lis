@@ -1,15 +1,14 @@
 import React from 'react'
-import Async from '@com/async'
 // =====================================================================
-const Content  =  Async(()=>import('@cpt/content'))
+const Content = window.$async(()=>import('@cpx/content'))
 // =====================================================================
-export default ({ className, header, footer, contentClassName, children }) => (
-	<Content scrollY={false} className={`fv ${ window.$fn.css(className) }`}>
+export default ({ header, footer, children }) => (
+	<Content className='fv'}>
 	
 		{ header && header }
 		
 		<section className='rel ex'>
-			<Content className={ window.$fn.css(contentClassName) }>
+			<Content scrollY>
 				{ children }
 			</Content>
 		</section>
