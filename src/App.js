@@ -2,8 +2,8 @@ import React from 'react'
 import { HashRouter  } from 'react-router-dom'
 // ===================================================================== router
 import AppRouter from './router'
-import Toast from '@cpx/toast'
-import DataLoading from '@cpx/data-loading'
+import Toast from '@base/toast'
+import DataLoading from '@base/data-loading'
 // ===================================================================== antd 汉化
 
 // ===================================================================== 二级路由

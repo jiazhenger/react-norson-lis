@@ -1,6 +1,6 @@
 import React from 'react'
 // =====================================================================
-const Content = window.$async(()=>import('@cpx/content'))
+const Content = window.$async(()=>import('@base/content'))
 // =====================================================================
 export default ({ header, footer, children }) => (
 	<Content className='fv'}>

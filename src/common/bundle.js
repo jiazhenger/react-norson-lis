@@ -1,7 +1,7 @@
 /* ====================================== 异步加载路由  ====================================== */
 import React, { Component } from 'react'
 // ===================================================================== loadding 
-import PageLoading from '@cpx/page-loading'
+import PageLoading from '@base/page-loading'
 // =====================================================================
 export const Bundle = importComponent => {
     return class extends Component {

@@ -5,22 +5,24 @@ const resolve = dir => require('path').join(__dirname,dir)
 process.env.GENERATE_SOURCEMAP = false; // 关闭 css sourceMap 打包
 
 module.exports = override(
-	 // 关闭 css sourceMap 打包
 	addWebpackAlias({
 		['@'] 		: resolve('src'),
+		['@assets'] : resolve('src/assets'),
+		['@css'] 	: resolve('src/assets/css'),
+		['@img'] 	: resolve('src/assets/images'),
+		['@js'] 	: resolve('src/assets/js'),
+		
 	  	['@com'] 	: resolve('src/common'),
-	  	['@cpt'] 	: resolve('src/components'),
-        ['@tp'] 	: resolve('src/template'),
+		
+	  	['@base'] 	: resolve('src/cpt-base'),
+		['@template'] 	: resolve('src/cpt-template'),
+		['@plugin'] 	: resolve('src/cpt-plugin'),
+        
         ['@antd'] 	: resolve('src/components/antd'),
         ['@mu'] 	: resolve('src/components/material-ui'),
         ['@es'] 	: resolve('src/components/echarts'),
-	  	['@cpx'] 	: resolve('src/components-x'),
-	  	['@assets'] : resolve('src/assets'),
-	  	['@css'] 	: resolve('src/assets/css'),
-	  	['@img'] 	: resolve('src/assets/images'),
-	  	['@js'] 	: resolve('src/assets/js'),
-	  	['@pages'] 	: resolve('src/pages'),
-		['@redux'] 	: resolve('src/redux')
+		
+		['@pages'] 	: resolve('src/pages'),
 	}),
 	// 异步引入 antd 配置
 	fixBabelImports('import', {

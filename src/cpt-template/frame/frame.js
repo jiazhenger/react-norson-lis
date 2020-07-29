@@ -1,8 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 // ===================================================================== public component
-import Content from '@cpx/content'
-import Image from '@cpx/image'
+import Content from '@base/content'
+import Image from '@base/image'
 // ===================================================================== private component
 import MuluComponent from './cpt/mulu'
 import UserComponent from './cpt/user'

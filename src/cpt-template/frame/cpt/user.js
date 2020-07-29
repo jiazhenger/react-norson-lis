@@ -1,8 +1,8 @@
-﻿/* ====================================== toast  ====================================== */
+/* ====================================== toast  ====================================== */
 import React from 'react'
 // ===================================================================== public component
-import Image from '@cpx/image'
-import Confirm from '@cpt/antd/confirm'
+import Image from '@base/image'
+import Confirm from '@plugin/antd/confirm'
 // ===================================================================== antd component
 import { Dropdown, Menu, message } from 'antd'
 import { RightOutlined, DownOutlined } from '@ant-design/icons'
