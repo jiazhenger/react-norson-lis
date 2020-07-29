@@ -16,11 +16,11 @@ module.exports = override(
 		
 	  	['@base'] 	: resolve('src/cpt-base'),
 		['@template'] 	: resolve('src/cpt-template'),
+		
 		['@plugin'] 	: resolve('src/cpt-plugin'),
-        
-        ['@antd'] 	: resolve('src/components/antd'),
-        ['@mu'] 	: resolve('src/components/material-ui'),
-        ['@es'] 	: resolve('src/components/echarts'),
+	    ['@antd'] 	: resolve('src/cpt-plugin/antd'),
+	    ['@mu'] 	: resolve('src/cpt-plugin/material-ui'),
+	    ['@es'] 	: resolve('src/cpt-plugin/echarts'),
 		
 		['@pages'] 	: resolve('src/pages'),
 	}),

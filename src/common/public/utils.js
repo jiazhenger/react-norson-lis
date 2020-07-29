@@ -1,5 +1,6 @@
 /* ====================================== 全局变量及方法  ====================================== */
-import Storage from '../store/sessionStorage'
+import Store from '../store/storage'
+const Storage = Store(window.localStorage)
 const _ = {
 	// ======================================================================== redux
 	loading(bool,msg){
@@ -43,7 +44,7 @@ const _ = {
 	remove(name){ Storage.remove(name || 'user') },
 	// 获取用户信息
 	getUser(){
-		const user = this.local('user')
+		const user = Storage.get('user')
 		return this.hasObject(user) ? user : { }
 	},
 	// ======================================================================== 获取 url 参数
@@ -122,7 +123,7 @@ const dataType = {
 	hasArray 	: d => _.isArray(d) && d.length > 0,
 	hasObject 	: d => _.isObject(d) && Object.keys(d).length > 0,
 	isEmpty 	: d => _ === null || d === undefined || d === '',
-	isValid 	: d => !_.isEmpty(d) || d === 0 || d === false
+	isValid 	: d => !dataType.isEmpty(d) || d === 0 || d === false
 }
 
 export default {..._, ...dataType}

@@ -1,6 +1,6 @@
 import React from 'react'
 // ===================================================================== public component
-const Page  =  window.$async(()=>import('@template/content/content-page'))
+const Page = window.$async(()=>import('@template/content/content-page'))
 // ===================================================================== antd
 
 // ===================================================================== image
