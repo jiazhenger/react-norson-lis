@@ -1,14 +1,14 @@
-/* ====================================== 滚动条  ====================================== */
 import React from 'react'
 // =====================================================================
-/*
-const Fv = ({ className, header, footer, contentClassName, children }) => (
-	<Content scrollY={false} className={`fv ${className||''}`}>
+const { $fn } = window
+// =====================================================================
+const Fv = ({ className, header, footer, scrollClass, children }) => (
+	<Content y={false} className={`fv ${ $fn.css(className) }`}>
 	
 		{ header && header }
 		
 		<section className='rel ex'>
-			<Content className={ contentClassName ? contentClassName : '' }>
+			<Content className={ $fn.css(scrollClass) }>
 				{ children }
 			</Content>
 		</section>
@@ -16,9 +16,9 @@ const Fv = ({ className, header, footer, contentClassName, children }) => (
 		{ footer && footer }
 	</Content>
 )
-*/
+// =====================================================================
 export default class Content extends React.Component{
-//	static Fv = Fv
+	static Fv = <Fv {...this.props} />
 	render(){
 		const { id, className, style, children, onClick, x, y, xy } = this.props
 		let scroll = 'oys'
@@ -29,7 +29,7 @@ export default class Content extends React.Component{
 		return (
 			<div 
 				id 			={ id } 
-				className	={ `abs_lt wh ${scroll} ${ window.$fn.css(className,'bcb') }` }
+				className	={ `abs_full ${scroll} ${ $fn.css(className, 'bcb') }` }
 				style		={ style } 
 				onClick		={ onClick }
 			>

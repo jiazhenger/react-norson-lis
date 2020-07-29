@@ -1,17 +1,17 @@
 import React from 'react'
-import Async from '@com/async'
 // ===================================================================== public component
- const Content  =  Async(()=>import('@cpx/content'))
+const Page  =  window.$async(()=>import('@tp/content/content-page'))
 // ===================================================================== antd
 
 // ===================================================================== image
 
 // ===================================================================== declare
+
 // ===================================================================== component
 export default () => {
 	return (
-		<Content>
+		<Page>
 			<div>登录</div>
-		</Content>
+		</Page>
 	)
 }
