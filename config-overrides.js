@@ -6,23 +6,29 @@ process.env.GENERATE_SOURCEMAP = false; // 关闭 css sourceMap 打包
 
 module.exports = override(
 	addWebpackAlias({
-		['@'] 		: resolve('src'),
-		['@assets'] : resolve('src/assets'),
-		['@css'] 	: resolve('src/assets/css'),
-		['@img'] 	: resolve('src/assets/images'),
-		['@js'] 	: resolve('src/assets/js'),
+		['@'] 			: resolve('src'),
+		['@assets'] 	: resolve('src/assets'),
+		['@css'] 		: resolve('src/assets/css'),
+		['@img'] 		: resolve('src/assets/images'),
+		['@js'] 		: resolve('src/assets/js'),
+			
+	  	['@com'] 		: resolve('src/common'),
+		['@utils'] 		: resolve('src/common/utils'),
+			
+	  	['@cpt'] 		: resolve('src/global.components/component'),
+		['@tp'] 		: resolve('src/global.components/template'),
+		['@plugin']		: resolve('src/global.components/plugin'),
 		
-	  	['@com'] 	: resolve('src/common'),
-		
-	  	['@base'] 	: resolve('src/cpt-base'),
-		['@template'] 	: resolve('src/cpt-template'),
-		
-		['@plugin'] 	: resolve('src/cpt-plugin'),
-	    ['@antd'] 	: resolve('src/cpt-plugin/antd'),
-	    ['@mu'] 	: resolve('src/cpt-plugin/material-ui'),
-	    ['@es'] 	: resolve('src/cpt-plugin/echarts'),
-		
-		['@pages'] 	: resolve('src/pages'),
+		['@antd'] 		: resolve('src/global.components/plugin/antd'),
+		['@mu'] 		: resolve('src/global.components/plugin/material-ui'),
+		['@es'] 		: resolve('src/global.components/plugin/echarts'),
+			
+		['#cpt'] 		: resolve('src/private.components/component'),
+		['#tp'] 		: resolve('src/private.components/template'),
+		['#plugin']		: resolve('src/private.components/plugin'),
+		['#page'] 		: resolve('src/private.components/page'),
+			
+		['@views'] 		: resolve('src/views'),
 	}),
 	// 异步引入 antd 配置
 	fixBabelImports('import', {

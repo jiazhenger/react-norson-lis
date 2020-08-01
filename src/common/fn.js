@@ -1,9 +1,20 @@
-import Utils from './public/utils'
+import DataType from './utils/data-type'
+import Storage from './core/storage'
+import Query from './core/query'
+import Rest from './core/rest'
+import Inner from './core/inner'
 /* ====================================== 全局变量及方法  ====================================== */
 export default {
+	// ======================================================================== 功能函数
+	...DataType,
+	...Storage,
+	...Query,
+	...Inner,
+	...Rest,
+	// ======================================================================== 全局变量
 	c0:'#1890ff',
 	c1:'#FF5218',
-	// ======================================================================== 返回测试数据
+	// ======================================================================== 正则匹配
 	//	isTel(v){ return /^1[0-9]{10}$/.test(v) },
 	//	isPwd(v){ return /\w{6,18}$/.test(v) },
 	//	pwdReg: /\w{6,18}$/,
@@ -89,5 +100,4 @@ export default {
 	colConfig:{ className:'rowStyle', 	align:'center' },
 	// 刷新key
 	refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
-	...Utils
 }

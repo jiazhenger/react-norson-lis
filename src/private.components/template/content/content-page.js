@@ -1,6 +1,6 @@
 import React from 'react'
-// =====================================================================
-const Content = window.$async(()=>import('@base/content'))
+// ===================================================================== global template
+const Content = window.$async(()=>import('@tp/content'))
 // =====================================================================
 export default ({ children }) => {
 	return (

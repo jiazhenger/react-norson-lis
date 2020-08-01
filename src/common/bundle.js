@@ -1,7 +1,7 @@
 /* ====================================== 异步加载路由  ====================================== */
 import React, { Component } from 'react'
 // ===================================================================== loadding 
-import PageLoading from '@base/page-loading'
+import PageLoading from '@tp/page-loading'
 // =====================================================================
 export const Bundle = importComponent => {
     return class extends Component {
@@ -24,4 +24,4 @@ export const Bundle = importComponent => {
     }
 }
 
-export default path => Bundle(() => import('@pages/' + path))
+export default path => Bundle(() => import('@views/' + path))

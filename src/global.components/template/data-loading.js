@@ -1,6 +1,6 @@
 /* ====================================== 页面加载效果  ====================================== */
 import React from 'react'
-import AddLast from './add-last'
+import AddLast from '@cpt/add-last'
 const $fn = window.$fn
 // ===================================================================== data-loading
 const Loading = ({ color, size }) => (

@@ -1,5 +1,5 @@
 import React from 'react'
-import AddLast from './add-last'
+import AddLast from '@cpt/add-last'
 // ===================================================================== toast
 export default () => (
 	<AddLast name='toast'>
