@@ -61,6 +61,8 @@ const _ = {
 	push(_this,path,param){ _this.props.history.push(path,param) },
 	replace(_this,path,param){ _this.props.history.replace(path,param) },
 	back(_this){_this.props.history.goBack()},
+	// ======================================================================== 刷新局部
+	// refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
 };
 
 export default _
