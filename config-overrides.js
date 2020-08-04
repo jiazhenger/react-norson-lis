@@ -23,10 +23,10 @@ module.exports = override(
 		['@mu'] 		: resolve('src/global.components/plugin/material-ui'),
 		['@es'] 		: resolve('src/global.components/plugin/echarts'),
 			
-		['#cpt'] 		: resolve('src/private.components/component'),
-		['#tp'] 		: resolve('src/private.components/template'),
-		['#plugin']		: resolve('src/private.components/plugin'),
-		['#page'] 		: resolve('src/private.components/page'),
+		['#cpt'] 		: resolve('src/pages.components/component'),
+		['#tp'] 		: resolve('src/pages.components/template'),
+		['#plugin']		: resolve('src/pages.components/plugin'),
+		['#page'] 		: resolve('src/pages.components/page'),
 			
 		['@views'] 		: resolve('src/views'),
 	}),
