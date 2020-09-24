@@ -29,12 +29,13 @@ export default class Index extends React.Component {
 	}
 	
 	render(){
-		const { data, idStr, nameStr, p , width, size, style,isP, className, mode, disabled } = this.props
+		const { data, idStr, nameStr, p , width, size, style,isP, className, mode, disabled, loading, bordered } = this.props
 		const { key } = this.state
 		const xdata = data || this.state.data
 		const nStr = nameStr || 'label'
 		const iStr = idStr || 'value'
 		const t = p ? p : ''
+		const borderedValue = bordered === false ? false : true
 		
 		const value = this.state.value === undefined ? this.props.value : this.state.value
 		
@@ -51,6 +52,8 @@ export default class Index extends React.Component {
 				placeholder	= { isP ? '请选择' + t :  t  }
 				disabled 	= { !$fn.hasArray(xdata) || disabled }
 				mode		= { mode }
+				loading		= { loading }
+				bordered	= { borderedValue }
 				onDropdownVisibleChange = {this.onDropdownVisibleChange}
 				showSearch
 				allowClear

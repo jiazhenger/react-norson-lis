@@ -28,9 +28,10 @@ export default class MyInput extends React.Component {
 	getRef = () => this.refs.inputRef.input
 	
 	render(){
-		const  { p, type, width, size, isP, clear, style, isCenter, readOnly, className, mode, loading, disabled } = this.props
+		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, loading, disabled, prefix, iconRender, bordered } = this.props
 		const value = this.state.value === undefined ? this.props.value : this.state.value
 		let centerStyle = isCenter ? {textAlign:'center'} : null
+		const borderedValue = bordered === false ? false : true
 		let height = {}
 		if(size === 'x'){
 			height = { height:'44px', fontSize:'16px'}
@@ -44,15 +45,35 @@ export default class MyInput extends React.Component {
 							className		= { className?className:'' }
 							allowClear 		= { clear === false ? false : true } 
 							type			= { type } 
-							size			= { size || 'large' } 
+							size			= { size || 'middle' } 
 							onChange		= { this.onChange }
 							onSearch 		= { this.onSearch }
 							value		 	= { value }
 							style			= {{width,...height,...centerStyle,...style}}
-							placeholder		= { isP ?  '请输入' + p : p } 
+							placeholder		= { p } 
 							readOnly		= { readOnly }
 							disabled		= { disabled }
 							loading 		= { loading }
+							prefix			= { prefix }
+						/>
+					)
+				}
+				{
+					mode ==='password' && (
+						<Input.Password
+							ref 			= 'inputRef'
+							className		= { className?className:'' }
+							allowClear 		= { clear === false ? false : true } 
+							size			= { size || 'middle' } 
+							onChange		= { this.onChange }
+							value		 	= { value }
+							style			= {{width,...height,...centerStyle,...style}}
+							placeholder		= { p } 
+							readOnly		= { readOnly }
+							disabled		= { disabled }
+							prefix			= { prefix }
+							iconRender		= { iconRender }
+							bordered		= { borderedValue }
 						/>
 					)
 				}
@@ -63,13 +84,15 @@ export default class MyInput extends React.Component {
 							className		= { className?className:'' }
 							allowClear 		= { clear === false ? false : true } 
 							type			= { type } 
-							size			= { size || 'large' } 
+							size			= { size || 'middle' } 
 							onChange		= { this.onChange }
 							value		 	= { value }
 							style			= {{width,...height,...centerStyle,...style}}
-							placeholder		= { isP ?  '请输入' + p : p } 
+							placeholder		= { p } 
 							readOnly		= { readOnly }
 							disabled		= { disabled }
+							prefix			= { prefix }
+							bordered		= { borderedValue }
 						/>
 					)
 				}

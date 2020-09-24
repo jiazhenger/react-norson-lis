@@ -10,9 +10,10 @@ import $fn from './fn'
 const logMsg = (msg,content)=>{ Config.env && console.log(msg,content) }
 
 // 配置头信息
-const config = (opt)=>{
-	const type = ['application/json;charset=utf-8','application/x-www-form-urlencoded','multipart/form-data']
-	let contentType = type[$fn.isValid(opt.type) ?  opt.type : Config.contentType]
+const config = ({ type, token, api, upload  })=>{
+	const content = ['application/json;charset=utf-8','application/x-www-form-urlencoded','multipart/form-data']
+	if(upload){ type = 2 }
+	const contentType = content[$fn.isValid(type) ? type : Config.contentType]
 	// 签名验证
 	/*
 	let time = new Date().getTime();
@@ -20,7 +21,7 @@ const config = (opt)=>{
     	rest_timestamp:time.toString(),
 		rest_sign:CryptoJS.DES.encrypt(time.toString(), CryptoJS.enc.Utf8.parse('__UWILLBE_'), { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7}).toString()
     }*/
-	let header = opt.noToken ? 
+	let header = token === false ? 
 		{ 'Content-Type' 	: contentType } : 
 		{ 
 			'Content-Type'	: contentType,
@@ -28,7 +29,7 @@ const config = (opt)=>{
 		}
                 
 	return {
-		baseURL: opt.api,
+		baseURL: api,
 		headers: header,
 		timeout: 30000,
 		//withCredentials : true	// 跨域请求想要带上cookies设置为 true
@@ -52,7 +53,21 @@ const serializeParam = (body,isPost) => {
 //const combineParam = (body) => { return serializeParam(LS.get('login')) + serializeParam(body) }
 
 // 将 body 以函数形式处理
-const manageBody = body => $fn.isFunction(body) ? body() : body
+const manageBody = body => {
+	if($fn.isFunction(body)){
+		return body()
+	}else if($fn.hasObject(body)){
+		for(var i in body){
+			let v = body[i]
+			if( !$fn.isValid(v) ){
+				delete body[i]
+			}
+		}
+		return body
+	}else{
+		return body
+	}
+}
 // 给空数据加类型
 const setType = (_this,dataName) => {
 	if(!_this) return
@@ -74,7 +89,7 @@ const setType = (_this,dataName) => {
  * 		suceessHander:()=>{}		// 只要调用接口成功就调用
  * 	    onEnd:()=>{}		// 成功或失败都调用
  * 		error:()=>{}				// 接口请求不通时调用
- * 		closeToast:true				// 数据请求成功但不符合规则时，屏蔽默认提示，可在 then 中自定义提示
+ * 		myToast:true				// 数据请求成功但不符合规则时，屏蔽默认提示，可在 then 中自定义提示
  * }
  *
  * */
@@ -88,7 +103,7 @@ const coreRequest = (url, param, action, defined) => {
 	let configs = config({
 		type	: UD.type,
 		upload	: UD.upload,
-		noToken	: UD.noToken,
+		token	: UD.token,
 		api		: api
 	})
 	
@@ -120,14 +135,14 @@ const coreRequest = (url, param, action, defined) => {
 			}else{ // 数据请求成功但不符合规则
 				reject(data);
 					
-				$fn.isFunction(UD.onError) && UD.onError(data)	// 只要出错就调用
-				$fn.isFunction(UD.onFail) && UD.onFail(data)	// 数据处理不满足条件时调用
-				
 				if(UD.onMsg){
 					$fn.isFunction(UD.onMsg) && UD.onMsg(data)		// 自定义提示
 				}else{
-					$fn.toast(data['msg'],UD.onError)			// 默认开启出错提示
+					$fn.toast(data['msg'], UD.onError)			// 默认开启出错提示
 				}
+				
+				// $fn.isFunction(UD.onError) && UD.onError(data)	// 只要出错就调用
+				$fn.isFunction(UD.onFail) && UD.onFail(data)	// 数据处理不满足条件时调用
 				
 				logMsg(url + '===', data);
 			}
@@ -164,11 +179,11 @@ const submit = (_this,api,option)=>{
 //		replace			: null,					// replace 路由
 //		push			: null,					// push 路由
 //		refresh			: false,				// 是否刷新
-//		closeToast		: false,				// 是否关闭默认提示
+//		myToast		: false,				// 是否关闭默认提示
 //		onEnd			: null,					// 无论请求成功或失败都执行此方法
 //		onError			: null,					//
 //		upload			: false,				// 调用上传接口
-//		noToken			: false,
+//		token			: false,
 //		isBody			: false,
 		...option
 	}
@@ -195,7 +210,7 @@ const submit = (_this,api,option)=>{
 			noError	: opt.noError,
 			onError	: opt.onError,
 			upload	: opt.upload,
-			noToken	: opt.noToken,
+			token	: opt.token,
 			isBody	: opt.isBody,
 			type	: opt.type
 		}).then(data=>{
@@ -213,7 +228,7 @@ const submit = (_this,api,option)=>{
 			}
 		},data=>{
 			reject(data)
-			if(opt.closeToast){
+			if(opt.myToast){
 				_this.refs.toast && _this.refs.toast.open({ text: data['info'] })
 			}
 		})
@@ -223,14 +238,14 @@ const submit = (_this,api,option)=>{
 const pull = (_this,api,option)=>{
 	let opt = {
 		dataName	: 'data',				// 数据名字
-		loading		: true,					// 如果有加载效果
+		loading		: false,					// 如果有加载效果
 		param		:{},						// 参数
 		pullLoading : 'pullLoading',		// 加载判断
 		loadingText	: '数据加载中...',			
 //		onSuccess	: null,			// 改变数据
 //		onError		: null,
-//		noToken		: false,
-//		closeToast	: false,
+//		token		: false,
+//		myToast	: false,
 		...option
 	}
 	
@@ -259,7 +274,7 @@ const pull = (_this,api,option)=>{
 							opt.onError && opt.onError()
 							if(!opt.loading){ $fn.loading(false) }
 			},
-			noToken	: opt.noToken,
+			token	: opt.token,
 		}).then(data=>{
 			if($fn.isValid(data)){
 				if($fn.isFunction(opt.onSuccess)){

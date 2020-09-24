@@ -7,11 +7,11 @@ export default class Index extends React.Component {
 		
 	}
 	onChange = e => {
-		// const { onChange, name } = this.props
-		// this.setState({ value: e.target.checked },()=>{
-		// 	let rs = this.state.value ? false : true
-		// 	onChange && onChange( name ? { [name]: rs } : rs )
-		// })
+		const { onChange, name } = this.props
+		this.setState({ value: e.target.checked }, ()=>{
+			let rs = this.state.value ? true : false
+			onChange && onChange( name ? { [name]: rs } : rs )
+		})
 	}
 	
 	setValue = value => this.setState({ value })
@@ -19,7 +19,7 @@ export default class Index extends React.Component {
 	clear = () => this.setValue(false)
 	
 	render(){
-		const  { size, disabled, loading } = this.props
+		const  { size, disabled, loading, label } = this.props
 		const value = this.state.value === undefined ? this.props.value : this.state.value
 		return (
 			<Checkbox
@@ -28,7 +28,9 @@ export default class Index extends React.Component {
 				checked		 	= { value }
 				disabled		= { disabled }
 				loading			= { loading }
-			/>
+			>
+				{label}
+			</Checkbox>
 		)
 	}
 }

@@ -1,4 +1,4 @@
-﻿/* ====================================== toast  ====================================== */
+/* ====================================== toast  ====================================== */
 import React from 'react'
 // ===================================================================== image
 import DefImage from './svg/def-img'
@@ -16,7 +16,6 @@ const Center = props => {
 
 class Image extends React.Component{
 	static Center = Center
-	
 	render(){
 		const { src, width, height, style, className, onClick, alt, round, size } = this.props
 		return src ? 	<img onClick={onClick} className={`w ${className||''} ${round?'r100px':''}`} style={{width:width,height,...style}} src={src} alt={alt||''}/> : 

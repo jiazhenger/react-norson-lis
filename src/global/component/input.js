@@ -1,4 +1,4 @@
-﻿/* ======================================  Input  ====================================== */
+/* ======================================  Input  ====================================== */
 import React from 'react'
 const { $fn } = window
 // =====================================================================
@@ -24,7 +24,7 @@ class Input extends React.Component{
 	
 	render(){
 		const { isFocus } = this.state
-		const { className, p, readOnly, disabled, type, style, width, height, onClick, max, onFocus, onBlur } = this.props
+		const { className, p, readOnly, disabled, type, style, width, height, onClick, max, onFocus, onBlur, bordered } = this.props
 		let value = this.state.value ? this.state.value : this.props.value
 		if(!$fn.isValid(value)){ value = '' }
 		return (
@@ -60,6 +60,7 @@ class Input extends React.Component{
 								maxLength	 = { max }
 								onFocus 	 = { onFocus }
 								onBlur 	 	 = { onBlur }
+								bordered 	 = { bordered === false ? false  : true }
 							/>
 						</div>
 					)

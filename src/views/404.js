@@ -6,7 +6,7 @@ import Content from '@tp/content'
 // ===================================================================== page component
 export default ({ history }) => {
 	return (
-		<Content>
+		<Content className='fxmc'>
 			<Result
 				status='404'
 				title='404'

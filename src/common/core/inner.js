@@ -10,12 +10,12 @@ const _ = {
 			loading.style.display = 'none'
 		}
 	},
-	async toast(msg, delay){
+	async toast(msg, callback, delay){
 		delay = delay || 1500
 		const toast = document.querySelector('#jzer-toast')
 		toast.style.display = 'block'
 		toast.querySelector('.jzer-toast-msg').innerHTML = msg
-		setTimeout(()=>{ toast.style.display = 'none' },delay)
+		setTimeout(()=>{ toast.style.display = 'none'; callback && callback() },delay)
 	},
 	// ======================================================================== 刷新跳转
 	// 登录后跳转

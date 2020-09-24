@@ -15,7 +15,6 @@ import App from './App'
 // ======================================================== 启动 react
 //ReactDOM.render( <React.StrictMode><App/></React.StrictMode>, document.querySelector('#app-root') )
 ReactDOM.render( <App/>, document.querySelector('#app-root') )
-//setTimeout(()=>document.body.removeChild(document.querySelector('#app-loading')),500)
 document.body.removeChild(document.querySelector('#app-loading'))
 // ======================================================== 注册服务
 //serviceWorker.unregister()

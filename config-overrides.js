@@ -15,19 +15,19 @@ module.exports = override(
 	  	['@com'] 		: resolve('src/common'),
 		['@utils'] 		: resolve('src/common/utils'),
 			
-	  	['@cpt'] 		: resolve('src/global.components/component'),
-		['@tp'] 		: resolve('src/global.components/template'),
-		['@plugin']		: resolve('src/global.components/plugin'),
+	  	['@cpt'] 		: resolve('src/global/component'),
+		['@tp'] 		: resolve('src/global/template'),
+		['@plugin']		: resolve('src/global/plugin'),
 		
-		['@antd'] 		: resolve('src/global.components/plugin/antd'),
-		['@mu'] 		: resolve('src/global.components/plugin/material-ui'),
-		['@es'] 		: resolve('src/global.components/plugin/echarts'),
+		['@antd'] 		: resolve('src/global/plugin/antd'),
+		['@mu'] 		: resolve('src/global/plugin/material-ui'),
+		['@es'] 		: resolve('src/global/plugin/echarts'),
 			
-		['#cpt'] 		: resolve('src/pages.components/component'),
-		['#tp'] 		: resolve('src/pages.components/template'),
-		['#plugin']		: resolve('src/pages.components/plugin'),
-		['#page'] 		: resolve('src/pages.components/page'),
-			
+		['#cpt'] 		: resolve('src/private/component'),
+		['#tp'] 		: resolve('src/private/template'),
+		['#plugin']		: resolve('src/private/plugin'),
+		['#page'] 		: resolve('src/private/page'),
+
 		['@views'] 		: resolve('src/views'),
 	}),
 	// 异步引入 antd 配置
@@ -39,6 +39,6 @@ module.exports = override(
 	// 自定义主题
 	addLessLoader({
 		javascriptEnabled: true,
-		modifyVars: { '@primary-color': '#1890ff' },
+		modifyVars: { '@primary-color': '#2cd1d2' },
 	})
 )
