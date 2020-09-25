@@ -12,7 +12,7 @@ export default {
 	...Rest,
 	...Inner,
 	// ======================================================================== 全局变量
-	c0:'#1890ff',
+	c0:'#2cd1d2',
 	c1:'#FF5218',
 	// ======================================================================== 正则匹配
 	//	isTel(v){ return /^1[0-9]{10}$/.test(v) },
@@ -100,4 +100,10 @@ export default {
 	colConfig:{ className:'rowStyle', 	align:'center' },
 	// 刷新key
 	refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
+	// 获取 router
+	getRoot(){
+		const hash = window.location.hash
+		const arr = hash.split('/')
+		return '/' + arr[1]
+	}
 }

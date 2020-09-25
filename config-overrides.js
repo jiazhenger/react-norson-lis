@@ -27,6 +27,7 @@ module.exports = override(
 		['#tp'] 		: resolve('src/private/template'),
 		['#plugin']		: resolve('src/private/plugin'),
 		['#page'] 		: resolve('src/private/page'),
+		['#frame'] 		: resolve('src/private/frame'),
 
 		['@views'] 		: resolve('src/views'),
 	}),

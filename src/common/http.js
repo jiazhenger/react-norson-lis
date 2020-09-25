@@ -121,12 +121,11 @@ const coreRequest = (url, param, action, defined) => {
 	return new Promise((resolve, reject) => {
 		promise.then(res => {	// 接口正确接收数据处理
 			let data = res.data;
-			let code = data.status;
-			
+			let code = data.status*1;
 			if(code === 1){	// 数据请求成功
 				resolve(data.data);
 				logMsg(url + '===', data.data);
-			} else if(code === 501){	// 登录信息已过期，请重新登录!
+			} else if(code === -10404417){	// 登录信息已过期，请重新登录!
 				$fn.toast(data['msg'])
 				$fn.remove()
 				$fn.loginTo()

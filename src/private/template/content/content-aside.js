@@ -4,8 +4,8 @@ const Content = window.$async(()=>import('@tp/content'))
 // =====================================================================
 export default ({ children }) => {
 	return (
-		<Content scrollXY>
-			<section style={{padding:'15px',minWidth:'1000px',minHeight:'800px'}}>
+		<Content>
+			<section style={{padding:'15px',minWidth:'1000px',minHeight:'500px'}}>
 				{children}
 			</section>
 		</Content>
