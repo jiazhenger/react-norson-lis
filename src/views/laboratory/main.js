@@ -1,7 +1,7 @@
 import React from 'react'
 // ===================================================================== private template
-import Frame from '#frame/frame'
-// const Frame = window.$async(()=>import('#frame/frame'))
+// import Frame from '#frame/frame'
+const Frame = window.$async(()=>import('#frame/frame'))
 // ===================================================================== 目录
 const data = [
 	{ title: '工作台', path:'/laboratory/workbench', component: 'pages/workbench/main', root:'/laboratory'},
