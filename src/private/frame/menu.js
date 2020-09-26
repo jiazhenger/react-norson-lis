@@ -2,6 +2,7 @@ import React from 'react'
 import { withRouter, NavLink } from 'react-router-dom'
 // ===================================================================== antd
 import { Layout, Menu, message } from 'antd'
+import Router from '#frame/router'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
 const { SubMenu, Item } = Menu
@@ -10,16 +11,7 @@ const Content = $async(()=>import('@tp/content'))
 // ===================================================================== global template
 const Image = $async(()=>import('@tp/image'))
 // ===================================================================== private component
-const Router = $async(()=>import('#frame/router'))
-// ===================================================================== image
-
-// ===================================================================== my function
-const getCollapsed= () => {
-	let c = $fn.local('collapsed');
-	return c === 'true'
-}
-message.config({ top: '40%',duration:0.5 })
-const width = 200
+// const Router = $async(()=>import('#frame/router'))
 // ===================================================================== component
 class Frame extends React.Component{
 	state = {
@@ -27,10 +19,7 @@ class Frame extends React.Component{
 		defaultOpenKeys: this.getOpenKeys()
 	}
 	componentDidMount(){
-		const { token } = $fn.getQuery()
-		if(token){
-			$fn.local('user',{token})
-		}
+		
 	}
 	onSelect = v => {
 		this.props.history.push(v.key);
@@ -49,10 +38,13 @@ class Frame extends React.Component{
 	getOpenKeys(){
 		let index = 0
 		const url = this.getKey()[0]
+		let stack = []
 		this.props.data.forEach((v,i)=>{
 			if(url === v.path){
 				index = i
 				$fn.setTitle(v.title)
+			}else{
+				stack.push(i)
 			}
 			if($fn.hasArray(v.children)){
 				v.children.forEach((m,k)=>{
@@ -63,7 +55,8 @@ class Frame extends React.Component{
 				})
 			}
 		})
-		return [url, index.toString()]
+		stack = stack.map(v=>v.toString())
+		return [url, index.toString(),...stack]
 	}
 	render(){
 		const { data } = this.props
@@ -73,7 +66,7 @@ class Frame extends React.Component{
 				{/* 导航 */}
 				<Layout.Sider className='ex rel' id='menu' width={$fn.menuWidth} collapsible trigger={null} collapsed={collapsed}>
 					<Content scrollY>
-						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' selectedKeys={selectedKeys} defaultOpenKeys={defaultOpenKeys} onSelect={this.onSelect}>
+						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' selectedKeys={selectedKeys} defaultOpenKeys={defaultOpenKeys} onClick={this.handleClick} onSelect={this.onSelect}>
 							{
 								$fn.hasArray(data) && data.map((v,i)=>(
 									$fn.hasArray(v.children) ? (

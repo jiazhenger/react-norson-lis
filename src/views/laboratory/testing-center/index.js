@@ -1,5 +1,6 @@
 import React from 'react'
 // ===================================================================== private template
+// import Menu from '#frame/menu'
 const Menu = window.$async(()=>import('#frame/menu'))
 // ===================================================================== 目录
 const data = [

@@ -24,8 +24,8 @@ export default class Index extends React.Component {
     
     Footer = ({ okText, noText, loading }) => (
     	<footer className='fxmc'>
-			<Button round loading={loading} onClick={this.onCancel} style={{width:'100px'}} size='middel' ghost type='primary'>{noText||'取消'}</Button>
-			<Button round loading={loading} onClick={this.onOk} style={{width:'100px', marginLeft:'25px'}} size='middel' type='primary'>{okText || '确认'}</Button>
+			<Button round loading={loading} onClick={this.onCancel} style={{width:'100px'}} size='large' ghost type='primary'>{noText||'取消'}</Button>
+			<Button round loading={loading} onClick={this.onOk} style={{width:'100px', marginLeft:'25px'}} size='large' type='primary'>{okText || '确认'}</Button>
     	</footer>
     )
     
