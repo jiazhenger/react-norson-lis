@@ -13,9 +13,9 @@ export default class extends React.Component {
     close = () => this.refs.modal.close()
     
     render(){
-    	const { title, loading, msg } = this.props
+    	const { title, loading, msg, show } = this.props
 		return (
-			<Modal loading={loading} title={title || '提示'} ref='modal' onOk={this.onYes} maskClose={false}>
+			<Modal loading={loading} show={show} title={title || '提示'} ref='modal' onOk={this.onYes} maskClose={false}>
 				<p className='tc g2 f16'>{msg || '确认提交？'}</p>
 			</Modal>
 		)

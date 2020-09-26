@@ -24,45 +24,56 @@ const width = 200
 class Frame extends React.Component{
 	state = {
 		selectedKeys:this.getKey(),
+		defaultOpenKeys: this.getOpenKeys()
 	}
 	componentDidMount(){
-		$fn.setTitle(this.props.title)
-		
 		const { token } = $fn.getQuery()
 		if(token){
 			$fn.local('user',{token})
 		}
 	}
-	handleClick = v => {
-    	sessionStorage.setItem('defaultOpenKeys',v.keyPath)
-  	}
 	onSelect = v => {
 		this.props.history.push(v.key);
 		this.setState({ selectedKeys: this.getKey() })
 	}
 	onToggle = () => this.setState({collapsed:!this.state.collapsed},()=>{
-		$fn.local('collapsed', this.state.collapsed)
+		$fn.longSave('collapsed', this.state.collapsed)
 	})
 	// 从路由获取 key 值
 	getKey(){
-//		let hash = window.location.hash
-//		hash = hash.replace('#','')
-//		return [ hash ]
-		return [ window.location.pathname ]
+		let hash = window.location.hash
+		hash = hash.replace('#','')
+		return [ hash ]
+	}
+	// 当前路由的数据中的 index
+	getOpenKeys(){
+		let index = 0
+		const url = this.getKey()[0]
+		this.props.data.forEach((v,i)=>{
+			if(url === v.path){
+				index = i
+				$fn.setTitle(v.title)
+			}
+			if($fn.hasArray(v.children)){
+				v.children.forEach((m,k)=>{
+					if(url === m.path){
+						index = i
+						$fn.setTitle(m.title)
+					}
+				})
+			}
+		})
+		return [url, index.toString()]
 	}
 	render(){
 		const { data } = this.props
-		const {selectedKeys, collapsed } = this.state
-		let defaultOpenKeys =  sessionStorage.getItem('defaultOpenKeys')	// 默认打开 key
-		
-		defaultOpenKeys = defaultOpenKeys ? defaultOpenKeys.split(',')  : []
-		
+		const {selectedKeys, defaultOpenKeys, collapsed } = this.state
 		return (
 			<Layout className='ex rel fx'>
 				{/* 导航 */}
-				<Layout.Sider className='ex rel' id='menu' width={width} collapsible trigger={null} collapsed={collapsed}>
+				<Layout.Sider className='ex rel' id='menu' width={$fn.menuWidth} collapsible trigger={null} collapsed={collapsed}>
 					<Content scrollY>
-						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' onClick={this.handleClick} selectedKeys={selectedKeys} defaultOpenKeys={defaultOpenKeys} onSelect={this.onSelect}>
+						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' selectedKeys={selectedKeys} defaultOpenKeys={defaultOpenKeys} onSelect={this.onSelect}>
 							{
 								$fn.hasArray(data) && data.map((v,i)=>(
 									$fn.hasArray(v.children) ? (
@@ -87,7 +98,7 @@ class Frame extends React.Component{
 				</Layout.Sider>
 				{/* 内容 */}
 				<section className='ex rel'>
-					<Router {...this.props}/>
+					<Router data={data} {...this.props}/>
 				</section>
 			</Layout>
 		)

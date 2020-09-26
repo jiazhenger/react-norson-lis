@@ -11,6 +11,9 @@
         *{.c0!important;}
     }
 }
+.hover-o{
+	&:hover{.op(.9);}
+}
 // ================================================================
 .login{
 	.ant-form-item-control{.bc(#f9f9f9);.r5px;}
@@ -19,5 +22,14 @@
 .index-menu-list{
 	li:hover{
 		.bg{.bi('index/bg_active')!important}
+	}
+}
+#nav{
+	a{
+		&::after{.cn;.abs_lb;.l(5);.r(5);.h(3);.bcm;.dn;.r3px;}
+		&:hover{.c0;}
+	}
+	.active{.c0;
+		&::after{.db;}
 	}
 }

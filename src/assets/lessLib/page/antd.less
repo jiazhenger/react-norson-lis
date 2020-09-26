@@ -7,9 +7,21 @@
 .ant-menu-dark,.ant-layout-sider, .ant-menu-dark .ant-menu-sub{.bc(@main-color)!important;}
 .ant-menu{
     li:first-child{.mt;}
-    .ant-menu-item-selected{.bcf!important;
-        &,.anticon,span{.c0!important;}
-    }
+	li, .ant-menu-submenu-title{.m!important;}
+	li{.f12;}
+	.ant-menu-submenu-title, .ant-menu-item{.hh32!important;}
+}
+.ant-menu-dark{
+	.ant-menu-item,.ant-menu-submenu-title span{.c(rgba(255,255,255,.8)) !important;}
+	// 鼠标移入样式
+	.ant-menu-submenu-open, .ant-menu-submenu-active{
+		.ant-menu-submenu-title span{.c(rgba(255,255,255,1)) !important;}
+	}
+	.ant-menu-item-active{.c(rgba(255,255,255,1)) !important;}
+	// 当前选中样式
+	.ant-menu-item-selected{.bcf!important;
+	    &,.anticon,span{.c0!important;}
+	}
 }
 .ant-menu-dark .ant-menu-inline.ant-menu-sub{.box-shadow(none)!important}
 // ================================================================ table

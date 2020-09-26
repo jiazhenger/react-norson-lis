@@ -9,8 +9,9 @@ const Page = $async(()=>import('#tp/content/content-aside'))
 
 // ===================================================================== component
 export default class extends React.Component{
+	param = this.props.match.params
 	componentDidMount(){
-		
+		console.log(this.param)
 	}
 	render(){
 		return (

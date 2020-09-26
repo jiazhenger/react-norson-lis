@@ -28,6 +28,7 @@ const Page = $async(()=>import('#tp/content/content-page'))
 const iconStyle= { color:'#999' }
 const size = 'large'
 const mt = 20
+let clear
 // ===================================================================== component
 export default class extends React.Component{
 	state = {
@@ -37,7 +38,7 @@ export default class extends React.Component{
 	
 	componentDidMount(){
 		// 读取记住的密码
-		setTimeout(()=>{
+		clear = setTimeout(()=>{
 			const m = $fn.longSave('remember')
 			if($fn.hasObject(m)){
 				for(var i in m){ m[i] = Encrypt.decode(m[i]) }
@@ -47,6 +48,10 @@ export default class extends React.Component{
 		},200)
 		
 		$http.pull(this,'company/select',{ token:false, pullLoading:'selectLoading' })
+	}
+	
+	componentWillUnmount(){
+		clearTimeout(clear)
 	}
 	
 	onSubmit = async param => {
