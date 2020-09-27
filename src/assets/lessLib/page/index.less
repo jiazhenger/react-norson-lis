@@ -25,11 +25,20 @@
 	}
 }
 #nav{
-	a{
+	a{.g6;
 		&::after{.cn;.abs_lb;.l(5);.r(5);.h(3);.bcm;.dn;.r3px;}
 		&:hover{.c0;}
 	}
 	.active{.c0;
 		&::after{.db;}
 	}
+}
+.search-form{
+	label{.f12!important;.g6 !important; .h(auto)!important;}
+	input::-webkit-input-placeholder,
+	.ant-select-selection-placeholder{.g9!important;.f12;}
+	.ant-form-item-control-input{.mh(1)}
+}
+.small-form{
+	.ant-input-affix-wrapper,.ant-select-selector{.r3px!important}
 }

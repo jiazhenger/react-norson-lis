@@ -6,7 +6,7 @@ const Menu = window.$async(()=>import('#frame/menu'))
 const data = [
 	{ 
 		title: '血液室',
-		root: '/laboratory/testing-center',
+		root: 'testing-center',
 		component: 'laboratory/testing-center/template',
 		children: [
 			{ title: '过敏原岗',	 id:'44028', pid:'302ff16a-7997-5c1b-4630-c132c13baafb' },
@@ -24,17 +24,17 @@ const data = [
 		]
 	},
 ]
-const { root } = data[0]
+const { root } = window.$fn.getRoot()
+const _root = data[0].root
 data.forEach((v,i)=>{
 	const d = v.children[0]
 	if(i === 0){
 		v.to = v.root + '/' + d.id + '/' + d.pid
 	}
-	
 	v.children.forEach((m,k)=>{
 		const { id, pid } = m
-		m.path = root + '/' + id + '/' + pid
-		m.url = root
+		m.path = _root + '/' + id + '/' + pid
+		m.url = root + _root
 	})
 })
 // ===================================================================== component

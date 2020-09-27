@@ -15,15 +15,20 @@ const Image = $async(()=>import('@tp/image'))
 // ===================================================================== component
 class Frame extends React.Component{
 	state = {
-		selectedKeys:this.getKey(),
-		defaultOpenKeys: this.getOpenKeys()
+		selectedKeys:[],
+		defaultOpenKeys: []
 	}
+	selectedKeys = this.getKey()
+	defaultOpenKeys = this.getOpenKeys()
+	data = window.$fn.getRouter(this.props.data)
 	componentDidMount(){
-		
+		this.selectedKeys = this.getKey()
+		this.defaultOpenKeys = this.getOpenKeys()
 	}
 	onSelect = v => {
 		this.props.history.push(v.key);
 		this.setState({ selectedKeys: this.getKey() })
+		this.getOpenKeys()
 	}
 	onToggle = () => this.setState({collapsed:!this.state.collapsed},()=>{
 		$fn.longSave('collapsed', this.state.collapsed)
@@ -59,14 +64,15 @@ class Frame extends React.Component{
 		return [url, index.toString(),...stack]
 	}
 	render(){
-		const { data } = this.props
+		const { data } = this
 		const {selectedKeys, defaultOpenKeys, collapsed } = this.state
+		let keys = $fn.hasArray(selectedKeys) ? selectedKeys : this.selectedKeys
 		return (
-			<Layout className='ex rel fx'>
+			<Layout className='wh fx'>
 				{/* 导航 */}
 				<Layout.Sider className='ex rel' id='menu' width={$fn.menuWidth} collapsible trigger={null} collapsed={collapsed}>
 					<Content scrollY>
-						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' selectedKeys={selectedKeys} defaultOpenKeys={defaultOpenKeys} onClick={this.handleClick} onSelect={this.onSelect}>
+						<Menu className='h' inlineIndent={12} mode='inline' theme='dark' selectedKeys={keys} defaultOpenKeys={this.defaultOpenKeys} onClick={this.handleClick} onSelect={this.onSelect}>
 							{
 								$fn.hasArray(data) && data.map((v,i)=>(
 									$fn.hasArray(v.children) ? (
@@ -91,7 +97,7 @@ class Frame extends React.Component{
 				</Layout.Sider>
 				{/* 内容 */}
 				<section className='ex rel'>
-					<Router data={data} {...this.props}/>
+					<Router data={data}/>
 				</section>
 			</Layout>
 		)

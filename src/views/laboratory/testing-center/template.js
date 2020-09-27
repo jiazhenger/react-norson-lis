@@ -5,6 +5,7 @@ const { $http, $fn, $async } = window
 const Text = $async(()=>import('@tp/text'))
 // ===================================================================== private template
 const Page = $async(()=>import('#tp/content/content-aside'))
+const Container = $async(()=>import('#tp/box/container'))
 // ===================================================================== template
 
 // ===================================================================== component
@@ -16,7 +17,7 @@ export default class extends React.Component{
 	render(){
 		return (
 			<Page>
-				index
+				
 			</Page>
 		)
 	}

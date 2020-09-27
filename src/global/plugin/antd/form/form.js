@@ -1,7 +1,7 @@
 import React from 'react'
 import { Form as AntdForm } from 'antd'
 // ===================================================================== 按钮集合
-export const Form = ({ children, onSubmit, name, init })=>{
+export const Form = ({ children, onSubmit, name, init, layout, className, style })=>{
 	const [ form ] = AntdForm.useForm()
 	
 	React.useEffect(()=>{
@@ -13,14 +13,15 @@ export const Form = ({ children, onSubmit, name, init })=>{
 		onSubmit && onSubmit(param)
 	},[ onSubmit ])
 	
-	return <AntdForm name={name} form={form} onFinish={onFinish}>{ children }</AntdForm>
+	return <AntdForm name={name} form={form} className={className} style={style} layout={layout||'vertical'} onFinish={onFinish}>{ children }</AntdForm>
 }
 
-export const Item = ({ children, name, rules, mt }) => (
+export const Item = ({ children, name, label, rules, mt, ml}) => (
 	<AntdForm.Item 
-		name	= { name } 
+		name	= { name }
+		label	= { label } 
 		rules	= { rules }
-		style	= {{ marginBottom:0, marginTop: mt }}
+		style	= {{ marginBottom:0, marginTop: mt, marginLeft:ml }}
 	>
 		{ children }
 	</AntdForm.Item>

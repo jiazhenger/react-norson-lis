@@ -30,6 +30,7 @@ module.exports = override(
 		['#frame'] 		: resolve('src/private/frame'),
 
 		['@views'] 		: resolve('src/views'),
+		['@pages'] 		: resolve('src/views-pages'),
 	}),
 	// 异步引入 antd 配置
 	fixBabelImports('import', {

@@ -39,7 +39,7 @@ export default ({ data }) => {
 					}
 				})
 			},
-			{/* 重定向 */},
+			{/* 重定向 */}
 			{
 				root && <Route path={root} children={<Redirect to={_to} />}  />
 			}

@@ -5,7 +5,7 @@ const Content = window.$async(()=>import('@tp/content'))
 export default ({ children }) => {
 	return (
 		<Content>
-			<section style={{padding:'15px',minWidth:'1000px',minHeight:'500px'}}>
+			<section className='wh' style={{padding:10,minWidth:1000,minHeight:500}}>
 				{children}
 			</section>
 		</Content>

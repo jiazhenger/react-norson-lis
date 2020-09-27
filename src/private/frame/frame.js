@@ -4,7 +4,7 @@ import { withRouter, NavLink } from 'react-router-dom'
 import Confirm from '@antd/confirm'
 // import message from '@antd/message'
 // ===================================================================== image
-import Logo from '@img/logo.png'
+import Logo from '@img/frame/logo.png'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
 // ===================================================================== antd
@@ -16,7 +16,7 @@ const Page = $async(()=>import('@tp/content'))
 const Image = $async(()=>import('@tp/image'))
 const Text = $async(()=>import('@tp/text'))
 // ===================================================================== private component
-const Router = $async(()=>import('#frame/router'))
+// const Router = $async(()=>import('#frame/router'))
 // ===================================================================== image
 const LiComponent = ({ title, onClick }) => (
 	<li className='fxmc c0 tap cp' style={{width:56}} onClick={onClick}>
@@ -30,23 +30,24 @@ class Frame extends React.Component{
 	state = {
 		user: $fn.getUser()
 	}
+	root = $fn.getRoot()
 	componentDidMount(){
 		
 	}
 	render(){
 		const { user } = this.state
-		const { data } = this.props
-		
+		const { data, Router } = this.props
+		const { root } = this.root
 		return (
 			<Page className='fv'>
 				<header className='bcf fxmc' style={{height:'56px'}}>
 					<h2 className='fxmc bcm h cp hover-o' style={{width:$fn.menuWidth}} onClick={()=>$fn.push(this,'/')}>
 						<Image width='120px' src={Logo}/>
 					</h2>
-					<nav className='ex fx h f13' id='nav'>
+					<nav className='ex fx h f13 g6' id='nav'>
 						{
 							data.map((v,i)=>(
-								<NavLink key={i} to={v.path} className='fxmc plr10 rel tap' activeClassName='active' >{v.title}</NavLink>
+								<NavLink key={i} to={ root + v.path} className='fxmc plr10 rel tap' activeClassName='active' >{v.title}</NavLink>
 							))
 						}
 					</nav>
@@ -69,7 +70,9 @@ class Frame extends React.Component{
 						<LiComponent title='退出' onClick={()=>this.refs.logout.open()} />
 					</ul>
 				</header>
-				<Router data={data} {...this.props}/>
+				<div className='rel ex'>
+					<Router data={data} {...this.props}/>
+				</div>
 				<Confirm 
 					ref='logout' 
 					msg='确认退出登录？'

@@ -105,6 +105,37 @@ export default {
 	getRoot(){
 		const hash = window.location.hash
 		const arr = hash.split('/')
-		return '/' + arr[1]
+		return {
+			root : '/' + arr[1] + '/',
+			munu : arr[1]
+		}
+	},
+	getRouter(data){
+		const { root, munu} = this.getRoot()
+		const _data = JSON.parse(JSON.stringify(data))
+		let flag = null
+		const deep = data => {
+			data.forEach((v,i)=>{
+				if(!flag){
+					if(i === 0){
+						v.root = root + v.root
+						if(v.to){ v.to = root + v.to }
+						flag = true
+					}
+				}
+				if(v.path){
+					v.path = root + v.path
+				}
+				if(!v.component && !root){
+					v.component = munu + '/' + v.path
+				}
+				const children = v.children
+				if(this.hasArray(children)){
+					deep(children)
+				}
+			})
+		}
+		deep(_data)
+		return _data
 	}
 }
