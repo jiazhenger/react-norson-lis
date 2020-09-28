@@ -2,35 +2,38 @@
 import React from 'react'
 // ===================================================================== DatePicker
 import { DatePicker, Pagination } from 'antd'
+import $time from '@utils/moment'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
+moment.locale('zh-cn')
 // ===================================================================== declare
 const { $fn } = window
-moment.locale('zh-cn')
 // ===================================================================== DatePicker
 export default class extends React.Component{
 	state = {}
 	
 	onChange = value => {
-		const { onChange, name, range } = this.props
+		const { onChange, name, range, format } = this.props
+		const formatType = format === 1 ? 'ymd' : 'full'
 		
-		const format = value => moment(value, { t: this.props.format}) 	// 将时间格式化为字符串
+		const $format = value => $time.format(value, { t: formatType }) 	// 将时间格式化为字符串
 		
 		this.setState({ value },()=>{
-			if(onChange){
-				let param = null
-				if(range){
-					if($fn.isArray(value)){
-						let start = format(value[0])
-						let end = format(value[1])
-						param = $fn.isArray(name) ? { [name[0]]:start, [name[1]]: end } : { start, end }
-					}else{
-						param = $fn.isArray(name) ? { [name[0]]:null, [name[1]]: null } : { start:null, end:null }
-					}
+			let param = null
+			if(range){
+				if($fn.isArray(value)){
+					let start = $format(value[0])
+					let end = $format(value[1])
+					param = $fn.isArray(name) ? { [name[0]]:start, [name[1]]: end } : { start, end }
 				}else{
-					let time = format(value)
-					param = name ? { [name]: time } : time
+					param = $fn.isArray(name) ? { [name[0]]:null, [name[1]]: null } : { start:null, end:null }
 				}
+			}else{
+				let time = $format(value)
+				param = name ? { [name]: time } : time
+			}
+			if(onChange){
+				
 				onChange(param)
 			}
 		})
@@ -49,23 +52,22 @@ export default class extends React.Component{
 	}
 	
 	render(){
-		const { type, width, size, showTime, className, range, p, disabled } = this.props
-		const format = this.props.format || 'YYYY-MM-DD'
-		
-		let value = this.state.value === undefined ? this.props.value : this.state.value
+		const { type, width, size, showTime, className, range, p, disabled, format, value, bordered } = this.props
+		const formatType = format === 1 ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
+		let _value = this.state.value === undefined ? value : this.state.value
 			
-		if($fn.isArray(value)){ 
-			
+		if($fn.isArray(_value) && range){ 
+			_value = [moment(_value[0], formatType), moment(_value[1], formatType)]
 		}else{
-			
+			_value = _value ? moment(_value, formatType) : null
 		}
 		
 		const Picker = range ? DatePicker.RangePicker : DatePicker
 		return (
 			<Picker
-				value		= { value } 
-				size		= { size || 'large' } 
-				format  	= { format }
+				value		= { _value } 
+				size		= { size || 'small' } 
+				format  	= { formatType }
 				onChange	= { this.onChange }
 				showTime	= { showTime }
 				style		= {{ width }} 
@@ -73,6 +75,7 @@ export default class extends React.Component{
 				placeholder = { p } 
 				disabledDate = { this.disabledBefore }
 				disabled 	= { disabled }
+				bordered	= { bordered }
 			/>
 		)
 	}

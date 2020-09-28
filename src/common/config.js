@@ -3,8 +3,8 @@ const env = process.env.NODE_ENV === 'development';	// 是否为开发环境
 
 const exist = str => window.location.host.indexOf(str) >= 0
 
-let api = 'http://test.norsonmed.com/api/'		    // 正式访问 api
-let apt = 'http://mapi.norsonmed.com/api/'		    // 测试访问 api
+let api = 'http://mapi.norsonmed.com/api/'		    // 正式访问 api
+let apt = 'http://test.norsonmed.com:890/api/'		    // 测试访问 api
 let apr = 'http://t.ubzyw.com/'						// 预发访问 api
 
 if(env){ // 开发环境
@@ -20,5 +20,5 @@ if(env){ // 开发环境
 module.exports = {
 	api : api, 		// api
 	env : env, 		// 环境变量
-	contentType: 1  // Content-type 数据传输类型
+	contentType: 1  ,// Content-type 数据传输类型
 }

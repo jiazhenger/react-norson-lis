@@ -44,6 +44,14 @@ const _ = {
 		await _this.setState({ [opt.model]: {..._this.state[opt.model], ...keyValue } })
 		return _this.state[opt.model]
 	},
+	async setModels(_this,keyValue,option){
+		const opt = {
+			model : 'model',
+			...option
+		}
+		_this[opt.model] = {..._this[opt.model], ...keyValue }
+		return _this[opt.model]
+	},
 	// 绑定值
 	val(v){return this.isValid(v) ? v : '--'},
 	nan(v){return !isNaN(v) ? v : '--'},

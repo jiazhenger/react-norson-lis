@@ -11,11 +11,11 @@ export default ({ type, size, icon, children, label, width, minWidth, boxClassNa
 		height = { height:'30px', fontSize:'13px'}
 	}
 	
-	const MyButton = ({className}) => (
+	const MyButton = ( ) => (
 		<Button
-			className	= { className||'' } 
+			className	= {`${className||''} ${full?'ex':''}`} 
 			style		= {{ width, minWidth, ...height, ...radius,  ...style }} 
-			size		= { size || 'middle' } 
+			size		= { size || 'small' } 
 			type		= { type || 'primary' } 
 			loading		= { loading } 
 			disabled	= { disabled } 
@@ -29,6 +29,6 @@ export default ({ type, size, icon, children, label, width, minWidth, boxClassNa
 	)
 	
 	return (
-		full ? <div className={`fxmc ${boxClassName||''}`}><MyButton className='ex' /></div> : <MyButton />
+		full ? <div className={`fxmc ${boxClassName||''}`}><MyButton/></div> : <MyButton />
 	)
 }

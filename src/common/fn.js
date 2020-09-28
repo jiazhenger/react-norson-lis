@@ -56,9 +56,9 @@ export default {
 	// 给 data 添加 key
 	addKey(data,format){
 		const { page } = data
-		const pageSize = page.showCount
-		const current = page.currentPage
-		const rows = data.data
+		const pageSize = page.limit
+		const current = page.current
+		const rows = data.items
 		
 		const num = pageSize*(current -1) + 1;
 		if(this.hasArray(rows)){
@@ -96,9 +96,6 @@ export default {
 			})
 		}
 	},
-	render(){ return { render: t => this.val(t) } },
-	keyConfig:{ className:'keyStyle', 	align:'center' },
-	colConfig:{ className:'rowStyle', 	align:'center' },
 	// 刷新key
 	refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
 	// 获取 router
@@ -137,5 +134,14 @@ export default {
 		}
 		deep(_data)
 		return _data
-	}
+	},
+	leak(callback){
+		let clear
+		return time => {
+			clearTimeout(clear)
+			clear = setTimeout(()=>{
+				callback()
+			},time || 100)
+		}
+	},
 }

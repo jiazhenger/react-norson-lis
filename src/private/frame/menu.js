@@ -1,7 +1,7 @@
 import React from 'react'
-import { withRouter, NavLink } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 // ===================================================================== antd
-import { Layout, Menu, message } from 'antd'
+import { Layout, Menu } from 'antd'
 import Router from '#frame/router'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window

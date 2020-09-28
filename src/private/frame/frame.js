@@ -17,9 +17,10 @@ const Image = $async(()=>import('@tp/image'))
 const Text = $async(()=>import('@tp/text'))
 // ===================================================================== private component
 // const Router = $async(()=>import('#frame/router'))
+const height = 40
 // ===================================================================== image
 const LiComponent = ({ title, onClick }) => (
-	<li className='fxmc c0 tap cp' style={{width:56}} onClick={onClick}>
+	<li className='fxmc c0 tap cp' style={{width:height}} onClick={onClick}>
 		<div>
 			<i></i><span>{title}</span>
 		</div>
@@ -40,7 +41,7 @@ class Frame extends React.Component{
 		const { root } = this.root
 		return (
 			<Page className='fv'>
-				<header className='bcf fxmc' style={{height:'56px'}}>
+				<header className='fxmc' style={{height}}>
 					<h2 className='fxmc bcm h cp hover-o' style={{width:$fn.menuWidth}} onClick={()=>$fn.push(this,'/')}>
 						<Image width='120px' src={Logo}/>
 					</h2>

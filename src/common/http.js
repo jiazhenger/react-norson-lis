@@ -304,32 +304,15 @@ const paging = (_this,api,option)=>{
 	
 	Object.assign(opt,option || {});
 	
-//	if(!$fn.isObject(opt.param)){ opt.param = {} }
 	const { current, pageSize } = opt.param || {}
 	const param = {
-        ...opt.param,
-		currentPage: current || 1, 		// 当前页
-		showCount: pageSize || 10,		// 每页显示多少条数据
+		page  	: current || 1, 		// 当前页
+		limit 	: pageSize || 20,		// 每页显示多少条数据
+	    ...opt.param,
 	}
-	delete param.current
 	delete param.pageSize
 	delete param.total
-	
-	// 格式化时间
-	let format = null;
-	
-	if($fn.hasArray(opt.format)){
-		format = {
-			f:opt.format,
-			t:'ymd'
-		}
-	}else if($fn.hasObject(opt.format)){
-		format = {
-			f:[],		// 格式化字段名
-			t:'ymd', 	// 格式化格式
-			...opt.format
-		}
-	}
+	delete param.current
 	
 	return new Promise((resolve)=>{
 		pull(_this,api,{
@@ -342,16 +325,17 @@ const paging = (_this,api,option)=>{
 			resetData	: true,
 			dataName	: null
 		}).then(data=>{
+			const result = data.items
 			_this.setState({ 
 				[opt.pag]:{
 					..._this.state[opt.pag],
-					current		: data.page.currentPage, 			// 当前页码
-					total		: data.page.totalResult,			// 总共多少条数据
-					pageSize	: param.showCount,					// 每页显示多少条数据
+					current		: +data.current, 		    // 当前页码
+					total		: +data.total_items,		// 总共多少条数据
+					totalPage	: +data.total_pages,		// 总共多少页
+					pageSize	: +data.limit,				// 每页显示多少条数据
 				}
 			},()=>{
 				if($fn.isValid(opt.dataName)){
-					const result = $fn.addKey(data, format);
 					_this.setState({ [opt.dataName]: result })
 					resolve(result)
 				}
