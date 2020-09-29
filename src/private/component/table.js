@@ -67,12 +67,17 @@ export default ({ cols, data, className, width, style, pag, onChange, loading, s
 		const param = type ? {sort:v.field,  sort_type: type} : null
 		onSort && onSort(param)
 	}, [cols, onSort ])
+	// 点击横排
+	const _onRow = React.useCallback(v=>{
+		
+	}, [])
 	return (
 		<div className={`fv rel ex ${className||''}`}>
 			<div className='norson-table ex fv oxys scrollbar rel' style={style} ref={scrollRef}>
 				{
 					$fn.hasArray(cols) ? (
 						<>
+							{/* 表头 */}
 							<div className='thead rel bcf i10'>
 								<table className='js-fixed abs_lt bcf'>
 									<colgroup>
@@ -109,6 +114,7 @@ export default ({ cols, data, className, width, style, pag, onChange, loading, s
 									</thead>
 								</table>
 							</div>
+							{/* 表体 */}
 							<div className='tbody ex rel'>
 								<div className='abs h' style={{top:0,bottom:0}}>
 									<table className='js-body'>
@@ -120,7 +126,7 @@ export default ({ cols, data, className, width, style, pag, onChange, loading, s
 										<tbody>
 											{
 												$fn.hasArray(data) && data.map( (p,j) => (
-													<tr key={j}>
+													<tr key={j} onClick={_onRow.bind(null, p, j)}>
 														{
 															cols.map( (v,i) => (
 																<td key={i} className={`${v.tdCss||''}${v.align||''}`}>
@@ -143,6 +149,7 @@ export default ({ cols, data, className, width, style, pag, onChange, loading, s
 					) : null
 				}
 			</div>
+			{/* 分页 */}
 			{
 				pag && data.length > 0 ? (
 					<Pagination
@@ -152,7 +159,9 @@ export default ({ cols, data, className, width, style, pag, onChange, loading, s
 					/>
 				) : null
 			}
+			{/* 空数据 */}
 			<Empty loading={loading} data={data} />
+			{/* 加载效果 */}
 			<Loading loading={loading} />
 		</div>
 	)
