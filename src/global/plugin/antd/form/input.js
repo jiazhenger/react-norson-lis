@@ -26,7 +26,7 @@ export default class extends React.Component {
 	getRef = () => this.refs.inputRef.input
 	
 	render(){
-		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, iconRender, bordered } = this.props
+		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, iconRender, bordered, onPressEnter } = this.props
 		const value = this.state.value === undefined ? this.props.value : this.state.value
 		let centerStyle = isCenter ? {textAlign:'center'} : null
 		const borderedValue = bordered === false ? false : true
@@ -40,6 +40,7 @@ export default class extends React.Component {
 				type			= { type } 
 				size			= { size || 'small' } 
 				onChange		= { this.onChange }
+				onPressEnter	= { this.onPressEnter }
 				value		 	= { value }
 				style			= {{width,...centerStyle,...style}}
 				placeholder		= { p } 

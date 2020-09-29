@@ -1,10 +1,14 @@
 /* ====================================== toast  ====================================== */
 import React from 'react'
-import { Pagination } from 'antd'
+// ===================================================================== antd
+import { CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons'
+import Loading from '@antd/loading'
 // ===================================================================== declare
-const { $fn } = window
+const { $fn, $async } = window
+const Pagination = $async(()=>import('@antd/pagination'))
+const Empty = $async(()=>import('@antd/empty'))
 // ===================================================================== Component
-export default ({ cols, data, className, width, style, pag, onChange, onSizeChange, loading }) => {
+export default ({ cols, data, className, width, style, pag, onChange, loading, sort, onSort }) => {
 	const scrollRef = React.useRef()
 	const p = { current:1, total:0, pageSize:10, ...pag}
 	
@@ -12,22 +16,64 @@ export default ({ cols, data, className, width, style, pag, onChange, onSizeChan
 		const $scroll = scrollRef.current
 		const $fixedTable = $scroll.querySelector('.js-fixed')
 		const $bodyTable = $scroll.querySelector('.js-body')
-		$scroll.onscroll = function(e){
-			console.log(this.scrollTop)
-			this.querySelector('.js-fixed').style.top = this.scrollTop + 'px'
+		const resize = function(){
+			if($scroll.scrollHeight > 0){
+				$scroll.onscroll = function(e){
+					const { scrollTop } = this
+					this.querySelector('.js-fixed').style.top = scrollTop + 'px'
+					if(scrollTop>0){
+						$fixedTable.style.boxShadow = '0 3px 5px #eee'
+						$fixedTable.style.borderBottom = '2px solid ' + $fn.c0
+					}else{
+						$fixedTable.style.removeProperty('box-shadow')
+						$fixedTable.style.removeProperty('border-bottom')
+					}
+				}
+			}else{
+				$scroll.onscroll = null
+			}
+			$bodyTable.style.removeProperty('width')
+			$fixedTable.style.removeProperty('width')
+			setTimeout(()=>{
+				if($scroll.scrollWidth > $scroll.offsetWidth){
+					$bodyTable.style.width = $scroll.scrollWidth + 10 + 'px'
+					$fixedTable.style.width = $scroll.scrollWidth + 'px'
+				}else{
+					$bodyTable.style.removeProperty('width')
+					$fixedTable.style.removeProperty('width')
+				}
+			},100)
 		}
-		setTimeout(()=>{
-			$bodyTable.style.width = $scroll.scrollWidth + 20 + 'px'
-			$fixedTable.style.width = $scroll.scrollWidth + 20 + 'px'
-		},100)
+		resize()
+		window.onresize = resize
 	},[])
+	// 排序
+	const _onSort = React.useCallback(v=>{
+		let type = null
+		let order = v.order
+		
+		cols.forEach(v=>{
+			if(v.order !== undefined){
+				delete v.order
+			}
+		})
+		if(order === undefined){
+			v.order = true
+			type = 1
+		}else if(order === true){
+			v.order = false
+			type = 2
+		}
+		const param = type ? {sort:v.field,  sort_type: type} : null
+		onSort && onSort(param)
+	}, [cols, onSort ])
 	return (
-		<div className={`fv ex ${className||''}`}>
+		<div className={`fv rel ex ${className||''}`}>
 			<div className='norson-table ex fv oxys scrollbar rel' style={style} ref={scrollRef}>
 				{
-					$fn.hasArray(cols) && (
+					$fn.hasArray(cols) ? (
 						<>
-							<div className='thead h30 rel bcf i10'>
+							<div className='thead rel bcf i10'>
 								<table className='js-fixed abs_lt bcf'>
 									<colgroup>
 										{
@@ -37,11 +83,27 @@ export default ({ cols, data, className, width, style, pag, onChange, onSizeChan
 									<thead>
 										<tr>
 											{
-												cols.map( (v,i) => (
-													<th key={i} className={`h30 ${v.thCss||''}${v.align||''}`}>
-														<div className='con'>{v['title']}</div>
-													</th>
-												) )
+												cols.map( (v,i) => {
+													const isSort = v['field'] && (sort||v.sort)
+													const sortStyle = isSort ? {paddingRight: 8} : null
+													return (
+														<th key={i} className={`${v.thCss||''}${v.align||''}`} onClick={isSort ? _onSort.bind(null,v) : null}>
+															<div className='con cd' style={sortStyle}>
+																{v['title']}
+																{
+																	isSort && (
+																		<div className='abs_rt fxm lh' style={{right:5}}>
+																			<div className='rel'>
+																				<div className='rel' style={{top:2}}><CaretUpOutlined style={{color:v.order===true?$fn.c0:'#999'}} /></div>
+																				<div className='rel' style={{top:-2}}><CaretDownOutlined style={{color:v.order===false?$fn.c0:'#999'}} /></div>
+																			</div>
+																		</div>
+																	)
+																}
+															</div>
+														</th>
+													)
+												} )
 											}
 										</tr>
 									</thead>
@@ -78,26 +140,20 @@ export default ({ cols, data, className, width, style, pag, onChange, onSizeChan
 								</div>
 							</div>
 						</>
-					)
+					) : null
 				}
 			</div>
 			{
 				pag && data.length > 0 ? (
-					<div className='fxj tbor1' style={{padding:'10px 0'}}>
-						<div className='g6'>共 {p.total} 条数据</div>
-						<Pagination
-							size				= 'small'
-							current				= { p.current } 
-							total				= { p.total }
-							pageSize			= { p.pageSize }
-							onChange			= { page =>{ onChange && onChange( page ) } }
-							showQuickJumper		= { true }
-							onShowSizeChange 	= { (current, size) =>{ onSizeChange && onSizeChange( current, size ) } }
-							showSizeChanger 	= { true }
-						/>
-					</div>
+					<Pagination
+						size				= 'small'
+						pag					= { p }
+						onChange			= { (current, pageSize) =>{ onChange && onChange(current, pageSize) } }
+					/>
 				) : null
 			}
+			<Empty loading={loading} data={data} />
+			<Loading loading={loading} />
 		</div>
 	)
 }

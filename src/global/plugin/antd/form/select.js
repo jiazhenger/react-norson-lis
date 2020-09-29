@@ -41,14 +41,12 @@ export default class Index extends React.Component {
 		const _size = size || 'small'
 		const value = this.state.value === undefined ? this.props.value : this.state.value
 		
-		let height = {}
-		
 		return (
 			<Select 
 				key 		= { key }
 				size		= { _size } 
 				onChange	= { this.onChange } 
-				style		= {{ width,...height, ...style }} 
+				style		= {{ width,...style }} 
 				value 		= { value }
 				className 	= { className||'w'}
 				placeholder	= { isP ? '请选择' + t :  t  }

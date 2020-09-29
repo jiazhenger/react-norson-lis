@@ -6,13 +6,22 @@
 	table{table-layout:fixed}
 	th,td{.bor(#eee);.nowrap;.rel;}
 	.thead{
-		
+		th{.h30;}
+		th,.con{.bc(#F2F7F7);}
+		table{.transition(border-color 0.5s 0s linear);}
+		.con{}
 	}
 	.tbody{
 		tr:first-child{
 			td{.tbor0}
 		}
-		td{.h30;.ptb5;}
+		.con{.p(3px 5px);}
+		tr{
+			// &:nth-child(2n){.bc(#FAFCFC)}
+			&:hover{
+				.bc(#CCF1F1);
+			}
+		}
 	}
-	.con{.plr5;.bcf;}
+	.con{.plr5;}
 }

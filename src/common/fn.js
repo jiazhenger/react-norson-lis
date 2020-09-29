@@ -3,6 +3,7 @@ import Storage from './core/storage'
 import Query from './core/query'
 import Rest from './core/rest'
 import Inner from './core/inner'
+import FormTable from './core/form-table'
 /* ====================================== 全局变量及方法  ====================================== */
 export default {
 	// ======================================================================== 功能函数
@@ -11,6 +12,7 @@ export default {
 	...Query,
 	...Rest,
 	...Inner,
+	...FormTable,
 	// ======================================================================== 全局变量
 	c0:'#2cd1d2',
 	c1:'#FF5218',
@@ -97,7 +99,10 @@ export default {
 		}
 	},
 	// 刷新key
-	refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
+	// refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
+	refreshRouter(){
+		window.proxy.refresh()
+	},
 	// 获取 router
 	getRoot(){
 		const hash = window.location.hash

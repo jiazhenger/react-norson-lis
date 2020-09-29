@@ -12,11 +12,13 @@ const Content = $async(()=>import('@tp/content'))
 const Image = $async(()=>import('@tp/image'))
 // ===================================================================== private component
 // const Router = $async(()=>import('#frame/router'))
+
 // ===================================================================== component
 class Frame extends React.Component{
 	state = {
 		selectedKeys:[],
-		defaultOpenKeys: []
+		defaultOpenKeys: [],
+		key:0
 	}
 	selectedKeys = this.getKey()
 	defaultOpenKeys = this.getOpenKeys()
@@ -24,6 +26,12 @@ class Frame extends React.Component{
 	componentDidMount(){
 		this.selectedKeys = this.getKey()
 		this.defaultOpenKeys = this.getOpenKeys()
+		// 发布订阅
+		window.proxy = {
+			refresh: () => {
+				this.setState({ key: this.state.key++})
+			}
+		}
 	}
 	onSelect = v => {
 		this.props.history.push(v.key);
@@ -65,7 +73,7 @@ class Frame extends React.Component{
 	}
 	render(){
 		const { data } = this
-		const {selectedKeys, defaultOpenKeys, collapsed } = this.state
+		const {selectedKeys, defaultOpenKeys, collapsed, key } = this.state
 		let keys = $fn.hasArray(selectedKeys) ? selectedKeys : this.selectedKeys
 		return (
 			<Layout className='wh fx'>
@@ -97,7 +105,7 @@ class Frame extends React.Component{
 				</Layout.Sider>
 				{/* 内容 */}
 				<section className='ex rel'>
-					<Router data={data}/>
+					<Router data={data} key={key}/>
 				</section>
 			</Layout>
 		)

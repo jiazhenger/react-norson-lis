@@ -1,28 +1,14 @@
-﻿/* ====================================== toast  ====================================== */
+/* ====================================== toast  ====================================== */
 import React from 'react'
-import { Empty, Spin } from 'antd'
-const $fn = window.$fn
+import { Empty } from 'antd'
 // ===================================================================== 
-
-const Simple = props => <E image={Empty.PRESENTED_IMAGE_SIMPLE} {...props} />
-
-export default class E extends React.Component{
-	static Simple = Simple
-	render(){
-		const { data, children, text, image, loading, width, height, emptyClass } = this.props
-		return (
-			loading ? (
-				<div className='fxmc' style={{height, width}}>
-					<Spin tip='Loading...' style={{fontSize:'12px'}} />
-				</div>
-			) : (
-				$fn.hasArray(data) || $fn.hasObject(data) ? children : (
-					<div className={`w fxmc ${emptyClass?emptyClass:''}`} style={{height}}>
-						<Empty image={image} description={text} style={{margin:0, color:'#999', fontSize:'12px'}} />
-					</div>
-				)
-			)
-			
-		)
-	}
+export default ({ data, text, image, loading, className, simple }) => {
+	const _image = simple ? Empty.PRESENTED_IMAGE_SIMPLE : Empty.PRESENTED_IMAGE_DEFAULT
+	return (
+		data.length === 0 ? (
+			<div className={`fxmc abs_full ${className||''}`}>
+				<Empty image={_image} description={text} style={{margin:0, color:'#999', fontSize:'12px'}} />
+			</div>
+		) : null
+	)
 }
