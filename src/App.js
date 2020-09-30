@@ -1,18 +1,19 @@
 import React from 'react'
 import { HashRouter  } from 'react-router-dom'
 // ===================================================================== router
-import AppRouter from './router'
-import Toast from '@tp/toast'
-import DataLoading from '@tp/data-loading'
+// import AppRouter from './router'
 // ===================================================================== antd 汉化
-import { ConfigProvider } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
+const { $async } = window
+const AppRouter = $async(()=>import('./router'))
+const Lang = $async(()=>import('@antd/lang'))
+const Toast = $async(()=>import('@tp/toast'))
+const DataLoading = $async(()=>import('@tp/data-loading'))
 // ===================================================================== 二级路由
 export default ( ) => (
 	<>
-		<ConfigProvider locale={zhCN}>
+		<Lang>
 			<HashRouter children={<AppRouter />}/>
-		</ConfigProvider>
+		</Lang>
 		<Toast />
 		<DataLoading />
 	</>
