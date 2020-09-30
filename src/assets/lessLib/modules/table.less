@@ -5,7 +5,7 @@
 .norson-table{
 	table{table-layout:fixed}
 	th,td{.bor(#eee);.nowrap;.rel;}
-	.thead{
+	.thead{.h(32);
 		th{.h30;}
 		th,.con{.bc(#F2F7F7);}
 		table{.transition(border-color 0.5s 0s linear);}
@@ -15,12 +15,14 @@
 		tr:first-child{
 			td{.tbor0}
 		}
-		.con{.p(3px 5px);}
-		tr{
+		.con:extend(.omits-1){.p(5px 5px);}
+		tr:extend(.linear){
 			// &:nth-child(2n){.bc(#FAFCFC)}
-			&:hover{
-				.bc(#CCF1F1);
-			}
+			&:hover{.bc(#CCF1F1);}
+			&.checked{.bc(#EAF3F3)}
+			&.current{.bc(#EAF3F3)}
+			&.disabled{.g9;}
+			&.start{.bc(#ffbb96)}
 		}
 	}
 	.con{.plr5;}

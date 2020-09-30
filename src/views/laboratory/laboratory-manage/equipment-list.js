@@ -43,26 +43,28 @@ export default class extends React.Component{
 		
 	}
 	cols = [
+		{ type:'checkbox' },
 		{ title: '编号', 		field: 'device_number', 	width:145 },
 		{ title: '设备名称', 	field: 'device_name', 		width:150 },
 		{ title: '设备型号', 	field: 'device_model', 		width:130 },
 		{ title: '设备识别码', 	field: 'id_code', 			width:100, 	align:'tc' },
-		{ title: '购买时间', 	field: 'buy_date', 			width:130, 	align:'tc' },
+		{ title: '购买时间', 	field: 'buy_date', 			width:100, 	align:'tc' },
 		{ title: '采购价格', 	field: 'buy_price', 		width:130 },
 		{ title: '设备类型', 	field: 'device_type_name', 	width:80 },
 		{ title: '所属科室', 	field: 'project_name', 		width:80 },
 		{ title: '负责人', 		field: 'pinyin_name', 		width:130 },
-		{ title: '启用时间', 	field: 'enabeld_date', 		width:80, 	align:'tc' },
+		{ title: '启用时间', 	field: 'enabeld_date', 		width:100, 	align:'tc' },
 		{ title: '联机类型', 	field: 'rel_type_name', 	width:100 },
 		{ title: '设备状态', 	field: 'device_status_name',width:80, 	align:'tc' },
-		{ title: '操作', align:'tc', render:()=>{
+		{ title: '操作', align:'tc', render:({rows})=>{
+			const { rowDisabled } = rows
 			return (
 				<div className='plr5'>
-					<Button label='编辑' ghost/>
-					<Button label='校准计划' ghost className='mlr5' />
-					<Button label='校准记录' ghost />
-					<Button label='项目关联' ghost className='mlr5' />
-					<Button label='设备维护' ghost />
+					<Button label='编辑' disabled={rowDisabled} ghost/>
+					<Button label='校准计划' disabled={rowDisabled} ghost className='mlr5' />
+					<Button label='校准记录' disabled={rowDisabled} ghost />
+					<Button label='项目关联' disabled={rowDisabled} ghost className='mlr5' />
+					<Button label='设备维护' disabled={rowDisabled} ghost />
 				</div>
 			)
 		}},
@@ -98,6 +100,8 @@ export default class extends React.Component{
 						cols			= { this.cols }
 						data 			= { data }
 						loading 		= { pullLoading }
+						selectedKeys	= {[  ]}
+						disabledKeys	= {[ ]}
 						pag				= { pag }
 						onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
 						sort

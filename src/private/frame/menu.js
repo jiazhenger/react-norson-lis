@@ -12,7 +12,6 @@ const Content = $async(()=>import('@tp/content'))
 const Image = $async(()=>import('@tp/image'))
 // ===================================================================== private component
 // const Router = $async(()=>import('#frame/router'))
-
 // ===================================================================== component
 class Frame extends React.Component{
 	state = {

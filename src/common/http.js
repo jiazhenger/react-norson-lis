@@ -130,7 +130,7 @@ const coreRequest = (url, param, action, defined) => {
 				$fn.remove()
 				$fn.loginTo()
 				// 跳转不同登录页
-				setTimeout(()=>$fn.go('/'))
+				setTimeout(()=>$fn.go('/login'))
 			}else{ // 数据请求成功但不符合规则
 				reject(data);
 					
