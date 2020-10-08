@@ -21,7 +21,6 @@ export default class extends React.Component{
 		pag: {},
 		selectedKeys:[]
 	}
-	
 	forms = [
 		{ label:'设备名称', name:'device_name', type:'select', data:[], nameStr:'name', idStr:'value' },
 		{ label:'设备型号', name:'device_model', type:'input' },
@@ -30,14 +29,6 @@ export default class extends React.Component{
 	model = {}
 	param = this.props.match.params
 	componentDidMount(){
-		window.onkeydown = e => {
-			const code = e.code
-			if(code === 'F2'){
-				$fn.push(this,'/laboratory/laboratory-manage/equipment-list/add')
-				e.preventDefault()
-			}
-		}
-		
 		const device = $fn.local('device')
 		if($fn.hasArray(device)){
 			this.forms[0].data = device
@@ -51,9 +42,6 @@ export default class extends React.Component{
 			})
 		}
 		this.fetch()
-	}
-	componentWillUnmount(){
-		window.onkeydown = null
 	}
 	// paging
 	// fetch = param => $http.paging(this,'device/index',{ param:{...param, pageSize:this.pageSize, ...this.model}, loading:false } )
@@ -91,7 +79,7 @@ export default class extends React.Component{
 	]
 	ButtonGroup = () => {
 		return [
-			{ label:'添加 F2', code:'F2', onClick:()=>{
+			{ label:'添加 F9', code:'F9', onClick:()=>{
 				$fn.push(this,'/laboratory/laboratory-manage/equipment-list/add')
 			} },
 			{ label:'禁用', ghost:true, disabled:this.state.selectedKeys.length===0, onClick:()=>{
@@ -106,7 +94,7 @@ export default class extends React.Component{
 		const { data, pullLoading, pag } = this.state
 		return (
 			<Page>
-				<Container title='设备列表' ButtonGroup={this.ButtonGroup()}>
+				<Container title='GPS设备列表' ButtonGroup={this.ButtonGroup()}>
 					{/* 搜索 */}
 					<SearchForm
 						data		= { this.forms } 

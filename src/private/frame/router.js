@@ -3,6 +3,8 @@ import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
 // ===================================================================== 异步加载
 import Import from '@com/bundle'
+
+const { $fn } = window
 // ===================================================================== 同步路由
 export default ({ data }) => {
 	const { path, root, to, component } = data[0]
@@ -12,7 +14,7 @@ export default ({ data }) => {
 			{
 				data.map((v,i)=> {
 					const { children } = v
-					if(window.$fn.hasArray(children)){
+					if($fn.hasArray(children)){
 						let _component = null
 						return children.map((m,k)=>{
 							if(m.component){ _component = m.component }
@@ -23,7 +25,16 @@ export default ({ data }) => {
 							if(m.id){ _path += '/:id' }
 							if(m.pid){ _path += '/:pid'}
 							if(_component){
-								return <Route key={m + '-' + k} path={_path} component={ Import( _component ) } />
+								return (
+									<>
+										<Route key={m + '-' + k} path={_path} component={ Import( _component ) } exact />
+										{
+											$fn.hasArray(m.child) && m.child.map((n,j)=>{
+												return <Route key={m + '-' + k + '-' + j} path={`/${n.path}`} 	component={ Import( n.component ) } exact />
+											})
+										}
+									</>
+								)
 							}else{
 								return <Route component={ Import('404') } />
 							}
@@ -38,7 +49,8 @@ export default ({ data }) => {
 						}
 					}
 				})
-			},
+			}
+			
 			{/* 重定向 */}
 			{
 				root && <Route path={root} children={<Redirect to={_to} />}  />

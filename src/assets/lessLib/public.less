@@ -19,7 +19,8 @@
 // ================================================================ 常用颜色
 .color();
 // ================================================================ 其它
-.scrollbar{.scrollbar(5,@main-color);
+@scrollColor:#333;
+.scrollbar{.scrollbar(6,@scrollColor);
 	&.small{
 		&::-webkit-scrollbar{.ww(3);}
 	}
@@ -30,3 +31,5 @@
 		.scrollbar(3,#fff);
 	}
 }
+// scrollbar
+.rc-virtual-list-holder,.ant-picker-time-panel-column{.scrollbar(6,@scrollColor);}

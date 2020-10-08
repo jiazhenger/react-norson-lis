@@ -46,7 +46,6 @@ export default class extends React.Component {
 				readOnly		= { readOnly }
 				disabled		= { disabled }
 				prefix			= { prefix }
-				prefix			= { prefix }
 				bordered		= { borderedValue }
 				{...props}
 			/>
