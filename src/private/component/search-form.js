@@ -14,7 +14,7 @@ const DatePicker = $async(()=>import('@antd/form/datePicker'))
 const size = 'small'
 const bordered = false
 
-export default ({ children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh }) => {
+const SearchForm = ({ children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh }) => {
 	const [ form, setForm ] = React.useState()
 	
 	React.useEffect(()=>{
@@ -64,7 +64,7 @@ export default ({ children, data, onChange, loading, onSubmit, onAdd, onReset, o
 							const mr = 20
 							let children = <Input disabled={loading} name={name} p={`请输入` + label} width={width} onChange={v=>onChange(v,true)} onPressEnter={onSubmit} bordered={bordered}/>
 							if( type === 'select'){
-								children = <Select disabled={loading} name={name} data={data} p={`请输入` + label} nameStr={v.nameStr} idStr={v.idStr}  width={width} auto onChange={onChange} bordered={bordered}/> 
+								children = <Select disabled={loading} name={name} data={data} p={`请选择` + label} nameStr={v.nameStr} idStr={v.idStr} onChanged={onChange} width={width} auto bordered={bordered}/> 
 							}else if(type === 'date-range'){
 								children = <DatePicker disabled={loading} name={names} width={width*2} range showTime value={value} format={format} onChange={onChange} bordered={bordered}/>
 							}
@@ -84,4 +84,25 @@ export default ({ children, data, onChange, loading, onSubmit, onAdd, onReset, o
 			</Form>
 		</div>
 	)
+}
+
+export default class extends React.Component{
+	componentWillUnmount(){
+		window.onkeydown = null
+	}
+	render(){
+		const { children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh } = this.props
+		return (
+			<SearchForm
+				data		= { data} 
+				onChange	= { onChange } 
+				onSubmit	= { onSubmit } 
+				onAdd		= { onAdd } 
+				onReset		= { onReset }
+				loading		= { loading }
+			>
+				{children}
+			</SearchForm>
+		)
+	}
 }

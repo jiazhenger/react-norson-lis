@@ -1,15 +1,13 @@
 import React from 'react'
 import { withRouter, NavLink } from 'react-router-dom'
 // ===================================================================== antd
-import Confirm from '@antd/confirm'
-// import message from '@antd/message'
 // ===================================================================== image
 import Logo from '@img/frame/logo.png'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
 // ===================================================================== antd
-// const Confirm = $async(()=>import('@antd/confirm'))
 const message = import('@antd/message')
+const confirm = import('@antd/confirm')
 // ===================================================================== private template
 const Page = $async(()=>import('@tp/content'))
 // ===================================================================== global template
@@ -68,24 +66,26 @@ class Frame extends React.Component{
 						<LiComponent title='消息' />
 						<LiComponent title='设置' />
 						<LiComponent title='导航' />
-						<LiComponent title='退出' onClick={()=>this.refs.logout.open()} />
+						<LiComponent title='退出' onClick={()=>{
+							confirm.then(f=>{
+								f.default({
+									msg:'确认退出登录？',
+									onOk: close => {
+										$http.submit(null,'index/logout',{ loadingText:'退出登录中...' }).then(data=>{
+											close()
+											$fn.remove()
+											message.then(f=>f.default.success('退出登录成功'))
+											$fn.replace(this,'/login')
+										})
+									}
+								})
+							})
+						}} />
 					</ul>
 				</header>
 				<div className='rel ex'>
 					<Router data={data} {...this.props}/>
 				</div>
-				<Confirm 
-					ref='logout' 
-					msg='确认退出登录？'
-					onOk={()=>{
-						$http.submit(null,'index/logout',{ loadingText:'退出登录中...' }).then(data=>{
-							this.refs.logout.close()
-							$fn.remove()
-							message.then(f=>f.default.success('退出登录成功'))
-							$fn.replace(this,'/login')
-						})
-					}}
-				/>
 			</Page>
 		)
 	}

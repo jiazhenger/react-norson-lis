@@ -26,12 +26,15 @@ export default class extends React.Component {
 	getRef = () => this.refs.inputRef.input
 	
 	render(){
-		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, iconRender, bordered } = this.props
-		const value = this.state.value === undefined ? this.props.value : this.state.value
+		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, iconRender, bordered, value, rows } = this.props
+		const _value = this.state.value === undefined ? value : this.state.value
 		let centerStyle = isCenter ? {textAlign:'center'} : null
 		const borderedValue = bordered === false ? false : true
-		const MyInput = mode === 'password' ? Input.Password : Input
+		let MyInput = mode === 'password' ? Input.Password : Input
 		const props = mode === 'password' ? { iconRender : iconRender } : {}
+		if(mode === 'textarea'){
+			MyInput = Input.TextArea
+		}
 		return (
 			<MyInput
 				ref 			= 'inputRef'
@@ -40,13 +43,14 @@ export default class extends React.Component {
 				type			= { type } 
 				size			= { size || 'small' } 
 				onChange		= { this.onChange }
-				value		 	= { value }
+				value		 	= { _value }
 				style			= {{width,...centerStyle,...style}}
 				placeholder		= { p } 
 				readOnly		= { readOnly }
 				disabled		= { disabled }
 				prefix			= { prefix }
 				bordered		= { borderedValue }
+				rows			= { rows || 4 }
 				{...props}
 			/>
 		)

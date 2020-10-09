@@ -19,7 +19,10 @@ export default ({ type, size, icon, children, label, width, minWidth, boxClassNa
 			type		= { type || 'primary' } 
 			loading		= { loading } 
 			disabled	= { disabled } 
-			onClick		= { onClick }
+			onClick		= { e=>{
+				e.stopPropagation()
+				onClick && onClick()
+			} }
 			htmlType 	= { htmlType }
 			ghost 		= { ghost }
 			icon 		= { icon }

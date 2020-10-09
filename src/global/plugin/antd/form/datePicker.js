@@ -1,7 +1,7 @@
 /* ====================================== toast  ====================================== */
 import React from 'react'
 // ===================================================================== DatePicker
-import { DatePicker, Pagination } from 'antd'
+import { DatePicker } from 'antd'
 import $time from '@utils/moment'
 import moment from 'moment'
 import 'moment/locale/zh-cn'
@@ -44,15 +44,22 @@ export default class extends React.Component{
 	clear = () => this.setState({ value: '' })
 	
 	disabledBefore = current =>{
-		if(this.props.disabledBefore){
+		if(this.props.before){
 			return current && (current < Date.now() - 8.64e7)
+		}else{
+			return null
+		}
+	}
+	disabledAfter = current =>{
+		if(this.props.after){
+			return current && (current > Date.now())
 		}else{
 			return null
 		}
 	}
 	
 	render(){
-		const { type, width, size, showTime, className, range, p, disabled, format, value, bordered } = this.props
+		const { width, size, showTime, className, range, p, disabled, format, value, bordered, before, after } = this.props
 		const formatType = format === 1 ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
 		let _value = this.state.value === undefined ? value : this.state.value
 			
@@ -73,7 +80,7 @@ export default class extends React.Component{
 				style		= {{ width }} 
 				className 	= { className?className:''}
 				placeholder = { p } 
-				disabledDate = { this.disabledBefore }
+				disabledDate = { (before ? this.disabledBefore : (after ? this.disabledAfter : null)) }
 				disabled 	= { disabled }
 				bordered	= { bordered }
 			/>

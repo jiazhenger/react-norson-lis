@@ -1,6 +1,5 @@
 import React from 'react'
 // ===================================================================== antd
-import Confirm from '@antd/confirm'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
 // ===================================================================== global template
@@ -8,6 +7,7 @@ const Text = $async(()=>import('@tp/text'))
 // ===================================================================== antd
 const Button = $async(()=>import('@antd/button'))
 const message = import('@antd/message')
+const confirm = import('@antd/confirm')
 // ===================================================================== private template
 const Page = $async(()=>import('#tp/content/content-aside'))
 const Container = $async(()=>import('#tp/box/container'))
@@ -28,19 +28,10 @@ export default class extends React.Component{
 		{ label:'购买时间', name:'date', names:['buy_date_start_date','buy_date_end_date'], type:'date-range' },
 	]
 	model = {}
-	param = this.props.match.params
 	componentDidMount(){
-		window.onkeydown = e => {
-			const code = e.code
-			if(code === 'F2'){
-				$fn.push(this,'/laboratory/laboratory-manage/equipment-list/add')
-				e.preventDefault()
-			}
-		}
-		
-		const device = $fn.local('device')
-		if($fn.hasArray(device)){
-			this.forms[0].data = device
+		const local = $fn.local('device')
+		if($fn.hasArray(local)){
+			this.forms[0].data = local
 		}else{
 			$http.pull(null,'device/selectName', {dataName:null}).then(data=>{
 				data.forEach(v=>{
@@ -52,16 +43,9 @@ export default class extends React.Component{
 		}
 		this.fetch()
 	}
-	componentWillUnmount(){
-		window.onkeydown = null
-	}
 	// paging
 	// fetch = param => $http.paging(this,'device/index',{ param:{...param, pageSize:this.pageSize, ...this.model}, loading:false } )
 	fetch = param => $fn.fetch.call(this,'device/index', param)
-	// 添加
-	onAdd = () => {
-		
-	}
 	cols = [
 		{ type:'checkbox' },
 		{ title: '编号', 		field: 'device_number', 	width:145 },
@@ -95,7 +79,19 @@ export default class extends React.Component{
 				$fn.push(this,'/laboratory/laboratory-manage/equipment-list/add')
 			} },
 			{ label:'禁用', ghost:true, disabled:this.state.selectedKeys.length===0, onClick:()=>{
-				this.refs.confirm.open()
+				confirm.then(f=>{
+					f.default({
+						msg:'是否确认禁用？',
+						onOk: close => {
+							const keys = this.state.selectedKeys.map(v=>v.uuid)
+							$http.submit(null,'sp-gps-device/del',{ param:{uuid: keys} }).then(data=>{
+								message.then(f=>f.default.success('禁用成功'))
+								this.fetch(this.model)
+								close()
+							})
+						}
+					})
+				})
 			} },
 			{ label:'文件导入', ghost:true, onClick:()=>{
 				
@@ -112,9 +108,9 @@ export default class extends React.Component{
 						data		= { this.forms } 
 						onChange	= { (v,press)=>$fn.onChange.call(this,v,press) } 
 						onSubmit	= { $fn.onSubmit.bind(this) } 
-						onAdd		= { this.onAdd } 
 						onReset		= { $fn.onReset.bind(this,this.forms) }
 						loading		= { pullLoading }
+						onAdd		= { ()=> $fn.push(this,'/laboratory/laboratory-manage/equipment-list/add') }
 					/>
 					{/* 表格 */}
 					<Table
@@ -143,18 +139,6 @@ export default class extends React.Component{
 						/>
 					*/}
 				</Container>
-				<Confirm
-					ref='confirm' 
-					msg='是否确认禁用？'
-					onOk={()=>{
-						const keys = this.state.selectedKeys.map(v=>v.uuid)
-						$http.submit(null,'device/delete',{ param:{uuid: keys} }).then(data=>{
-							this.refs.confirm.close()
-							message.then(f=>f.default.success('禁用成功'))
-							this.fetch(this.model)
-						})
-					}}
-				/>
 			</Page>
 		)
 	}

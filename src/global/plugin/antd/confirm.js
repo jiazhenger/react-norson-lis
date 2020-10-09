@@ -1,23 +1,17 @@
 /* ====================================== toast  ====================================== */
 import React from 'react'
-import Modal from './modal'
+import { Modal } from 'antd'
+import { ExclamationCircleOutlined } from '@ant-design/icons'
 // ===================================================================== 选择字典表数据
-export default class extends React.Component {
-    onYes = () => {
-    	const { onOk } = this.props
-    	onOk && onOk()
-    }
-
-    open = () => this.refs.modal.open()
-    
-    close = () => this.refs.modal.close()
-    
-    render(){
-    	const { title, loading, msg, show } = this.props
-		return (
-			<Modal loading={loading} show={show} title={title || '提示'} ref='modal' onOk={this.onYes} maskClose={false}>
-				<p className='tc g2 f16'>{msg || '确认提交？'}</p>
-			</Modal>
-		)
-    }
+export default ({ msg, okText, cancelText, onOk  }) => {
+	return Modal.confirm({
+		title: '提示',
+		icon: <ExclamationCircleOutlined />,
+		content: msg || '确认删除？',
+		okText: okText || '确认',
+		cancelText: cancelText || '取消',
+		onOk: onOk,
+		centered: false,
+		className: 'confirm'
+	});
 }

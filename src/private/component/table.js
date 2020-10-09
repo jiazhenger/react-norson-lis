@@ -47,7 +47,6 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		const $bodyTable = $scroll.querySelector('.js-body')
 		const scrollLeft = $scroll.scrollLeft
 		const $line = dragRef.current
-		const scrollOffsetLeft = getOffset($scroll)
 		const width = 5
 		if($move){
 			const offsetLeft = getOffset($move.parentNode)
@@ -106,7 +105,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		// 控制滚动条
 		const $scroll = scrollRef.current
 		const $fixedTable = $scroll.querySelector('.js-fixed')
-		const $bodyTable = $scroll.querySelector('.js-body')
+		// const $bodyTable = $scroll.querySelector('.js-body')
 		const resize = function(){
 			if($scroll.scrollHeight > 0){
 				$scroll.onscroll = function(e){
@@ -182,7 +181,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		setResult([...result])
 		const select = result.filter( v => v.rowChecked)
 		onRow && onRow(select)
-	}, [result])
+	}, [result, onRow])
 	// 点击横排
 	const _onRow = React.useCallback( (rows, i) =>{
 		if(rows.rowDisabled) return;
@@ -233,7 +232,6 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	// 拖动单元格尺寸
 	const onDrag = React.useCallback( (e,i) =>{
 		e.stopPropagation()
-		const { x } = xy(e)
 		const $line = dragRef.current
 		const $scroll = scrollRef.current
 		$move = e.target

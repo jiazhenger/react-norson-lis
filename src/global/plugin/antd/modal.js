@@ -3,10 +3,23 @@ import React from 'react'
 import { Modal } from 'antd'
 import Button from '@antd/button'
 // ===================================================================== 选择字典表数据
-export default class Index extends React.Component {
+export default class extends React.Component {
     state = {
        
     }
+	enter = e => {
+		const code = e.code
+		if(code === 'NumpadEnter'){
+			e.preventDefault()
+			this.onOk()
+		}
+	}
+	componentDidMount(){
+		window.addEventListener('keydown',this.enter)
+	}
+	componentWillUnmount(){
+		window.removeEventListener('keydown',this.enter)
+	}
     
     onOk = () => {
     	const { onOk } = this.props
@@ -25,12 +38,12 @@ export default class Index extends React.Component {
     Footer = ({ okText, noText, loading }) => (
     	<footer className='fxmc'>
 			<Button round loading={loading} onClick={this.onCancel} style={{width:'100px'}} size='large' ghost type='primary'>{noText||'取消'}</Button>
-			<Button round loading={loading} onClick={this.onOk} style={{width:'100px', marginLeft:'25px'}} size='large' type='primary'>{okText || '确认'}</Button>
+			<Button round loading={loading} onClick={this.onOk} style={{width:'100px', marginLeft:'25px'}} size='large' type='primary'>{okText || '确认 Enter'}</Button>
     	</footer>
     )
     
     render(){
-    	const { title, children, maskClose, width, noFooter, centered, destroy, onClose, bodyStyle } = this.props
+    	const { title, children, width, noFooter, centered, onClose, bodyStyle } = this.props
     	const visible = this.state.show === undefined ? this.props.show : this.state.show
     	return (
 			<Modal
@@ -39,12 +52,13 @@ export default class Index extends React.Component {
 				visible 		= { visible }
 				onOk			= { this.onOk }
 				onCancel		= { this.onCancel }
-				maskClosable 	= { maskClose }
+				maskClosable 	= { false }
 				centered		= { centered===undefined ? true : centered }
 				footer			= { noFooter ? null : <this.Footer {...this.props} /> }
-				destroyOnClose 	= { destroy }
+				destroyOnClose 	= { true }
 				afterClose 		= { onClose }
-				bodyStyle 		= {bodyStyle}
+				bodyStyle 		= { bodyStyle }
+				forceRender		= { true }
 			>
 				{ children }
 			</Modal>

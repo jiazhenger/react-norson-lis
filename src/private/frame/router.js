@@ -15,8 +15,8 @@ export default ({ data }) => {
 				data.map((v,i)=> {
 					const { children } = v
 					if($fn.hasArray(children)){
-						let _component = null
 						return children.map((m,k)=>{
+							let _component = null
 							if(m.component){ _component = m.component }
 							else if( component ){ _component = component }
 							else{ _component =  m.path ? m.path.replace('/','') : null }
@@ -25,16 +25,22 @@ export default ({ data }) => {
 							if(m.id){ _path += '/:id' }
 							if(m.pid){ _path += '/:pid'}
 							if(_component){
-								return (
-									<>
-										<Route key={m + '-' + k} path={_path} component={ Import( _component ) } exact />
-										{
-											$fn.hasArray(m.child) && m.child.map((n,j)=>{
-												return <Route key={m + '-' + k + '-' + j} path={`/${n.path}`} 	component={ Import( n.component ) } exact />
-											})
-										}
-									</>
-								)
+								const { child } = m
+								if($fn.hasArray(child)){
+									return <Route key={m + '-' + k} path={_path} render={ ({ match }) => {
+										return <Switch>
+												<Route path={match.url} component={ Import(_component) } exact />
+												{
+													$fn.hasArray(child) && child.map((n,j)=>{
+														return <Route key={m + '-' + k + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+													})
+												}
+												<Route component={ Import('404') } />
+											</Switch>
+									}}/>
+								}else{
+									return <Route key={m + '-' + k} path={_path} component={ Import(_component) } exact/>
+								}
 							}else{
 								return <Route component={ Import('404') } />
 							}

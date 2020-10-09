@@ -1,19 +1,18 @@
-/* ====================================== toast  ====================================== */
+/* ====================================== Select  ====================================== */
 import React from 'react'
 import { Select } from 'antd'
-
 const { $fn } = window
-
-// ===================================================================== Select
+// ===================================================================== 
 export default class Index extends React.Component {
 	state = {
 		data:[],
 	}
 	
 	onChange = (value, data) => {
-		const { onChange, name } = this.props
+		const { name, onChanged } = this.props
 		this.setState({ value },()=>{
-			onChange && onChange( name ? {[name]:value} : value, data)
+			const obj = name ? { [name]: value } : value
+			onChanged && onChanged(obj , data)
 		})
 	}
 	
@@ -31,15 +30,15 @@ export default class Index extends React.Component {
 	}
 	
 	render(){
-		const { data, idStr, nameStr, p , width, size, style,isP, className, mode, disabled, loading, bordered, auto } = this.props
+		const { data, value, idStr, nameStr, p , width, size, style,isP, className, mode, disabled, loading, bordered, auto } = this.props
 		const { key } = this.state
 		const xdata = data || this.state.data
-		const nStr = nameStr || 'label'
+		const nStr = nameStr || 'name'
 		const iStr = idStr || 'value'
 		const t = p ? p : ''
 		const borderedValue = bordered === false ? false : true
 		const _size = size || 'small'
-		const value = this.state.value === undefined ? this.props.value : this.state.value
+		const _value = this.state.value === undefined ? value : this.state.value
 		
 		return (
 			<Select 
@@ -47,7 +46,7 @@ export default class Index extends React.Component {
 				size		= { _size } 
 				onChange	= { this.onChange } 
 				style		= {{ width,...style }} 
-				value 		= { value }
+				value 		= { _value }
 				className 	= { className||'w'}
 				placeholder	= { isP ? '请选择' + t :  t  }
 				disabled 	= { !$fn.hasArray(xdata) || disabled }
