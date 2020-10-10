@@ -249,7 +249,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	
 	return (
 		<div className={`fv rel ex ${className||''}`}>
-			<div className='norson-table ex fv oxys scrollbar rel' style={style} ref={scrollRef}>
+			<div className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
 				{
 					$fn.hasArray(cols) ? (
 						<>
@@ -268,10 +268,10 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 													const isSort = v['field'] && (sort||v.sort)
 													const sortStyle = isSort ? {paddingRight: 8} : null
 													return (
-														<th key={i} className={`${v.thCss||''}${v.align||''}`}>
-															<div className='con cd' style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
+														<th key={i} className={`${v.thCss||''}${v.align||''} ${isSort?'cp':'cd'}`}>
+															<div className={`con`} style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
 																{
-																	v.type==='checkbox' ? <div className='fxmc'><Checkbox indeter={indeter} value={checked} outer onChange={onSelectALL} /></div> : (
+																	v.type==='checkbox' ? <div className='fxmc'><Checkbox indeter={indeter} value={checked} disabled={!$fn.hasArray(data)} outer onChange={onSelectALL} /></div> : (
 																		<>
 																			{v['title']}
 																			{

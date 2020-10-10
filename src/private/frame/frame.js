@@ -15,7 +15,7 @@ const Image = $async(()=>import('@tp/image'))
 const Text = $async(()=>import('@tp/text'))
 // ===================================================================== private component
 // const Router = $async(()=>import('#frame/router'))
-const height = 40
+const height = 44
 // ===================================================================== image
 const LiComponent = ({ title, onClick }) => (
 	<li className='fxmc c0 tap cp' style={{width:height}} onClick={onClick}>

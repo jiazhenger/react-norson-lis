@@ -12,7 +12,7 @@ const data = [
 				title: '设备列表', 
 				path: 'laboratory-manage/equipment-list',
 				child:[
-					{ title: '添加设备', path: 'add', component:'laboratory/laboratory-manage/equipment-list-add' }
+					{ title: '添加设备', path: 'add', component:'laboratory/laboratory-manage/equipment-list-add', cache:true }
 				]
 			},
 			{ title: 'GPS设备', path: 'laboratory-manage/equipment-gps' },

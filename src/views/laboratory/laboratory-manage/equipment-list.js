@@ -1,16 +1,12 @@
 import React from 'react'
-// ===================================================================== antd
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
-// ===================================================================== global template
-const Text = $async(()=>import('@tp/text'))
 // ===================================================================== antd
 const Button = $async(()=>import('@antd/button'))
 const message = import('@antd/message')
 const confirm = import('@antd/confirm')
 // ===================================================================== private template
-const Page = $async(()=>import('#tp/content/content-aside'))
-const Container = $async(()=>import('#tp/box/container'))
+const Page = $async(()=>import('#tp/page-container'))
 // ===================================================================== private component
 const SearchForm = $async(()=>import('#cpt/search-form'))
 const Table = $async(()=>import('#cpt/table'))
@@ -61,14 +57,15 @@ export default class extends React.Component{
 		{ title: '联机类型', 	field: 'rel_type_name', 	width:100 },
 		{ title: '设备状态', 	field: 'device_status_name',width:80, 	align:'tc' },
 		{ title: '操作', align:'tc', width:380, render:({rows})=>{
-			const { rowDisabled } = rows
 			return (
 				<div className='plr5'>
-					<Button label='编辑' disabled={rowDisabled} ghost/>
-					<Button label='校准计划' disabled={rowDisabled} ghost className='mlr5' />
-					<Button label='校准记录' disabled={rowDisabled} ghost />
-					<Button label='项目关联' disabled={rowDisabled} ghost className='mlr5' />
-					<Button label='设备维护' disabled={rowDisabled} ghost />
+					<Button label='编辑' ghost onClick={()=>{
+						$fn.push(this,'/laboratory/laboratory-manage/equipment-list/add?id=' + rows.id)
+					}}/>
+					<Button label='校准计划' ghost className='mlr5' />
+					<Button label='校准记录' ghost />
+					<Button label='项目关联' ghost className='mlr5' />
+					<Button label='设备维护' ghost />
 				</div>
 			)
 		}},
@@ -101,44 +98,42 @@ export default class extends React.Component{
 	render(){
 		const { data, pullLoading, pag } = this.state
 		return (
-			<Page>
-				<Container title='设备列表' ButtonGroup={this.ButtonGroup()}>
-					{/* 搜索 */}
-					<SearchForm
-						data		= { this.forms } 
-						onChange	= { (v,press)=>$fn.onChange.call(this,v,press) } 
-						onSubmit	= { $fn.onSubmit.bind(this) } 
-						onReset		= { $fn.onReset.bind(this,this.forms) }
-						loading		= { pullLoading }
-						onAdd		= { ()=> $fn.push(this,'/laboratory/laboratory-manage/equipment-list/add') }
-					/>
-					{/* 表格 */}
+			<Page title='设备列表' ButtonGroup={this.ButtonGroup()}>
+				{/* 搜索 */}
+				<SearchForm
+					data		= { this.forms } 
+					onChange	= { (v,press)=>$fn.onChange.call(this,v,press) } 
+					onSubmit	= { $fn.onSubmit.bind(this) } 
+					onReset		= { $fn.onReset.bind(this,this.forms) }
+					loading		= { pullLoading }
+					onAdd		= { ()=> $fn.push(this,'/laboratory/laboratory-manage/equipment-list/add') }
+				/>
+				{/* 表格 */}
+				<Table
+					className		= 'xplr'
+					cols			= { this.cols }
+					data 			= { data }
+					loading 		= { pullLoading }
+					onRow			= { v => this.setState({ selectedKeys: v }) }
+					pag				= { pag }
+					onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
+					sort
+					onSort			= { v => $fn.onSort.call(this, v) }
+				/>
+				{/*
 					<Table
 						className		= 'xplr'
 						cols			= { this.cols }
 						data 			= { data }
 						loading 		= { pullLoading }
-						onRow			= { v => this.setState({ selectedKeys: v }) }
+						selectedKeys	= {[  ]}
+						disabledKeys	= {[ ]}
 						pag				= { pag }
 						onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
 						sort
 						onSort			= { v => $fn.onSort.call(this, v) }
 					/>
-					{/*
-						<Table
-							className		= 'xplr'
-							cols			= { this.cols }
-							data 			= { data }
-							loading 		= { pullLoading }
-							selectedKeys	= {[  ]}
-							disabledKeys	= {[ ]}
-							pag				= { pag }
-							onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
-							sort
-							onSort			= { v => $fn.onSort.call(this, v) }
-						/>
-					*/}
-				</Container>
+				*/}
 			</Page>
 		)
 	}

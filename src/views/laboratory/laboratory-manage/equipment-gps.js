@@ -3,15 +3,12 @@ import React from 'react'
 import Modal from '@antd/modal'
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
-// ===================================================================== global template
-const Text = $async(()=>import('@tp/text'))
 // ===================================================================== antd
 const Button = $async(()=>import('@antd/button'))
 const message = import('@antd/message')
 const confirm = import('@antd/confirm')
 // ===================================================================== private template
-const Page = $async(()=>import('#tp/content/content-aside'))
-const Container = $async(()=>import('#tp/box/container'))
+const Page = $async(()=>import('#tp/page-container'))
 // ===================================================================== private component
 const SearchForm = $async(()=>import('#cpt/search-form'))
 const SubmitForm = $async(()=>import('#cpt/submit-form'))
@@ -38,15 +35,16 @@ export default class extends React.Component{
 	]
 	model = {}
 	componentDidMount(){
+		const { submit } = this.state
 		const local = $fn.local('dis-item')
 		if($fn.hasArray(local)){
 			this.forms[1].data = local
-			this.state.submit[2].data = local
+			submit[2].data = local
 			this.setState({deviceStadius:local, submit:this.state.submit})
 		}else{
 			$http.submit(null,'dis-item/item', { param:{dis_code:200}, loading:false}).then(data=>{
 				this.forms[1].data = data
-				this.state.submit[2].data = data
+				submit[2].data = data
 				$fn.local('dis-item', data)
 				this.setState({deviceStadius:data, submit:this.state.submit})
 			})
@@ -88,7 +86,7 @@ export default class extends React.Component{
 			{ label:'删除', ghost:true, disabled:this.state.selectedKeys.length===0, onClick:()=>{
 				confirm.then(f=>{
 					f.default({
-						msg:'是否确认禁用?',
+						msg:'是否确认删除?',
 						onOk: close => {
 							const keys = this.state.selectedKeys.map(v=>v.uuid)
 							$http.submit(null,'sp-gps-device/del',{ param:{uuid: keys} }).then(data=>{
@@ -105,28 +103,26 @@ export default class extends React.Component{
 	render(){
 		const { data, pullLoading, pag, submit } = this.state
 		return (
-			<Page>
-				<Container title='GPS设备列表' ButtonGroup={this.ButtonGroup()}>
-					{/* 搜索 */}
-					<SearchForm
-						data		= { this.forms } 
-						onChange	= { (v,press)=>$fn.onChange.call(this,v,press) } 
-						onSubmit	= { $fn.onSubmit.bind(this) } 
-						onAdd		= { this.onAdd } 
-						onReset		= { $fn.onReset.bind(this,this.forms) }
-						loading		= { pullLoading }
-					/>
-					{/* 表格 */}
-					<Table
-						className		= 'xplr'
-						cols			= { this.cols }
-						data 			= { data }
-						loading 		= { pullLoading }
-						onRow			= { v => this.setState({ selectedKeys: v }) }
-						pag				= { pag }
-						onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
-					/>
-				</Container>
+			<Page title='GPS设备列表' ButtonGroup={this.ButtonGroup()}>
+				{/* 搜索 */}
+				<SearchForm
+					data		= { this.forms } 
+					onChange	= { (v,press)=>$fn.onChange.call(this,v,press) } 
+					onSubmit	= { $fn.onSubmit.bind(this) } 
+					onAdd		= { this.onAdd } 
+					onReset		= { $fn.onReset.bind(this,this.forms) }
+					loading		= { pullLoading }
+				/>
+				{/* 表格 */}
+				<Table
+					className		= 'xplr'
+					cols			= { this.cols }
+					data 			= { data }
+					loading 		= { pullLoading }
+					onRow			= { v => this.setState({ selectedKeys: v }) }
+					pag				= { pag }
+					onChange		= { (current, pageSize) => $fn.pageChange.call(this,{current, pageSize}) }
+				/>
 				<Modal ref='modal' title='编辑' width={648} noFooter>
 					<SubmitForm
 						modal

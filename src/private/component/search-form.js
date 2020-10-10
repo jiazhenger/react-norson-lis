@@ -2,7 +2,7 @@ import React from 'react'
 
 // import Select from '@antd/form/select'
 // ===================================================================== global declare
-const { $http, $fn, $async } = window
+const { $fn, $async } = window
 // ===================================================================== global antd
 const Form = $async(()=>import('@antd/form/form'))
 const Item = $async(()=>import('@antd/form/item'))
@@ -11,11 +11,23 @@ const Input = $async(()=>import('@antd/form/input'))
 const Select = $async(()=>import('@antd/form/select'))
 const DatePicker = $async(()=>import('@antd/form/datePicker'))
 // =====================================================================
-const size = 'small'
 const bordered = false
 
-const SearchForm = ({ children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh }) => {
+const SearchForm = ({ children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh, className }) => {
 	const [ form, setForm ] = React.useState()
+	
+	// 重置
+	const _onReset = React.useCallback( () => {
+		if(form){
+			form.resetFields()
+			onReset && onReset()
+		}
+	},[form, onReset])
+	// 刷新
+	const _onRefesh = React.useCallback( () => {
+		$fn.refreshRouter()
+		onRefesh && onRefesh()
+	},[ onRefesh ])
 	
 	React.useEffect(()=>{
 		// 快捷键
@@ -35,26 +47,14 @@ const SearchForm = ({ children, data, onChange, loading, onSubmit, onAdd, onRese
 				e.preventDefault()
 			}
 		}
-	},[ onSubmit, onAdd, form])
+	},[ onSubmit, onAdd, form, _onRefesh, _onReset])
 	
 	const init = React.useCallback( v => {
 		setForm(v)
 	},[])
-	// 重置
-	const _onReset = React.useCallback( () => {
-		if(form){
-			form.resetFields()
-			onReset && onReset()
-		}
-	},[form, onReset])
-	// 刷新
-	const _onRefesh = React.useCallback( () => {
-		$fn.refreshRouter()
-		onRefesh && onRefesh()
-	},[ ])
 	
 	return (
-		<div className='xplr pt10 pb10'>
+		<div className={`xplr ${className||'pt10 pb10'}`}>
 			<Form layout='horizontal' onSubmit={onSubmit} init={init} className='fxw search-form small-form'>
 				<div className='ex fxt'>
 					{
@@ -91,7 +91,7 @@ export default class extends React.Component{
 		window.onkeydown = null
 	}
 	render(){
-		const { children, data, onChange, loading, onSubmit, onAdd, onReset, onRefesh } = this.props
+		const { children, data, onChange, loading, onSubmit, onAdd, onReset, className } = this.props
 		return (
 			<SearchForm
 				data		= { data} 
@@ -100,6 +100,7 @@ export default class extends React.Component{
 				onAdd		= { onAdd } 
 				onReset		= { onReset }
 				loading		= { loading }
+				className	= { className }
 			>
 				{children}
 			</SearchForm>

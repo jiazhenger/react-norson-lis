@@ -4,12 +4,12 @@ import { withRouter } from 'react-router-dom'
 import { Layout, Menu } from 'antd'
 import Router from '#frame/router'
 // ===================================================================== global declare
-const { $http, $fn, $async } = window
+const { $fn, $async } = window
 const { SubMenu, Item } = Menu
 // ===================================================================== private template
 const Content = $async(()=>import('@tp/content'))
 // ===================================================================== global template
-const Image = $async(()=>import('@tp/image'))
+// const Image = $async(()=>import('@tp/image'))
 // ===================================================================== private component
 // const Router = $async(()=>import('#frame/router'))
 // ===================================================================== component
@@ -28,7 +28,8 @@ class Frame extends React.Component{
 		// 发布订阅
 		window.proxy = {
 			refresh: () => {
-				this.setState({ key: this.state.key++})
+				let { key } = this.state
+				this.setState({ key: key++})
 			}
 		}
 	}
@@ -72,7 +73,7 @@ class Frame extends React.Component{
 	}
 	render(){
 		const { data } = this
-		const {selectedKeys, defaultOpenKeys, collapsed, key } = this.state
+		const {selectedKeys, collapsed, key } = this.state
 		let keys = $fn.hasArray(selectedKeys) ? selectedKeys : this.selectedKeys
 		return (
 			<Layout className='wh fx'>

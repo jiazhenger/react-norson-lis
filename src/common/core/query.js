@@ -1,7 +1,7 @@
 /* ====================================== 获取参数  ====================================== */
 const _ = {
 	// 获取 url 参数
-	getQuery(id){
+	query(id){
 		const hash = window.location.search || window.location.hash
 		let stack = {}
 		if(hash.indexOf('?') !== -1){
@@ -19,7 +19,7 @@ const _ = {
 	},
 	// 获取地址栏与本地缓存的 token
 	getToken(obj){
-		const token = this.getQuery('token');
+		const token = this.query('token');
 		const user = this.getUser();
 		let rs = null
 		if(token){

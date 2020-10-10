@@ -1,16 +1,10 @@
 import React from 'react'
-// ===================================================================== antd
-
 // ===================================================================== global declare
 const { $http, $fn, $async } = window
-// ===================================================================== global template
-const Text = $async(()=>import('@tp/text'))
 // ===================================================================== antd
-const Button = $async(()=>import('@antd/button'))
 const message = import('@antd/message')
 // ===================================================================== private template
-const Page = $async(()=>import('#tp/content/content-aside'))
-const Container = $async(()=>import('#tp/box/container'))
+const Page = $async(()=>import('#tp/page-container'))
 const SubmitForm = $async(()=>import('#cpt/submit-form'))
 // ===================================================================== private component
 
@@ -38,7 +32,7 @@ export default class extends React.Component{
 			{ label:'生产厂家', 		required:true,	name:'gps_unique'},
 			{ label:'厂家联系人', 	required:true,	name:'gps_unique'},
 			{ label:'联系电话', 		required:true,	name:'gps_unique'},
-			{ label:'备注', 		required:true,	name:'gps_unique', type:'textarea', full:true},
+			{ label:'备注', 		required:true,	name:'gps_unique', type:'textarea', full:true, width:'100%'},
 			
 			{ label:'最低湿度',		required:true,	name:'device_name', title:'使用环境'},
 			{ label:'最高湿度', 		required:true,	name:'gps_unique'},
@@ -47,37 +41,41 @@ export default class extends React.Component{
 			{ label:'功率', 		required:true,	name:'gps_unique'},
 			{ label:'电压', 		required:true,	name:'gps_unique'},
 		],
+		id:$fn.query('id')
 	}
-	
 	componentDidMount(){
 		const local = $fn.local('dis-item')
+		const { submit } = this.state
 		if($fn.hasArray(local)){
-			this.state.submit[10].data = local
+			submit[10].data = local
 		}else{
 			$http.submit(null,'dis-item/item', { param:{dis_code:200}, loading:false}).then(data=>{
-				this.state.submit[10].data = data
+				submit[10].data = data
 				$fn.local('dis-item', data)
 				this.setState({submit:this.state.submit})
 			})
 		}
 	}
 	render(){
-		const { submit } = this.state
+		const { submit, id } = this.state
 		return (
-			<Page>
-				<Container title='添加设备'>
-					<div className='ex fv xplr pt10'>
-						<SubmitForm
-							data = { submit }
-							btnSize	= 'large'
-							okText = '保存 Enter'
-							onSubmit = { v => {
-								console.log(v)
-							}}
-							onClose = { ()=> $fn.back(this) }
-						/>
-					</div>
-				</Container>
+			<Page title={id ? '编辑设备' : '添加设备'}>
+				<div className='ex fv xplr pt10'>
+					<SubmitForm
+						data = { submit }
+						btnSize	= 'large'
+						okText = { id ? '修改 Enter' : '保存 Enter'}
+						onSubmit = { v => {
+							if(id){
+								message.then(f=>f.default.success('修改成功'))
+							}else{
+								message.then(f=>f.default.success('添加成功'))
+							}
+							
+						}}
+						onClose = { ()=> $fn.back(this) }
+					/>
+				</div>
 			</Page>
 		)
 	}

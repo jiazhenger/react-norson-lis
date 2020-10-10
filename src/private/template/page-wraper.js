@@ -1,13 +1,15 @@
 import React from 'react'
 // ===================================================================== global template
-const Content = window.$async(()=>import('@tp/content'))
+const { $async } = window
+const Page = $async(()=>import('#tp/content/content-aside'))
+const Wraper = $async(()=>import('#tp/box/wraper'))
 // =====================================================================
-export default ({ children }) => {
+export default ({ children}) => {
 	return (
-		<Content>
-			<section className='wh' style={{padding:10,minWidth:1100,minHeight:200}}>
+		<Page>
+			<Wraper>
 				{children}
-			</section>
-		</Content>
+			</Wraper>
+		</Page>
 	)
 }
