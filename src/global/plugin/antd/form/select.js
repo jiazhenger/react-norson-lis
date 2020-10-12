@@ -47,7 +47,7 @@ export default class Index extends React.Component {
 				onChange	= { this.onChange } 
 				style		= {{ width,...style }} 
 				value 		= { _value }
-				className 	= { className||'w'}
+				className 	= {`${className?className:'w'} ${bordered===false ? 'input-bordered':''}`}
 				placeholder	= { isP ? '请选择' + t :  t  }
 				disabled 	= { !$fn.hasArray(xdata) || disabled }
 				mode		= { mode }

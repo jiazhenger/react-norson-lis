@@ -12,19 +12,19 @@ const Select = $async(()=>import('@antd/form/select'))
 const DatePicker = $async(()=>import('@antd/form/datePicker'))
 // =====================================================================
 const size = 'middle'
-
+const bordered = false
 const FormComponent = ({ data, width, form, mb, readOnly, disabled, noholder }) => (
 		<>
 			{
 				data.map((v,i)=>{
 					const { type, value, label, data, name, format } = v
-					let children = <Input size={size} p={noholder ? '' : '请输入' + label} width={width} readOnly={readOnly} disabled={disabled}/>
+					let children = <Input size={size} p={noholder ? '' : '请输入' + label} width={width} readOnly={readOnly} disabled={disabled} bordered={bordered}/>
 					if( type === 'select'){
 						children = <Select size={size} data={data} p={`请选择` + label} value={value} nameStr={v.nameStr} idStr={v.idStr} width={width} auto onChanged={v=>form.setFieldsValue({ [name]:v })}/> 
 					}else if(type === 'date-time'){
 						children = <DatePicker size={size} width={width} value={value} showTime format={format} after={v.after}/>
 					}else if(type === 'textarea'){
-						children = <Input size={size} p={noholder ? '' : '请输入' + label} width={v.width ? v.width : width} mode='textarea'  readOnly={readOnly} disabled={disabled}/>
+						children = <Input size={size} p={noholder ? '' : '请输入' + label} width={v.width ? v.width : width} mode='textarea'  readOnly={readOnly} disabled={disabled} bordered={bordered}/>
 					}
 					return (
 						<React.Fragment key={i}>
@@ -39,7 +39,7 @@ const FormComponent = ({ data, width, form, mb, readOnly, disabled, noholder }) 
 		</>
 	)
 
-const SubmitForm = ({ children, data, onSubmit, onClose, init, btnSize, okText, modal, layout, display, width, className, mb, readOnly, disabled, noholder }) => {
+const SubmitForm = ({ children, data, onSubmit, onClose, init, btnSize, okText, modal, layout, display, width, className, scrollClassName, mb, readOnly, disabled, noholder }) => {
 	const [ form, setForm ] = React.useState()
 	
 	const _init = React.useCallback( v => {
@@ -53,7 +53,7 @@ const SubmitForm = ({ children, data, onSubmit, onClose, init, btnSize, okText, 
 	return (
 		<Form layout={layout} onSubmit={onSubmit} init={_init} className={`submit-form small-form fv ex ${className||''}`}>
 			<div className='ex rel'>
-				<div className={modal?'':'abs_full oys scrollbar'}>
+				<div className={` ${scrollClassName||''} ${modal?'':'abs_full oys scrollbar'}`}>
 					<div className={layout === 'horizontal' ? 'fxw' : ''}>
 						<FormComponent data={data} form={form} width={width?width:(modal ? 180 : 190)} mb={mb} readOnly={readOnly} disabled={disabled} noholder={noholder} />
 					</div>
@@ -88,7 +88,7 @@ export default class extends React.Component {
 	}
 	
 	render(){
-		const { children, data, onClose, onSubmit, btnSize, okText, modal, layout, display, width, className, mb, readOnly, disabled, noholder } = this.props
+		const { children, data, onClose, onSubmit, btnSize, okText, modal, layout, display, width, className, scrollClassName, mb, readOnly, disabled, noholder } = this.props
 		return (
 			<SubmitForm
 				className	= { className }
@@ -106,6 +106,7 @@ export default class extends React.Component {
 				readOnly	= { readOnly }
 				disabled	= { disabled }
 				noholder	= { noholder }
+				scrollClassName = { scrollClassName }
 			> {children} </SubmitForm>
 		)
 	}

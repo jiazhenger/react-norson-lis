@@ -42,10 +42,10 @@ export default class extends React.Component{
 	
 	btns = [
 		[
-			{ label:'上机' },
-			{ label:'保存结果' },
-			{ label:'提交' },
-			{ label:'删除结果' },
+			{ label:'上机', many:true },
+			{ label:'保存结果', many:true },
+			{ label:'提交', many:true },
+			{ label:'删除结果', many:true },
 			{ label:'迟发' },
 			{ label:'退单' },
 			{ label:'项目终止' },
@@ -53,9 +53,9 @@ export default class extends React.Component{
 			{ label:'设置结果' },
 		],
 		[
-			{ label:'保存结果' },
-			{ label:'审核' },
-			{ label:'不通过' },
+			{ label:'保存结果', many:true, many:true },
+			{ label:'审核', many:true },
+			{ label:'不通过', many:true },
 			{ label:'迟发' },
 			{ label:'退单' },
 			{ label:'项目终止' },
@@ -63,9 +63,9 @@ export default class extends React.Component{
 			{ label:'危机值报告' },
 		],
 		[
-			{ label:'保存结果' },
-			{ label:'批量批准' },
-			{ label:'手动批准' },
+			{ label:'保存结果', many:true },
+			{ label:'批量批准', many:true },
+			{ label:'手动批准', many:true },
 			{ label:'拒绝' },
 			{ label:'删除结果' },
 			{ label:'迟发' },
@@ -78,12 +78,12 @@ export default class extends React.Component{
 			{ label:'合并项目管理' },
 		],
 		[
-			{ label:'报告终止' },
+			{ label:'报告终止', many:true },
 			{ label:'预览报告单' },
 		],
 		[
-			{ label:'保存结果' },
-			{ label:'提交' },
+			{ label:'保存结果', many:true },
+			{ label:'提交', many:true },
 			{ label:'预览报告单' },
 		],
 		[
@@ -132,7 +132,7 @@ export default class extends React.Component{
 		{ title:'已终止', status:45008 },
 	]
 	render(){
-		const { data, pullLoading, pag, forms, btns } = this.state
+		const { data, pullLoading, pag, forms, btns, selectedKeys } = this.state
 		return (
 			<Box>
 				<Tabs 
@@ -150,7 +150,7 @@ export default class extends React.Component{
 					$fn.hasArray(btns) && (
 						<nav className='xplr mt5'>
 							{
-								btns.map((v,i)=><Button key={i} className='mr10 mb5' ghost label={v.label} />)
+								btns.map((v,i)=><Button key={i} className='mr10 mb5' disabled={!$fn.hasArray(selectedKeys)} ghost label={v.label} title={v.many?'请勾选一条或多条列表数据':'请选择一条列表数据'} />)
 							}
 						</nav>
 					)

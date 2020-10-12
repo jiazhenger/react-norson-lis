@@ -2,7 +2,7 @@
 import React from 'react'
 import { Button } from 'antd'
 // ===================================================================== 按钮集合
-export default ({ type, size, icon, children, label, width, minWidth, boxClassName, className, onClick, loading, htmlType, disabled, style, ghost, round, full })=>{
+export default ({ type, title, size, icon, children, label, width, minWidth, boxClassName, className, onClick, loading, htmlType, disabled, style, ghost, round, full })=>{
 	let height = {}
 	let radius = round ? {borderRadius:'100px'} : {borderRadius: '3px'}
 	if(size === 'x'){
@@ -26,6 +26,7 @@ export default ({ type, size, icon, children, label, width, minWidth, boxClassNa
 			htmlType 	= { htmlType }
 			ghost 		= { ghost }
 			icon 		= { icon }
+			title		= { title }
 		>
 			{label||children}
 		</Button>

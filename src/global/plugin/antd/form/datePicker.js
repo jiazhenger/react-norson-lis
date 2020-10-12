@@ -78,7 +78,7 @@ export default class extends React.Component{
 				onChange	= { this.onChange }
 				showTime	= { showTime }
 				style		= {{ width }} 
-				className 	= { className?className:''}
+				className 	= {`${className?className:''} ${bordered===false ? 'input-bordered':''}`}
 				placeholder = { p } 
 				disabledDate = { (before ? this.disabledBefore : (after ? this.disabledAfter : null)) }
 				disabled 	= { disabled }

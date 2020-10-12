@@ -29,9 +29,9 @@ export default () => {
 	
 	return (
 		<Box className='mlr10 fv' title='人员详情' style={{width:250}}>
-			<div className='h10'></div>
 			<SubmitForm
 				className 	= 'person-form'
+				scrollClassName	= 'pt10'
 				data 		= { submit }
 				width 		= { 150 }
 				mb			= { 10 }

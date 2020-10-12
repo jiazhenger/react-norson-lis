@@ -32,13 +32,15 @@ export default class extends React.Component {
 		const borderedValue = bordered === false ? false : true
 		let MyInput = mode === 'password' ? Input.Password : Input
 		const props = mode === 'password' ? { iconRender : iconRender } : {}
+		let borderClass = bordered===false ? 'input-bordered':''
 		if(mode === 'textarea'){
 			MyInput = Input.TextArea
+			borderClass = 'textarea-bordered'
 		}
 		return (
 			<MyInput
 				ref 			= 'inputRef'
-				className		= { className?className:'' }
+				className		= { `${className?className:''} ${borderClass||''}` }
 				allowClear 		= { clear === false ? false : true } 
 				type			= { type } 
 				size			= { size || 'small' } 
