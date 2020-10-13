@@ -43,10 +43,11 @@ export default class extends React.Component{
 			if($fn.hasObject(m)){
 				for(var i in m){ m[i] = Encrypt.decode(m[i]) }
 				this.setState({checked:true},()=>this.checked=true)
-				this.form.setFieldsValue(m)
+				if(this.form){
+					this.form.setFieldsValue(m)
+				}
 			}
-		},200)
-		
+		},500)
 		$http.pull(this,'company/select',{ token:false, pullLoading:'selectLoading' })
 	}
 	

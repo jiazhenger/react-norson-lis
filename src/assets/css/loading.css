@@ -1,1 +1,292 @@
-.loading-wraper{position:fixed;z-index:100;left:0;top:0;width:100%;height:100%;background-color:rgba(255,255,255,0.3)}.loading-wraper *{margin:0;padding:0}.loading-wraper>div{width:100%;height:100%;display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:flex;-webkit-justify-content:center;-moz-justify-content:center;-ms-justify-content:center;justify-content:center;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;align-items:center}.loading-circle{width:40px;height:40px;position:relative}.loading-circle i{width:8px;height:8px;-webkit-border-radius:100%;-moz-border-radius:100%;-ms-border-radius:100%;border-radius:100%;position:absolute;background-color:#2cd1d2;-webkit-animation:ubLoadingCircle 1.2s infinite ease-in-out;-moz-animation:ubLoadingCircle 1.2s infinite ease-in-out;-ms-animation:ubLoadingCircle 1.2s infinite ease-in-out;animation:ubLoadingCircle 1.2s infinite ease-in-out;-webkit-animation-fill-mode:both;-moz-animation-fill-mode:both;-ms-animation-fill-mode:both;animation-fill-mode:both}.loading-circle i:nth-child(1){left:0;top:0}.loading-circle i:nth-child(2){right:0;top:0}.loading-circle i:nth-child(3){right:0;bottom:0}.loading-circle i:nth-child(4){left:0;bottom:0}.loading-circle dd{position:absolute;width:100%;height:100%}.loading-circle dd:nth-child(1) i:nth-child(2){-webkit-animation-delay:-0.9s;-moz-animation-delay:-0.9s;-ms-animation-delay:-0.9s;animation-delay:-0.9s}.loading-circle dd:nth-child(1) i:nth-child(3){-webkit-animation-delay:-0.6s;-moz-animation-delay:-0.6s;-ms-animation-delay:-0.6s;animation-delay:-0.6s}.loading-circle dd:nth-child(1) i:nth-child(4){-webkit-animation-delay:-0.3s;-moz-animation-delay:-0.3s;-ms-animation-delay:-0.3s;animation-delay:-0.3s}.loading-circle dd:nth-child(2){-webkit-transform:rotateZ(45deg);-moz-transform:rotateZ(45deg);-ms-transform:rotateZ(45deg);transform:rotateZ(45deg)}.loading-circle dd:nth-child(2) i:nth-child(1){-webkit-animation-delay:-1.1s;-moz-animation-delay:-1.1s;-ms-animation-delay:-1.1s;animation-delay:-1.1s}.loading-circle dd:nth-child(2) i:nth-child(2){-webkit-animation-delay:-0.8s;-moz-animation-delay:-0.8s;-ms-animation-delay:-0.8s;animation-delay:-0.8s}.loading-circle dd:nth-child(2) i:nth-child(3){-webkit-animation-delay:-0.5s;-moz-animation-delay:-0.5s;-ms-animation-delay:-0.5s;animation-delay:-0.5s}.loading-circle dd:nth-child(2) i:nth-child(4){-webkit-animation-delay:-0.2s;-moz-animation-delay:-0.2s;-ms-animation-delay:-0.2s;animation-delay:-0.2s}.loading-circle dd:nth-child(3){-webkit-transform:rotateZ(90deg);-moz-transform:rotateZ(90deg);-ms-transform:rotateZ(90deg);transform:rotateZ(90deg)}.loading-circle dd:nth-child(3) i:nth-child(1){-webkit-animation-delay:-1s;-moz-animation-delay:-1s;-ms-animation-delay:-1s;animation-delay:-1s}.loading-circle dd:nth-child(3) i:nth-child(2){-webkit-animation-delay:-0.7s;-moz-animation-delay:-0.7s;-ms-animation-delay:-0.7s;animation-delay:-0.7s}.loading-circle dd:nth-child(3) i:nth-child(3){-webkit-animation-delay:-0.4s;-moz-animation-delay:-0.4s;-ms-animation-delay:-0.4s;animation-delay:-0.4s}.loading-circle dd:nth-child(3) i:nth-child(4){-webkit-animation-delay:-0.1s;-moz-animation-delay:-0.1s;-ms-animation-delay:-0.1s;animation-delay:-0.1s}@keyframes ubLoadingCircle{0%,80%,100%{-moz-transform:scale(0);-webkit-transform:scale(0);transform:scale(0)}40%{-moz-transform:scale(1);-webkit-transform:scale(1);transform:scale(1)}}.app-loading{position:fixed;z-index:101;left:0;top:0;width:100%;height:100%;background-color:#fff;display:-webkit-flex;display:-moz-flex;display:-ms-flex;display:flex;-webkit-align-items:center;-moz-align-items:center;-ms-align-items:center;align-items:center}.app-loading:before{content:'';width:100px;height:100px;background-image:url('../images/svg/app-loading.svg')}
+/*
+	'content-box'	=== 以内容为指定元素的宽度和高度
+	'border-box'	=== 以包括padding和border的指定宽度和高度
+	'inherit'	 	=== 从父元素继承该属性
+ */
+/* ================================ *** 模板默认配置 *** ================================ */
+/*
+    ease：       默认。动画以低速开始，然后加快，在结束前变慢
+    linear： 动画从头到尾的速度是相同的
+    ease-in：动画以低速开始
+    ease-out：动画以低速结束
+    ease-in-out：动画以低速开始和结束
+    cubic-bezier(n,n,n,n)：在 cubic-bezier 函数中自己的值。可能的值是从 0 到 1 的数值
+    2s: 自定义时间值
+ */
+/*
+    none： 不改变默认行为
+    forwards： 当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）
+    backwards： 在 animation-delay 所指定的一段时间内，在动画显示之前，应用开始属性值（在第一个关键帧中定义）
+    both： 向前和向后填充模式都被应用
+ */
+/***
+ * use
+	1、浏览器的默认字体大小是16px
+	
+		1em = 16px;
+		1/16px  = 0.0625em;
+
+	2、如果元素自身没有设置字体大小，那么元素自身上的所有属性值如“boder、width、height、padding、margin、line-height”等值，按下面的公式来计算：
+
+		1 ÷ 父元素的font-size（px） × 需要转换的像素值 = em值（1/16 * 18 = em）
+
+	3、如果元素设置了字体大小，那么字体大小的转换依旧按第二条公式计算：
+
+		1 ÷ 父元素的font-size（px） × 需要转换的像素值 = em值（1/16 * 18 = em）
+
+	4、如果元素设置了字体大小，此元素的其他属性，如“border、width、height、padding、margin、line-height”计算就需要按照下面的公式来计算：
+	
+		1 ÷ 元素自身的font-size(px) × 需要转换的像素值 = em值（1/14 * 960 = em）
+ */
+/* ================ fonts-size:62.5%
+@px:0.1em;
+@px:0.1rem;
+*/
+/* ================ font-size:1em;font-size:1rem;
+@px:0.0625rem;
+*/
+/* ================================ *** 全局变量默认配置 *** ================================ */
+/* ================================ *** extend *** ================================ */
+/* ================================ *** value *** ================================ */
+/* ================================ *** flexbox *** ================================ */
+/*
+	.col-xs-1{.w(percentage(1/12))}	// 始终成一排栅格化
+	.col-md-1{}						// 大于 992px 成一行，小于换行
+	.col-sm-1{}						// 大于 768px 成一行，小于换行
+	.col-lg-1{}						// 大于 1200px 成一行，小于换行
+ */
+/*
+    'column'         === 坚向布局
+    'column-reverse' === 坚向反向布局
+    'row'            === 横向布局，默认值
+    'row-reverse'    === 横向反向布局
+*/
+/*
+    'nowrap'        === 不换行，默认值
+    'wrap'          === 自动换行
+    'wrap-reverse'  === 自动换行并反向
+	'initial'
+	'inherit'
+ */
+/*
+    flex-flow: flex-direction flex-wrap;
+ */
+/*
+    'stretch'       === 拉伸到于父器等高，默认值。要使stretch选项生效的话，子元素在次轴方向上不能有固定的尺寸
+    'flex-start'    === 顶齐
+    'center'        === 中对齐
+    'flex-end'      === 底对齐
+    'baseline'      === 元素位于容器的基线上
+*/
+/*
+    'flex-start'     === 左对齐，默认值
+    'center'         === 中对齐
+    'flex-end'       === 右对齐
+    'space-between'  === 两端对齐，两边无空隙，间隔平均分布
+    'space-around'   === 两端对齐，两边有空隙，两侧间隔相等
+        
+ */
+/*
+    'auto'           === 默认值。元素继承了它的父容器的 align-items 属性。如果没有父容器则为 "stretch"
+    'stretch'        === 拉伸到于父器等高。要使stretch选项生效的话，子元素在次轴方向上不能有固定的尺寸
+    'flex-start'     === 顶齐
+    'center'         === 中对齐
+    'flex-end'       === 底对齐
+    'baseline'       === 元素位于容器的基线上
+    'initial'        === 设置该属性为它的默认值
+    'inherit'        === 从父元素继承该属性
+ */
+/*
+    'number'     === 一个数字，规定项目将相对于其他灵活的项目进行扩展的量。默认值是 0。
+    'initial'    === 设置该属性为它的默认值
+    'inherit'    === 从父元素继承该属性
+ */
+/* ================================ *** 全局变量默认配置 *** ================================ */
+.loading-wraper {
+  position: fixed;
+  z-index: 100;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+.loading-wraper * {
+  margin: 0px;
+  padding: 0px;
+}
+.loading-wraper > div {
+  width: 100%;
+  height: 100%;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.loading-circle {
+  width: 40px;
+  height: 40px;
+  position: relative;
+}
+.loading-circle i {
+  width: 8px;
+  height: 8px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  -ms-border-radius: 100%;
+  border-radius: 100%;
+  position: absolute;
+  background-color: #2cd1d2;
+  -webkit-animation: ubLoadingCircle 1.2s infinite ease-in-out;
+  -moz-animation: ubLoadingCircle 1.2s infinite ease-in-out;
+  -ms-animation: ubLoadingCircle 1.2s infinite ease-in-out;
+  animation: ubLoadingCircle 1.2s infinite ease-in-out;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -ms-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+.loading-circle i:nth-child(1) {
+  left: 0px;
+  top: 0px;
+}
+.loading-circle i:nth-child(2) {
+  right: 0px;
+  top: 0px;
+}
+.loading-circle i:nth-child(3) {
+  right: 0px;
+  bottom: 0px;
+}
+.loading-circle i:nth-child(4) {
+  left: 0px;
+  bottom: 0px;
+}
+.loading-circle dd {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.loading-circle dd:nth-child(1) i:nth-child(2) {
+  -webkit-animation-delay: -0.9s;
+  -moz-animation-delay: -0.9s;
+  -ms-animation-delay: -0.9s;
+  animation-delay: -0.9s;
+}
+.loading-circle dd:nth-child(1) i:nth-child(3) {
+  -webkit-animation-delay: -0.6s;
+  -moz-animation-delay: -0.6s;
+  -ms-animation-delay: -0.6s;
+  animation-delay: -0.6s;
+}
+.loading-circle dd:nth-child(1) i:nth-child(4) {
+  -webkit-animation-delay: -0.3s;
+  -moz-animation-delay: -0.3s;
+  -ms-animation-delay: -0.3s;
+  animation-delay: -0.3s;
+}
+.loading-circle dd:nth-child(2) {
+  -webkit-transform: rotateZ(45deg);
+  -moz-transform: rotateZ(45deg);
+  -ms-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
+}
+.loading-circle dd:nth-child(2) i:nth-child(1) {
+  -webkit-animation-delay: -1.1s;
+  -moz-animation-delay: -1.1s;
+  -ms-animation-delay: -1.1s;
+  animation-delay: -1.1s;
+}
+.loading-circle dd:nth-child(2) i:nth-child(2) {
+  -webkit-animation-delay: -0.8s;
+  -moz-animation-delay: -0.8s;
+  -ms-animation-delay: -0.8s;
+  animation-delay: -0.8s;
+}
+.loading-circle dd:nth-child(2) i:nth-child(3) {
+  -webkit-animation-delay: -0.5s;
+  -moz-animation-delay: -0.5s;
+  -ms-animation-delay: -0.5s;
+  animation-delay: -0.5s;
+}
+.loading-circle dd:nth-child(2) i:nth-child(4) {
+  -webkit-animation-delay: -0.2s;
+  -moz-animation-delay: -0.2s;
+  -ms-animation-delay: -0.2s;
+  animation-delay: -0.2s;
+}
+.loading-circle dd:nth-child(3) {
+  -webkit-transform: rotateZ(90deg);
+  -moz-transform: rotateZ(90deg);
+  -ms-transform: rotateZ(90deg);
+  transform: rotateZ(90deg);
+}
+.loading-circle dd:nth-child(3) i:nth-child(1) {
+  -webkit-animation-delay: -1s;
+  -moz-animation-delay: -1s;
+  -ms-animation-delay: -1s;
+  animation-delay: -1s;
+}
+.loading-circle dd:nth-child(3) i:nth-child(2) {
+  -webkit-animation-delay: -0.7s;
+  -moz-animation-delay: -0.7s;
+  -ms-animation-delay: -0.7s;
+  animation-delay: -0.7s;
+}
+.loading-circle dd:nth-child(3) i:nth-child(3) {
+  -webkit-animation-delay: -0.4s;
+  -moz-animation-delay: -0.4s;
+  -ms-animation-delay: -0.4s;
+  animation-delay: -0.4s;
+}
+.loading-circle dd:nth-child(3) i:nth-child(4) {
+  -webkit-animation-delay: -0.1s;
+  -moz-animation-delay: -0.1s;
+  -ms-animation-delay: -0.1s;
+  animation-delay: -0.1s;
+}
+@keyframes ubLoadingCircle {
+  0%,
+  80%,
+  100% {
+    -moz-transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  40% {
+    -moz-transform: scale(1);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+}
+.app-loading {
+  position: fixed;
+  z-index: 101;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: -webkit-flex;
+  display: -moz-flex;
+  display: -ms-flex;
+  display: flex;
+  -webkit-align-items: center;
+  -moz-align-items: center;
+  -ms-align-items: center;
+  align-items: center;
+}
+.app-loading:before {
+  content: '';
+  width: 100px;
+  height: 100px;
+  background-image: url('../images/svg/app-loading.svg');
+}

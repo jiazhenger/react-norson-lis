@@ -6,7 +6,7 @@ const Box = $async(()=>import('#tp/box/box'))
 export default ({ children, scrollClassName, className, title, ButtonGroup, style, titleChildren, onSetHeader }) => {
 	return (
 		<Box
-			className	= 'fv' 
+			className	= {`fv ${className||''}`} 
 			title		= {title}
 			style		= {style}
 			titleChildren = {titleChildren}

@@ -9,7 +9,7 @@ const data = [
 		root: 'testing-center',
 		component: 'laboratory/testing-center/template',
 		children: [
-			{ title: '过敏原岗',	 id:'44028', pid:'302ff16a-7997-5c1b-4630-c132c13baafb' },
+			{ title: '过敏原岗',	 id:'44028', pid:'302ff16a-7997-5c1b-4630-c132c13baafb', },
 			{ title: '流式分析岗', id:'44014', pid:'2023d1a5-10aa-e2a1-7b88-9e933ef5a6be' },
 			{ title: '血液杂项岗', id:'44017', pid:'67a5fd1c-8aeb-2ac9-8ce4-53cb9804809d' },
 			{ title: '常规血液岗', id:'44014', pid:'fbbf64ee-21bb-fc4a-4a1a-2e6fbf020ab3' },

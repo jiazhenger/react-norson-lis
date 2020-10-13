@@ -216,7 +216,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 				const dataLenth = result.length - dis.length
 				setChecked(select.length === dataLenth)
 				setIndeter(select.length !== dataLenth && select.length !== 0)
-				onRow && onRow(select)
+				onRow && onRow(select, rows)
 			}
 		}else{
 			result.forEach(v=>{

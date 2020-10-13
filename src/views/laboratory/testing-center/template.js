@@ -17,7 +17,6 @@ const Control = $async(()=>import('./tp/control'))
 const PersonDetail = $async(()=>import('./tp/person-detail'))
 const ProjectList = $async(()=>import('./tp/project-list'))
 const GraphicRendition = $async(()=>import('./tp/graphic-rendition'))
-
 // ===================================================================== component
 export default class extends React.Component{
 	state = {
