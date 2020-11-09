@@ -31,14 +31,14 @@ const getOffset = function(el){
 let $move = null
 let index = 0
 // ===================================================================== Component
-const Table = ({ cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys }) => {
+const Table = ({ cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr }) => {
 	const scrollRef = React.useRef()
 	const dragRef = React.useRef()
 	const [ checked, setChecked ] = React.useState()
 	const [ indeter, setIndeter ] = React.useState()
 	const [ result, setResult ] = React.useState([])
 	const p = { current:1, total:0, pageSize:10, ...pag}
-	const typeWidth = 40
+	const typeWidth = 20
 	
 	const move = React.useCallback( e =>{
 		const { x } = xy(e)
@@ -66,7 +66,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		if($fn.hasArray(disabledKeys)){
 			data.forEach(v=>{
 				disabledKeys.forEach(m=>{
-					if(+v.id === m){
+					if(v[idStr] === m){
 						v.rowDisabled = true
 					}
 				})
@@ -76,7 +76,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		if($fn.hasArray(selectedKeys)){
 			data.forEach(v=>{
 				selectedKeys.forEach(m=>{
-					if(+v.id === m){
+					if(v[idStr] === m){
 						v.rowChecked = true
 					}
 				})
@@ -113,7 +113,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 					this.querySelector('.js-fixed').style.top = scrollTop + 'px'
 					if(scrollTop>0){
 						$fixedTable.style.boxShadow = '0 3px 5px #eee'
-						$fixedTable.style.borderBottom = '2px solid ' + $fn.c0
+						$fixedTable.style.borderBottom = '1px solid ' + $fn.c0
 					}else{
 						$fixedTable.style.removeProperty('box-shadow')
 						$fixedTable.style.removeProperty('border-bottom')
@@ -136,6 +136,8 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 				dragRef.current.style.height =  $scroll.scrollHeight + 'px'
 			},100)*/
 			dragRef.current.style.height =  $scroll.scrollHeight + 'px'
+
+			// scrollRef.current.style.height = $scroll.clientHeight + 'px'
 		}
 		resize()
 		window.onresize = resize
@@ -147,7 +149,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 				dragRef.current.style.display = 'none'
 			}
 		}
-	},[data,selectedKeys,disabledKeys, cols, move])
+	},[data,selectedKeys,disabledKeys, cols, move, idStr])
 	// 排序
 	const _onSort = React.useCallback(v=>{
 		let type = null
@@ -255,47 +257,49 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 						<>
 							{/* 表头 */}
 							<div className='thead rel bcf i10'>
-								<table className='js-fixed abs_lt bcf'>
-									<colgroup>
-										{
-											cols.map( (v,i) => <col key={i} width={v.type ? typeWidth : v.width} /> )
-										}
-									</colgroup>
-									<thead>
-										<tr>
+								<div className='wraper js-fixed abs_lt bcf'>
+									<table>
+										<colgroup>
 											{
-												cols.map( (v,i) => {
-													const isSort = v['field'] && (sort||v.sort)
-													const sortStyle = isSort ? {paddingRight: 8} : null
-													return (
-														<th key={i} className={`${v.thCss||''}${v.align||''} ${isSort?'cp':'cd'}`}>
-															<div className={`con`} style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
-																{
-																	v.type==='checkbox' ? <div className='fxmc'><Checkbox indeter={indeter} value={checked} disabled={!$fn.hasArray(data)} outer onChange={onSelectALL} /></div> : (
-																		<>
-																			{v['title']}
-																			{
-																				isSort && (
-																					<div className='abs_rt fxm lh' style={{right:5}}>
-																						<div className='rel'>
-																							<div className='rel' style={{top:2}}><CaretUpOutlined style={{color:v.order===true?$fn.c0:'#999'}} /></div>
-																							<div className='rel' style={{top:-2}}><CaretDownOutlined style={{color:v.order===false?$fn.c0:'#999'}} /></div>
-																						</div>
-																					</div>
-																				)
-																			}
-																		</>
-																	)
-																}
-															</div>
-															<i className='abs_rt h' onMouseDown={e=>onDrag(e,i)} style={{width:5, cursor:'w-resize'}}></i>
-														</th>
-													)
-												} )
+												cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
 											}
-										</tr>
-									</thead>
-								</table>
+										</colgroup>
+										<thead>
+											<tr>
+												{
+													cols.map( (v,i) => {
+														const isSort = v['field'] && (sort||v.sort)
+														const sortStyle = isSort ? {paddingRight: 8} : null
+														return (
+															<th key={i} className={`${v.thCss||''}${v.align||''} ${isSort?'cp':'cd'}`}>
+																<div className='con' style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
+																	{
+																		v.type==='checkbox' ? <div className='fxmc'><div className='h30 oh'><Checkbox indeter={indeter} value={checked} disabled={!$fn.hasArray(data)} outer onChange={onSelectALL} /></div></div> : (
+																			<>
+																				{v['title']}
+																				{
+																					isSort && (
+																						<div className='abs_rt fxm lh' style={{right:5}}>
+																							<div className='rel'>
+																								<div className='rel' style={{top:2}}><CaretUpOutlined style={{color:v.order===true?$fn.c0:'#999'}} /></div>
+																								<div className='rel' style={{top:-2}}><CaretDownOutlined style={{color:v.order===false?$fn.c0:'#999'}} /></div>
+																							</div>
+																						</div>
+																					)
+																				}
+																			</>
+																		)
+																	}
+																</div>
+																<i className='abs_rt h' onMouseDown={e=>onDrag(e,i)} style={{width:5, cursor:'w-resize'}}></i>
+															</th>
+														)
+													} )
+												}
+											</tr>
+										</thead>
+									</table>
+								</div>
 							</div>
 							{/* 表体 */}
 							<div className='tbody ex rel'>
@@ -303,7 +307,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 									<table className='js-body'>
 										<colgroup>
 											{
-												cols.map( (v,i) => <col key={i} width={v.type ? typeWidth : v.width} /> )
+												cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
 											}
 										</colgroup>
 										<tbody>
@@ -316,7 +320,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 																	<td key={i} className={`${v.tdCss||''}${v.align||''}`}>
 																		{
 																			v.type ? <div className='fxmc'><Checkbox value={p.rowChecked} disabled={p.rowDisabled} outer/></div> : (
-																				<div className='con'>
+																				<div className={`${v.tdCss ? 'p5' : 'con'}`}>
 																					{
 																						v['render'] ? v['render']({ text:$fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>, rows: p }) : $fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>
 																					}
@@ -346,6 +350,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 						size				= 'small'
 						pag					= { p }
 						onChange			= { (current, pageSize) =>{ onChange && onChange(current, pageSize) } }
+						otherInfo = { otherInfo }
 					/>
 				) : null
 			}
@@ -362,7 +367,7 @@ export default class extends React.Component{
 		window.onresize = null
 	}
 	render(){
-		const { cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys } = this.props
+		const { cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr } = this.props
 		return <Table 
 			cols = { cols }
 			data = { data }
@@ -378,6 +383,8 @@ export default class extends React.Component{
 			checkbox = { checkbox }
 			selectedKeys = { selectedKeys }
 			disabledKeys = { disabledKeys }
+			otherInfo = { otherInfo }
+			idStr = { idStr || 'id' }
 		/>
 	}
 }

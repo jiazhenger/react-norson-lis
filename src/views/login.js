@@ -57,7 +57,7 @@ export default class extends React.Component{
 	
 	onSubmit = async param => {
 		this.setState({loading:true})
-		const data = await $http.submit(this,'auth/login',{
+		const data = await $http.submit(null,'auth/login',{
 			param: param,
 			token: false,
 			loading: true,
