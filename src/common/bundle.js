@@ -23,5 +23,6 @@ export const Bundle = importComponent => {
         }
     }
 }
+const Index = path => Bundle(() => import('@views/' + path))
 
-export default path => Bundle(() => import('@views/' + path))
+export default Index

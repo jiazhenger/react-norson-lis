@@ -1,7 +1,7 @@
 import React from 'react'
 import AddLast from '@cpt/add-last'
 // ===================================================================== toast
-export default () => (
+const Index = () => (
 	<AddLast name='toast'>
 		<div id='jzer-toast' className='fix_lt wh tc dn' style={{zIndex:2000}}>
 			<div className='fxmc wh xplr'>
@@ -10,3 +10,5 @@ export default () => (
 		</div>
 	</AddLast>
 )
+
+export default Index

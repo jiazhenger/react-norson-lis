@@ -1,7 +1,7 @@
 /* ====================================== 异步加载路由  ====================================== */
 import React, { Component } from 'react'
 // =====================================================================
-export default importComponent => {
+const Index = importComponent => {
 	return class extends Component {
 		state = {
 			component: null
@@ -20,3 +20,4 @@ export default importComponent => {
 	}
 }
 // const Content = Async(()=>import('@cpx/content'))
+export default Index

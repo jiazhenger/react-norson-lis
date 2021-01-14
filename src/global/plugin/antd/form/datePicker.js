@@ -62,9 +62,8 @@ export default class extends React.Component{
 		const { width, size, showTime, className, range, p, disabled, format, value, bordered, before, after } = this.props
 		const formatType = format === 1 ? 'YYYY-MM-DD' : 'YYYY-MM-DD HH:mm:ss'
 		let _value = this.state.value === undefined ? value : this.state.value
-			
 		if($fn.isArray(_value) && range){ 
-			_value = [moment(_value[0], formatType), moment(_value[1], formatType)]
+			_value = [_value[0] === null ? null : moment(_value[0], formatType), _value[1] === null ? null : moment(_value[1], formatType)]
 		}else{
 			_value = _value ? moment(_value, formatType) : null
 		}

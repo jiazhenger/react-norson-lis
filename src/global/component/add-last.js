@@ -1,7 +1,7 @@
-﻿import React from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
 
-export default class Index extends React.Component{
+class Index extends React.Component{
 	// 挂载时执行
 	componentDidMount( ){
 		if(!this.props.isUpdate){ this.renderSubtree( ) }
@@ -42,3 +42,5 @@ export default class Index extends React.Component{
 	
 	render( ){ return null }
 }
+
+export default Index

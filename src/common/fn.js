@@ -3,20 +3,17 @@ import Storage from './core/storage'
 import Query from './core/query'
 import Rest from './core/rest'
 import Inner from './core/inner'
-import FormTable from './core/form-table'
 /* ====================================== 全局变量及方法  ====================================== */
-export default {
+const Index = {
 	// ======================================================================== 功能函数
 	...DataType,
 	...Storage,
 	...Query,
 	...Rest,
 	...Inner,
-	...FormTable,
 	// ======================================================================== 全局变量
-	c0:'#2cd1d2',
+	c0:'#1890ff',
 	c1:'#FF5218',
-	menuWidth: 200,
 	// ======================================================================== 正则匹配
 	//	isTel(v){ return /^1[0-9]{10}$/.test(v) },
 	//	isPwd(v){ return /\w{6,18}$/.test(v) },
@@ -58,9 +55,9 @@ export default {
 	// 给 data 添加 key
 	addKey(data,format){
 		const { page } = data
-		const pageSize = page.limit
-		const current = page.current
-		const rows = data.items
+		const pageSize = page.showCount
+		const current = page.currentPage
+		const rows = data.data
 		
 		const num = pageSize*(current -1) + 1;
 		if(this.hasArray(rows)){
@@ -98,55 +95,11 @@ export default {
 			})
 		}
 	},
+	render(){ return { render: t => this.val(t) } },
+	keyConfig:{ className:'keyStyle', 	align:'center' },
+	colConfig:{ className:'rowStyle', 	align:'center' },
 	// 刷新key
-	// refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
-	refreshRouter(){
-		window.proxy.refresh()
-	},
-	// 获取 router
-	getRoot(){
-		const hash = window.location.hash
-		const arr = hash.split('/')
-		return {
-			root : '/' + arr[1] + '/',
-			munu : arr[1]
-		}
-	},
-	getRouter(data){
-		const { root, munu} = this.getRoot()
-		const _data = JSON.parse(JSON.stringify(data))
-		let flag = null
-		const deep = data => {
-			data.forEach((v,i)=>{
-				if(!flag){
-					if(i === 0){
-						v.root = root + v.root
-						if(v.to){ v.to = root + v.to }
-						flag = true
-					}
-				}
-				if(v.path){
-					v.path = root + v.path
-				}
-				if(!v.component && !root){
-					v.component = munu + '/' + v.path
-				}
-				const children = v.children
-				if(this.hasArray(children)){
-					deep(children)
-				}
-			})
-		}
-		deep(_data)
-		return _data
-	},
-	leak(callback){
-		let clear
-		return time => {
-			clearTimeout(clear)
-			clear = setTimeout(()=>{
-				callback()
-			},time || 100)
-		}
-	},
+	refresh(_this){ _this.setState({ key: (_this.state.key || 0) + 1}) },
 }
+
+export default Index

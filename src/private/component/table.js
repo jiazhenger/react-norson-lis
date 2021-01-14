@@ -38,7 +38,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	const [ indeter, setIndeter ] = React.useState()
 	const [ result, setResult ] = React.useState([])
 	const p = { current:1, total:0, pageSize:10, ...pag}
-	const typeWidth = 20
+	const typeWidth = 40
 	
 	const move = React.useCallback( e =>{
 		const { x } = xy(e)
@@ -149,7 +149,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 				dragRef.current.style.display = 'none'
 			}
 		}
-	},[data,selectedKeys,disabledKeys, cols, move, idStr])
+	},[data,selectedKeys,disabledKeys, cols, move])
 	// 排序
 	const _onSort = React.useCallback(v=>{
 		let type = null

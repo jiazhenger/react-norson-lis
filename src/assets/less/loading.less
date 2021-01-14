@@ -1,4 +1,4 @@
-// ======================================================================== library.less
+﻿// ======================================================================== library.less
 @import 'H:/less/library.less';
 @import 'H:/less/public/flexbox2.less';
 //@import 'C:/Users/less/library.less';
@@ -8,7 +8,7 @@
 // ======================================================================== loading.less
 .loading-wraper{.fix_lt(0,0,100);.wh;.rgba(255,255,255,.3);
     *{.m;.p;}
-    >div{.wh;.fx;.fx-center;.fx-middle}
+    >div{.wh;.flexbox;.flexbox-center;.flexbox-middle}
 }
 .loading-circle{.ww(@size);.p_rel;
     @bgcolor:@main-color;
@@ -61,6 +61,6 @@
     }
 }
 
-.app-loading{.fix_lt(0,0,101);.wh;.bc_fff;.fx;.fx;.fx-middle;
+.app-loading{.fix_lt(0,0,101);.wh;.bc_fff;.flexbox;.flexbox-center;.flexbox-middle;
     &:before{.cn;.ww(100);.bi('svg/app-loading',svg)}
 }

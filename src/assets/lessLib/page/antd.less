@@ -1,38 +1,71 @@
-/* ================================ *** 个性化模块 *** ================================ */
+﻿/* ================================ *** 个性化模块 *** ================================ */
 //.nav-list{
 //  .list{.bbor(@border-color);.rbor(@border-color);}
 //}
 /* ================================ antd ================================ */
-.ant-layout{.bc!important;}
 // ================================================================ 导航
 .ant-menu-dark,.ant-layout-sider, .ant-menu-dark .ant-menu-sub{.bc(@main-color)!important;}
 .ant-menu{
     li:first-child{.mt;}
-	li, .ant-menu-submenu-title{.m!important;}
-	li{.f12;}
-	.ant-menu-submenu-title, .ant-menu-item{.hh32!important;}
-}
-.ant-menu-dark{
-	.ant-menu-item,.ant-menu-submenu-title span{.c(rgba(255,255,255,.8)) !important;}
-	// 鼠标移入样式
-	.ant-menu-submenu-open, .ant-menu-submenu-active{
-		.ant-menu-submenu-title span{.c(rgba(255,255,255,1)) !important;}
-	}
-	.ant-menu-item-active{.c(rgba(255,255,255,1)) !important;}
-	// 当前选中样式
-	.ant-menu-item-selected{.bcf!important;
-	    &,.anticon,span{.c0!important;}
-	}
+    .ant-menu-item-selected{.bcf!important;
+        &,.anticon,span{.c0!important;}
+    }
 }
 .ant-menu-dark .ant-menu-inline.ant-menu-sub{.box-shadow(none)!important}
 // ================================================================ table
-
+.keyStyle{.g9;.w(65);.nowrap;}
+.rowStyle{.g2;}
+.x-table{
+    thead th{.b!important;.f15;}
+}
+.y-table{
+     thead th{.f14!important;.g6!important}
+}
+.ant-table-content{.ox(auto)!important}
 // ================================================================ Card
 .ant-card-head{.xplr!important}
 .ant-card-head-title{.b}
 .ant-card{.cd!important;}
 // ================================================================ form
+.form-list{
+    h3,.ant-form-item{.mb!important}
+    h3:extend(.tr,.omit){.w(130);.h40;.lh40}
+    ul{.mb!important;}
+    li,.li{.m_rb(15,15);.pb10}
+    .ant-card .ant-card-body{.pb(7)!important}
+    .ant-form-item-control:extend(.rel){}
+    .ant-form-item-explain{.abs_lb(0,-25px);.f12}
+    &.long h3{.w(160)}
+}
+.list-item{
+    h3,ul{.m!important}
+    h3:extend(.tr,.omit){.w(140);.mr10!important;}
+    ul{.lh24}
+    li{.ptb5;}
+    .ant-card .ant-card-body{.pb10!important}
+}
+.ant-input-affix-wrapper{.h}
+.upload-img-list{
+    ul{.m!important;}
+    .ant-form-item{.mb10!important}
+}
 
+.search-form{.p(20px 20px 10px 20px)!important;
+    .ant-form-item{.mb10!important}
+}
+// ================================================================ Upload
+.upload-list li{.m(0 2% 0 0)}
+.avatar-uploader{
+    .ant-upload-picture-card-wrapper{.db!important;.wau!important;}
+}
+.ant-upload.ant-upload-select-picture-card{.m!important;}
+// ================================================================ Dropdown
+.ant-dropdown-menu{.p!important;}
+// ================================================================ Form
+.ant-input,.ant-picker{.r3px!important}
+.ant-input{.fs(1em)!important}
+
+.ant-form-item-explain{.f12!important}
 // placeholder
 .ant-select-selection-placeholder,input::-webkit-input-placeholder{
     .op(1)!important;
@@ -44,51 +77,8 @@
 }
 // ================================================================ 加载效果
 .ant-spin{.f13!important;
-    .ant-spin-text{.mt10!important;.f12!important;}
+    .ant-spin-text{.mt10!important}
 }
 // ================================================================ modal
 .ant-modal-content{.r8px!important;}
 .ant-modal-header{.bc(transparent)!important;}
-// ================================================================ Form
-// error
-.ant-form-item-explain{.abs_lb(0,-24);.f12!important;}
-// Upload
-.upload-list li{.m(0 2% 0 0)}
-.avatar-uploader{
-    .ant-upload-picture-card-wrapper{.db!important;.wau!important;}
-}
-.ant-upload.ant-upload-select-picture-card{.m!important;}
-// Dropdown
-.ant-dropdown-menu{.p!important;}
-// input
-.ant-input-affix-wrapper-lg{
-	input{.f13;
-	    &::-webkit-input-placeholder{.rel;.f13;}
-	}
-}
-.ant-select-lg .ant-select-selection-placeholder,.ant-select-selection-item{.f13}
-// checkbox
-.ant-checkbox-wrapper{.f12!important;.g6!important;}
-// button
-.ant-btn-lg{.f14!important;}
-// ================================================================ 分页
-.ant-pagination-options-quick-jumper,.ant-select-selection-item{.f12}
-// ================================================================ confirm
-.confirm{
-	.ant-btn{.r5px!important;}
-	.ant-modal-confirm-content{.mt15!important;}
-}
-// ================================================================ modal
-.ant-modal-header{.p(10px 20px)!important;}
-.ant-modal-close-x{.ww(42)!important;
-	.anticon{.vt;.rel;.t(14)}
-}
-// ================================================================ tabs
-.ant-tabs{.xplr!important;
-	.ant-tabs-tab-btn{.f12;.g6;
-		&:hover{.c0;}
-	}
-}
-.only-tabs{
-	.ant-tabs-nav{.m!important;}
-}

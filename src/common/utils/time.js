@@ -1,4 +1,4 @@
-import $fn from '../fn'
+import $fn from './fn'
 
 const formatNumber = function(n) {
     n = n.toString()

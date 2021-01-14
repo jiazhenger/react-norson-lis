@@ -10,9 +10,10 @@ export default class Index extends React.Component {
 	
 	onChange = (value, data) => {
 		const { name, onChanged } = this.props
-		this.setState({ value },()=>{
-			const obj = name ? { [name]: value } : value
-			onChanged && onChanged(obj , data)
+		const v = $fn.isEmpty(value) ? '' : value
+		this.setState({ v },()=>{
+			const obj = name ? { [name]: v } : v
+			onChanged && onChanged(obj , data, name)
 		})
 	}
 	
@@ -28,9 +29,18 @@ export default class Index extends React.Component {
 			})
 		}, 10);
 	}
+	dropdownRender = (menu) => {
+		const { dropdownRender } = this.props
+		dropdownRender && dropdownRender(menu)
+		if (dropdownRender) {
+			return dropdownRender(menu)
+		} else {
+			return <React.Fragment>{menu}</React.Fragment>
+		}
+	}
 	
 	render(){
-		const { data, value, idStr, nameStr, p , width, size, style,isP, className, mode, disabled, loading, bordered, auto } = this.props
+		const { data, value, idStr, nameStr, p , width, size, style,isP, className, mode, disabled, loading, bordered, auto, noClear } = this.props
 		const { key } = this.state
 		const xdata = data || this.state.data
 		const nStr = nameStr || 'name'
@@ -39,6 +49,7 @@ export default class Index extends React.Component {
 		const borderedValue = bordered === false ? false : true
 		const _size = size || 'small'
 		const _value = this.state.value === undefined ? value : this.state.value
+		const isClear = noClear ? false : true
 		
 		return (
 			<Select 
@@ -55,17 +66,18 @@ export default class Index extends React.Component {
 				bordered	= { borderedValue }
 				onDropdownVisibleChange = {this.onDropdownVisibleChange}
 				showSearch
-				allowClear
+				allowClear  = { isClear }
 				dropdownClassName = { _size === 'small' ? 'dropdown-small' : ''}
 				dropdownMatchSelectWidth = {auto ? false : true}
 				filterOption = { (inputValue, opiton)=>{
 					return opiton.children.indexOf(inputValue) !== -1
 				}}
+				dropdownRender = {menu => this.dropdownRender(menu)}
 			>
 				{
 					$fn.hasArray(xdata) && xdata.map((v,i)=>{
 						return (
-							<React.Fragment key={i}>
+							<React.Fragment key={i}> 
 								{
 									v.group ? (
 										<Select.OptGroup key={i} label={v.group}>

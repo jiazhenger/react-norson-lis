@@ -9,7 +9,9 @@ export default class extends React.Component {
 	onChange = e => {
 		const { onChange, name } = this.props
 		this.setState({ value: e.target.value},()=>{
-			onChange && onChange( name ? {[name]:this.state.value} : this.state.value, this.state.value)
+			const { value } = this.state
+			const _value = value.trim()
+			onChange && onChange( name ? {[name]:_value} : _value, _value)
 		})
 	}
 	
@@ -26,8 +28,8 @@ export default class extends React.Component {
 	getRef = () => this.refs.inputRef.input
 	
 	render(){
-		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, iconRender, bordered, value, rows } = this.props
-		const _value = this.state.value === undefined ? value : this.state.value
+		const  { p, type, width, size, clear, style, isCenter, readOnly, className, mode, disabled, prefix, suffix, iconRender, bordered, value, rows, onPressEnter, maxLength } = this.props
+		let _value = this.state.value === undefined ? value : this.state.value
 		let centerStyle = isCenter ? {textAlign:'center'} : null
 		const borderedValue = bordered === false ? false : true
 		let MyInput = mode === 'password' ? Input.Password : Input
@@ -37,6 +39,7 @@ export default class extends React.Component {
 			MyInput = Input.TextArea
 			borderClass = 'textarea-bordered'
 		}
+		_value = _value ? _value.trim() : _value
 		return (
 			<MyInput
 				ref 			= 'inputRef'
@@ -51,8 +54,11 @@ export default class extends React.Component {
 				readOnly		= { readOnly }
 				disabled		= { disabled }
 				prefix			= { prefix }
+				suffix			= { suffix }
 				bordered		= { borderedValue }
 				rows			= { rows || 4 }
+				onPressEnter    = { onPressEnter }
+				maxLength       = { maxLength || ''}
 				{...props}
 			/>
 		)

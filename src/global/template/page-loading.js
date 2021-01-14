@@ -2,7 +2,7 @@
 import React from 'react'
 import AddLast from '@cpt/add-last'
 // ===================================================================== 
-export default ()=>(
+const Index = ()=>(
 	<AddLast name='loading-wraper'>
 		<div className='loading-wraper'>
 			<div>
@@ -15,3 +15,5 @@ export default ()=>(
 		</div>
 	</AddLast>
 )
+
+export default Index

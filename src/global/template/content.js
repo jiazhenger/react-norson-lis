@@ -1,6 +1,6 @@
 import React from 'react'
 // =====================================================================
-export default ({ id, className, style, children, onClick, scrollX, scrollY, scrollXY }) => {
+const Index = ({ id, className, style, children, onClick, scrollX, scrollY, scrollXY }) => {
 	let scroll = ''
 	if(scrollX){ scroll = 'oxs' }
 	if(scrollY){ scroll = 'oys' }
@@ -17,3 +17,5 @@ export default ({ id, className, style, children, onClick, scrollX, scrollY, scr
 		</div>
 	)
 }
+
+export default Index
