@@ -83,13 +83,7 @@ const SearchForm = ({ children, data, onChange, loading, onSubmit, onAdd, onRese
 								children = <Checkbox disabled={loading} name={name} value={value} onChange={v=>onChange(v,true,{name})} /> 
 							}
 							// 薛 | 2020-10-27 | 是否显示标签
-							if (!v.noVisible) { 
-								return (
-									<Item key={i} name={name} label={label} mr={mr}>
-										{children}
-									</Item>
-								)
-							}
+							return !v.noVisible ? <Item key={i} name={name} label={label} mr={mr}>{children}</Item> : null
 						})
 					}
 				</div>

@@ -2,8 +2,8 @@ import React from 'react'
 // ===================================================================== global template
 const Content = window.$async(()=>import('@tp/content'))
 // =====================================================================
-const Index = ({ header, footer, children }) => (
-	<Content className='fv'}>
+export default ({ header, footer, children }) => (
+	<Content className='fv'>
 	
 		{ header && header }
 		
@@ -16,5 +16,3 @@ const Index = ({ header, footer, children }) => (
 		{ footer && footer }
 	</Content>
 )
-
-export default Index

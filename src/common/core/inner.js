@@ -3,19 +3,23 @@ const _ = {
 	// ======================================================================== dom
 	loading(bool,msg){
 		let loading = document.querySelector('#jzer-loading');
-		if(bool){
-			loading.querySelector('.jzer-loading-msg').innerHTML = msg || '数据加载中'
-			loading.style.display = 'block'
-		}else{
-			loading.style.display = 'none'
+		if(loading){
+			if(bool){
+				loading.querySelector('.jzer-loading-msg').innerHTML = msg || '数据加载中'
+				loading.style.display = 'block'
+			}else{
+				loading.style.display = 'none'
+			}
 		}
 	},
 	async toast(msg, callback, delay){
 		delay = delay || 1500
 		const toast = document.querySelector('#jzer-toast')
-		toast.style.display = 'block'
-		toast.querySelector('.jzer-toast-msg').innerHTML = msg
-		setTimeout(()=>{ toast.style.display = 'none'; callback && callback() },delay)
+		if( toast ){
+			toast.style.display = 'block'
+			toast.querySelector('.jzer-toast-msg').innerHTML = msg
+			setTimeout(()=>{ toast.style.display = 'none'; callback && callback() },delay)
+		}
 	},
 	// ======================================================================== 刷新跳转
 	// 登录后跳转
@@ -45,6 +49,7 @@ const _ = {
 		return _this.state[opt.model]
 	},
 	async setModels(_this,keyValue,option){
+		console.log(_this,keyValue,option)
 		const opt = {
 			model : 'model',
 			...option

@@ -1,5 +1,5 @@
 /* ====================================== 本地存储  ====================================== */
-const Index = ( Storage ) => {
+export default ( Storage ) => {
 	const isObject = d => {
 		const str = {}.toString.call(d)
 		return str === '[object Object]' || str === '[object Array]'
@@ -40,4 +40,3 @@ const Index = ( Storage ) => {
 		}
 	}
 }
-export default Index

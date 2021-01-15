@@ -13,7 +13,8 @@ export default ({ data }) => {
 		<Switch>
 			{
 				data.map((v,i)=> {
-					const { children } = v
+					const { children, child } = v
+					
 					if($fn.hasArray(children)){
 						return children.map((m,k)=>{
 							let _component = null
@@ -24,6 +25,7 @@ export default ({ data }) => {
 							// 加必选参数
 							if(m.id){ _path += '/:id' }
 							if(m.pid){ _path += '/:pid'}
+							
 							if(_component){
 								const { child } = m
 								if($fn.hasArray(child)){
@@ -45,6 +47,36 @@ export default ({ data }) => {
 								return <Route component={ Import('404') } />
 							}
 						})
+					}else if($fn.hasArray(child)){ // 仅适用于一级菜单，且子路由不在菜单目录的路由
+						let _component = null
+						if(v.component){ _component = v.component }
+						else if( component ){ _component = component }
+						else{ _component =  v.path ? v.path.replace('/','') : null }
+						let _path = v.url ? v.url : v.path
+						
+						// 加必选参数
+						if(v.id){ _path += '/:id' }
+						if(v.pid){ _path += '/:pid'}
+						if(_component){
+							const { child } = v
+							if($fn.hasArray(child)){
+								return <Route key={v + '-' + i} path={_path} render={ ({ match }) => {
+									return <Switch>
+											<Route path={match.url} component={ Import(_component) } exact />
+											{
+												$fn.hasArray(child) && child.map((n,j)=>{
+													return <Route key={v + '-' + i + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+												})
+											}
+											<Route component={ Import('404') } />
+										</Switch>
+								}}/>
+							}else{
+								return <Route key={v + '-' + i} path={_path} component={ Import(_component) } exact/>
+							}
+						}else{
+							return <Route component={ Import('404') } />
+						}
 					}else{
 						const { path } = v
 						if(path){

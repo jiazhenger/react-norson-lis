@@ -1,7 +1,7 @@
 import React from 'react'
 // =====================================================================
-export default ({ title, children, onSetHeader }) => (
-	<header className='h40 bbor1 xplr fxm'>
+export default ({ title, children, onSetHeader, noPadding, style }) => (
+	<header className={`h40 bbor1 fxm ${noPadding?'':'xplr'}`} style={style}>
 		<h2 className='b fxm ex'>
 			<i className='bcm r10px mr5 rel' style={{width:4,height:12}}></i>
 			<span>{title}</span>

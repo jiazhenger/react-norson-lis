@@ -29,7 +29,9 @@ class Frame extends React.Component{
 	state = {
 		user: $fn.getUser()
 	}
+	
 	root = $fn.getRoot()
+	
 	componentDidMount(){
 		
 	}
@@ -39,25 +41,25 @@ class Frame extends React.Component{
 		const { root } = this.root
 		return (
 			<Page className='fv'>
-				<header className='fxmc' style={{height}}>
+				<header className='fxmc h40'>
 					<h2 className='fxmc bcm h cp hover-o' style={{width:$fn.menuWidth}} onClick={()=>$fn.push(this,'/')}>
 						<Image width='120px' src={Logo}/>
 					</h2>
-					<nav className='ex fx h f13 g6' id='nav'>
+					<nav className='ex fx h f13 g6 oh' id='nav'>
 						{
 							data.map((v,i)=>(
-								<NavLink key={i} to={ root + v.path} className='fxmc plr10 rel tap' activeClassName='active' >{v.title}</NavLink>
+								<NavLink key={i} to={ root + v.path} className='fxmc plr10 rel tap nowrap' activeClassName='active' >{v.title}</NavLink>
 							))
 						}
 					</nav>
 					<div className='fxm g6 mr10'>
 						{/* 头像 */}
-						<Image wrap round size={40} src={user.head_portrait} className='bor1'/>
+						<Image wrap round size={36} src={user.head_portrait} className='bor1'/>
 						<dl className='ml10'>
-							<dt><Text value={user.real_name}/></dt>
+							<dt className='nowrap'><Text value={user.real_name}/></dt>
 							{/* 职位 */}
 							{
-								user.position && <dd className='r100px bcm cf plr5 lh18'><Text value={user.position} /></dd>
+								user.position && <dd className='r100px bcm cf plr5 lh18 nowrap'><Text value={user.position} /></dd>
 							}
 						</dl>
 					</div>

@@ -1,5 +1,6 @@
 /* ====================================== 本地存储配置  ====================================== */
 import Store from '../store/storage'
+import IndexDB from '../store/indexdb'
 const Storage = Store(window.localStorage)
 const Session = Store(window.sessionStorage)
 const _ = {
@@ -17,10 +18,14 @@ const _ = {
 	},
 	// 长期存储
 	longSave(name,data){
-		name =  name || 'user'
 		return arguments.length <= 1 ? Storage.get(name) : Storage.set(name,data)
 	},
-	longRemove(name){ Storage.remove(name || 'user') },
+	longRemove(name){ Storage.remove(name) },
+	// 长期存储
+	async dataSave(name,data){
+		return arguments.length <= 1 ? await IndexDB.get(name) : IndexDB.set(name,data)
+	},
+	dataRemove(name){ IndexDB.remove(name) },
 };
 
 export default _

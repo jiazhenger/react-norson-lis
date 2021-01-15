@@ -10,9 +10,10 @@ import $fn from './fn'
 const logMsg = (msg,content)=>{ Config.env && console.log(msg,content) }
 
 // 配置头信息
-const config = (opt)=>{
-	const type = ['application/json;charset=utf-8','application/x-www-form-urlencoded','multipart/form-data']
-	let contentType = type[$fn.isValid(opt.type) ?  opt.type : Config.contentType]
+const config = ({ type, token, api, upload  })=>{
+	const content = ['application/json;charset=utf-8','application/x-www-form-urlencoded','multipart/form-data']
+	if(upload){ type = 2 }
+	const contentType = content[$fn.isValid(type) ? type : Config.contentType]
 	// 签名验证
 	/*
 	let time = new Date().getTime();
@@ -20,7 +21,7 @@ const config = (opt)=>{
     	rest_timestamp:time.toString(),
 		rest_sign:CryptoJS.DES.encrypt(time.toString(), CryptoJS.enc.Utf8.parse('__UWILLBE_'), { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7}).toString()
     }*/
-	let header = opt.noToken ? 
+	let header = token === false ? 
 		{ 'Content-Type' 	: contentType } : 
 		{ 
 			'Content-Type'	: contentType,
@@ -28,7 +29,7 @@ const config = (opt)=>{
 		}
                 
 	return {
-		baseURL: opt.api,
+		baseURL: api,
 		headers: header,
 		timeout: 30000,
 		//withCredentials : true	// 跨域请求想要带上cookies设置为 true
@@ -41,7 +42,20 @@ const serializeParam = (body,isPost) => {
 	let param = body;
 	let str='';
 	for(var i in param){
-		if($fn.isValid(param[i])){ str += i + '=' + param[i] + '&' }
+		const p = param[i]
+		if($fn.hasArray(p)){
+			p.forEach((v,j) =>{
+				if($fn.isObject(v)){
+					for(let k in v){
+						str += i + '['+j+']' + '['+ k +']' + '=' + v[k] + '&'
+					}
+				}else{
+					str += i + '['+j+']' + '=' + v + '&'
+				}
+			})
+		}else{
+			if($fn.isValid(param[i]) || param[i] === ''){ str += i + '=' + param[i] + '&' }
+		}
 	}
 	if (str.charAt(str.length - 1) === '&'){ str = str.slice(0, str.length - 1) }
 	str = isPost ? str : '?' + str
@@ -52,7 +66,22 @@ const serializeParam = (body,isPost) => {
 //const combineParam = (body) => { return serializeParam(LS.get('login')) + serializeParam(body) }
 
 // 将 body 以函数形式处理
-const manageBody = body => $fn.isFunction(body) ? body() : body
+const manageBody = body => {
+	if($fn.isFunction(body)){
+		return body()
+	}else if($fn.hasObject(body)){
+		for(var i in body){
+			let v = body[i]
+			if( !$fn.isValid(v) ){
+				// delete body[i]
+				v = ''
+			}
+		}
+		return body
+	}else{
+		return body
+	}
+}
 // 给空数据加类型
 const setType = (_this,dataName) => {
 	if(!_this) return
@@ -74,12 +103,13 @@ const setType = (_this,dataName) => {
  * 		suceessHander:()=>{}		// 只要调用接口成功就调用
  * 	    onEnd:()=>{}		// 成功或失败都调用
  * 		error:()=>{}				// 接口请求不通时调用
- * 		closeToast:true				// 数据请求成功但不符合规则时，屏蔽默认提示，可在 then 中自定义提示
+ * 		myToast:true				// 数据请求成功但不符合规则时，屏蔽默认提示，可在 then 中自定义提示
  * }
  *
  * */
 const coreRequest = (url, param, action, defined) => {
 	let UD = defined || {}
+	
 	let api = url.indexOf('http') !== -1 ? url : Config.api
 	let body = manageBody(param);				// 处理自定义参数的不同形式 {} function
 		body = UD.type === 1 ? serializeParam(body,true) : body
@@ -88,7 +118,7 @@ const coreRequest = (url, param, action, defined) => {
 	let configs = config({
 		type	: UD.type,
 		upload	: UD.upload,
-		noToken	: UD.noToken,
+		token	: UD.token,
 		api		: api
 	})
 	
@@ -106,28 +136,27 @@ const coreRequest = (url, param, action, defined) => {
 	return new Promise((resolve, reject) => {
 		promise.then(res => {	// 接口正确接收数据处理
 			let data = res.data;
-			let code = data.status;
-			
+			let code = data.status*1;
 			if(code === 1){	// 数据请求成功
 				resolve(data.data);
 				logMsg(url + '===', data.data);
-			} else if(code === 501){	// 登录信息已过期，请重新登录!
+			} else if(code === -10404417 || code === -10404413){	// 登录信息已过期，请重新登录! || 未登录
 				$fn.toast(data['msg'])
 				$fn.remove()
 				$fn.loginTo()
 				// 跳转不同登录页
-				setTimeout(()=>$fn.go('/'))
+				setTimeout(()=>$fn.go('/login'))
 			}else{ // 数据请求成功但不符合规则
 				reject(data);
 					
-				$fn.isFunction(UD.onError) && UD.onError(data)	// 只要出错就调用
-				$fn.isFunction(UD.onFail) && UD.onFail(data)	// 数据处理不满足条件时调用
-				
 				if(UD.onMsg){
 					$fn.isFunction(UD.onMsg) && UD.onMsg(data)		// 自定义提示
 				}else{
-					$fn.toast(data['msg'],UD.onError)			// 默认开启出错提示
+					$fn.toast(data['msg'], UD.onError)			// 默认开启出错提示
 				}
+				
+				// $fn.isFunction(UD.onError) && UD.onError(data)	// 只要出错就调用
+				$fn.isFunction(UD.onFail) && UD.onFail(data)	// 数据处理不满足条件时调用
 				
 				logMsg(url + '===', data);
 			}
@@ -164,11 +193,11 @@ const submit = (_this,api,option)=>{
 //		replace			: null,					// replace 路由
 //		push			: null,					// push 路由
 //		refresh			: false,				// 是否刷新
-//		closeToast		: false,				// 是否关闭默认提示
+//		myToast		: false,				// 是否关闭默认提示
 //		onEnd			: null,					// 无论请求成功或失败都执行此方法
 //		onError			: null,					//
 //		upload			: false,				// 调用上传接口
-//		noToken			: false,
+//		token			: false,
 //		isBody			: false,
 		...option
 	}
@@ -195,7 +224,7 @@ const submit = (_this,api,option)=>{
 			noError	: opt.noError,
 			onError	: opt.onError,
 			upload	: opt.upload,
-			noToken	: opt.noToken,
+			token	: opt.token,
 			isBody	: opt.isBody,
 			type	: opt.type
 		}).then(data=>{
@@ -213,7 +242,7 @@ const submit = (_this,api,option)=>{
 			}
 		},data=>{
 			reject(data)
-			if(opt.closeToast){
+			if(opt.myToast){
 				_this.refs.toast && _this.refs.toast.open({ text: data['info'] })
 			}
 		})
@@ -223,14 +252,14 @@ const submit = (_this,api,option)=>{
 const pull = (_this,api,option)=>{
 	let opt = {
 		dataName	: 'data',				// 数据名字
-		loading		: true,					// 如果有加载效果
-		param		:{},						// 参数
+		loading		: false,				// 如果有加载效果
+		param		:{},					// 参数
 		pullLoading : 'pullLoading',		// 加载判断
 		loadingText	: '数据加载中...',			
 //		onSuccess	: null,			// 改变数据
 //		onError		: null,
-//		noToken		: false,
-//		closeToast	: false,
+//		token		: false,
+//		myToast	: false,
 		...option
 	}
 	
@@ -259,7 +288,7 @@ const pull = (_this,api,option)=>{
 							opt.onError && opt.onError()
 							if(!opt.loading){ $fn.loading(false) }
 			},
-			noToken	: opt.noToken,
+			token	: opt.token,
 		}).then(data=>{
 			if($fn.isValid(data)){
 				if($fn.isFunction(opt.onSuccess)){
@@ -290,32 +319,15 @@ const paging = (_this,api,option)=>{
 	
 	Object.assign(opt,option || {});
 	
-//	if(!$fn.isObject(opt.param)){ opt.param = {} }
 	const { current, pageSize } = opt.param || {}
 	const param = {
-        ...opt.param,
-		currentPage: current || 1, 		// 当前页
-		showCount: pageSize || 10,		// 每页显示多少条数据
+		page  	: current || 1, 		// 当前页
+		limit 	: pageSize || 20,		// 每页显示多少条数据
+	    ...opt.param,
 	}
-	delete param.current
 	delete param.pageSize
 	delete param.total
-	
-	// 格式化时间
-	let format = null;
-	
-	if($fn.hasArray(opt.format)){
-		format = {
-			f:opt.format,
-			t:'ymd'
-		}
-	}else if($fn.hasObject(opt.format)){
-		format = {
-			f:[],		// 格式化字段名
-			t:'ymd', 	// 格式化格式
-			...opt.format
-		}
-	}
+	delete param.current
 	
 	return new Promise((resolve)=>{
 		pull(_this,api,{
@@ -328,16 +340,17 @@ const paging = (_this,api,option)=>{
 			resetData	: true,
 			dataName	: null
 		}).then(data=>{
+			const result = data.items || data
 			_this.setState({ 
 				[opt.pag]:{
 					..._this.state[opt.pag],
-					current		: data.page.currentPage, 			// 当前页码
-					total		: data.page.totalResult,			// 总共多少条数据
-					pageSize	: param.showCount,					// 每页显示多少条数据
+					current		: +data.current, 		    // 当前页码
+					total		: +data.total_items,		// 总共多少条数据
+					totalPage	: +data.total_pages,		// 总共多少页
+					pageSize	: +data.limit,				// 每页显示多少条数据
 				}
 			},()=>{
 				if($fn.isValid(opt.dataName)){
-					const result = $fn.addKey(data, format);
 					_this.setState({ [opt.dataName]: result })
 					resolve(result)
 				}
@@ -346,6 +359,4 @@ const paging = (_this,api,option)=>{
 		})
 	})
 }
-const index = { submit, pull, paging }
-
-export default index
+export default { submit, pull, paging }

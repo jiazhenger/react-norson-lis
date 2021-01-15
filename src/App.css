@@ -1,38 +1,41 @@
-.App {
-  text-align: center;
-}
+.no-label label:after{display: none;}
+.no-label .ant-form-item-label {width: auto;}
+.ant-image-preview-img-wrapper img{display: inline;}
+.x_ssb_t1 .ant-input-textarea, .x_ssb_t1 .ant-input-textarea .ant-input-affix-wrapper{ height: 100%;} 
+.x_ssb_t1 .ant-input-textarea .textarea-bordered {border: none; background-color: #ffffff !important;}
+.plr2 {padding: 0 2px;}
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+.wpn, .norson-table td.wpn { white-space: normal; }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+.p5{ padding: 5px; }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
+.tab-custom .ant-tabs-content{ height: 100%; }
+.tab-custom .ant-tabs-tabpane{ display: flex;flex-direction: column; }
+.tab-custom .ant-tabs-nav { margin-bottom: 0 !important; }
+/* 客服查询 */
+.specimens-query-child{padding: 0 !important;}
+.specimens-query-child .ant-tabs-nav{padding-left: 10px;margin: 0 !important;}
+.specimens-query-child .ant-tabs-content-holder {padding: 10px 10px 10px 0; overflow: auto;}
+/* 按条码录入项目 textarea */
+.full_w .ant-input-textarea{flex: 1;}
+.fx-int {flex:initial}
+/* 我的申请单-详细信息 */
+.fx-ex3 > div {width: 33.3%;}
+.fx-ex3 > div > span:first-child{font-weight: 600;line-height: 20px;color: #333;display: inline-block;width: 80px;margin-bottom: 10px;}
+.fx-ex3 > div > span:last-child{font-weight: 600;line-height: 20px;color: #778ca2;}
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
+.half{width: 50%;box-sizing: border-box;} 
+/* 双录入 */
+.quickentry-img {height: 100%;text-align: center;}
+.quickentry-img .ant-image-img{object-fit: scale-down;max-width: 100%;width: auto;height: 100%;display: inline-block;}
+/* 基本资料录入 */
+.view-image{position: fixed; z-index: 111;background: rgba(0,0,0,0.35); border-radius: 10px; }
+.view-image.full{width: 80%;height: 80%; top: 10%; left: 10%;}
+.img-contain{max-width: 100%;object-fit: contain;}
+/* 上传按钮 */
+.upload-img-operation {display: none;}
+.upload-img-box:hover .upload-img-operation{ display: block;}
+/* flex：1 高度为0 */
+.height0{height:0}
+/* 标本异常管理 */
+.spec-abnormal .radio-style .ant-form-item { margin-bottom: 0; }

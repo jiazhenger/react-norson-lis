@@ -186,6 +186,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	}, [result, onRow])
 	// 点击横排
 	const _onRow = React.useCallback( (rows, i) =>{
+		console.log(rows, i)
 		if(rows.rowDisabled) return;
 		const { type } = cols[0]
 		if( type === 'checkbox'){
@@ -218,7 +219,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 				const dataLenth = result.length - dis.length
 				setChecked(select.length === dataLenth)
 				setIndeter(select.length !== dataLenth && select.length !== 0)
-				onRow && onRow(select, rows)
+				onRow && onRow(select, rows, i)
 			}
 		}else{
 			result.forEach(v=>{
@@ -322,7 +323,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 																			v.type ? <div className='fxmc'><Checkbox value={p.rowChecked} disabled={p.rowDisabled} outer/></div> : (
 																				<div className={`${v.tdCss ? 'p5' : 'con'}`}>
 																					{
-																						v['render'] ? v['render']({ text:$fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>, rows: p }) : $fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>
+																						v['render'] ? v['render']({ text:$fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>, rows: p , index: j}) : $fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>
 																					}
 																				</div>
 																			)
@@ -350,7 +351,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 						size				= 'small'
 						pag					= { p }
 						onChange			= { (current, pageSize) =>{ onChange && onChange(current, pageSize) } }
-						otherInfo = { otherInfo }
+						otherInfo 			= { otherInfo }
 					/>
 				) : null
 			}
@@ -366,6 +367,7 @@ export default class extends React.Component{
 		window.onmouseup = null
 		window.onresize = null
 	}
+
 	render(){
 		const { cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr } = this.props
 		return <Table 
