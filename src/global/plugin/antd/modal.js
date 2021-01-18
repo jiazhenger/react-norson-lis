@@ -43,11 +43,11 @@ export default class extends React.Component {
     )
     
     render(){
-    	const { title, children, width, noFooter, centered, onClose, bodyStyle } = this.props
-    	const visible = this.state.show === undefined ? this.props.show : this.state.show
+    	const { title, children, width, noFooter, centered, onClose, bodyStyle, mask, closable, noTitle } = this.props
+		const visible = this.state.show === undefined ? this.props.show : this.state.show
     	return (
 			<Modal
-				title			= { title || '提示' }
+				title			= { noTitle ? '' : title || '提示' }
 				width			= { width }
 				visible 		= { visible }
 				onOk			= { this.onOk }
@@ -59,6 +59,8 @@ export default class extends React.Component {
 				afterClose 		= { onClose }
 				bodyStyle 		= { bodyStyle }
 				forceRender		= { true }
+				mask            = { String(mask) ? mask : true } // 显示蒙层
+				closable        = { String(closable) ? closable : true } // 显示关闭图标
 			>
 				{ children }
 			</Modal>

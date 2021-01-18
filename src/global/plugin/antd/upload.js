@@ -11,7 +11,7 @@ const { $fn } = window
 	 * @param {params} 额外参数
 	 * @param {multiple} 是否上传多个
 	 **/
-export default ({ className, title, children, fileType, mode, onChange, name, value, api, params, multiple })=> {
+export default ({ className, title, children, fileType, mode, onChange, name, value, api, params, multiple, uploadType })=> {
 	const [ loading, setLoading ] = React.useState( false );
 	const [ img, setImg ] = React.useState();
 	// 当选择图片时
@@ -70,7 +70,7 @@ export default ({ className, title, children, fileType, mode, onChange, name, va
 		
 	},[fileType])
 	let listType = 'picture-card'
-	if(mode === 'button'){ listType='' }
+	if(mode === 'button' || mode === 'upBtn'){ listType='' }
 
 	const headers = {
 		Authorization: "Bearer " + window.$fn.getToken()
@@ -86,7 +86,7 @@ export default ({ className, title, children, fileType, mode, onChange, name, va
 			action 			= { window.$config.api + (api || 'upload/img')}
 			data            = { params }
 			headers         = { headers }
-			multiple        = { multiple ? multiple : false }
+			multiple        = { multiple ? multiple : false } 
 		>
 			{
 				!mode && (img ? <img src={img_domain + img} alt='avatar' style={{ maxWidth: '100%',display:'inline-block' }} /> : <PlusComponent/>)
@@ -96,6 +96,16 @@ export default ({ className, title, children, fileType, mode, onChange, name, va
 					<Button>
 						{ loading ? <LoadingOutlined className='f14' /> : <UploadOutlined /> }
 						<span>{img?'上传成功':'上传'}</span>
+					</Button>
+					<span></span>
+				</>
+			}
+			{/* 薛玉梅 | 2020-12-29 09:50:57 | desc: 检测中心上传按钮样式 */}
+			{
+				mode === 'upBtn' && <>
+					<Button type='primary' ghost size='small' style={{borderRadius: '3px'}}>
+						{ loading ? <LoadingOutlined className='f14' /> : <UploadOutlined /> }
+						<span>上传</span>
 					</Button>
 					<span></span>
 				</>

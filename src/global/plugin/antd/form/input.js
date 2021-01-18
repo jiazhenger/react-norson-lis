@@ -11,13 +11,13 @@ export default class extends React.Component {
 		this.setState({ value: e.target.value},()=>{
 			const { value } = this.state
 			const _value = value.trim()
-			onChange && onChange( name ? {[name]:_value} : _value, _value)
+			onChange && onChange( name ? {[name]:_value} : _value, _value, name)
 		})
 	}
 	
 	onSearch = v => {
 		const { onChange, name } = this.props
-		onChange && onChange( name ? {[name]:this.state.value} : this.state.value, this.state.value)
+		onChange && onChange( name ? {[name]:this.state.value} : this.state.value, this.state.value, name)
 	}
 	
 	setValue = value => this.setState({ value })

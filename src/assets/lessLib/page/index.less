@@ -1,9 +1,10 @@
 /* ================================ *** 个性化模块 *** ================================ */
 // ================================================================
-
-// ================================================================
 .hover-bc:extend(.ease){
     &:hover{.bcm;.cf;}
+}
+.hover-tu{
+    &:hover{.tu;.c0;}
 }
 .hover:extend(.ease){
     &:hover{.c0!important}
@@ -13,10 +14,57 @@
         *{.c0!important;}
     }
 }
+.hover-o{
+	&:hover{.op(.9);}
+}
 // ================================================================
+.login{
+	.ant-form-item-control{.bc(#f9f9f9);.r5px;}
+}
+// ================================================================
+.index-menu-list{
+	li:hover{
+		.bg{.bi('index/bg_active')!important}
+	}
+}
+#nav{
+	a{.g6;
+		&::after{.cn;.abs_lb;.l(5);.r(5);.h(3);.bcm;.dn;.r3px;}
+		&:hover{.c0;}
+	}
+	.active{.c0;
+		&::after{.db;}
+	}
+}
+// ================================================================ 搜索表单
+.search-form{
+	.ant-row{flex-flow:row nowrap!important;.mb5!important;}
+}
+.ant-input-sm{.f12!important;}
+.ant-picker-small input{.f12!important;;.h22!important;}
+.small-form{
+	label{.f12!important;.g6 !important; .h(auto)!important;}
+	// .ant-input-affix-wrapper,.ant-select-selector{.r3px!important}
+	.ant-picker-input > input{}
+	.ant-form-item-control-input{.mh(1)}
+	input::-webkit-input-placeholder,.ant-select-selection-placeholder{.g9!important;.f12;}
+	.ant-select-selection-item,.ant-select-selection-search-input{.f12!important;}
+	// .ant-form-item-control-input{.bc(#F7FAFA);.r5px;}
+}
 
-// ================================================================
-.small-table{
-    th,td{.bor(#ededed);.p5;.tc;}
-    th{.bc(#F8F8F8);.n}
+.input-bordered, .ant-picker.ant-picker-borderless.input-bordered{.bc(#F7FAFA)!important;.r100px!important;}
+.textarea-bordered{.bc(#F7FAFA)!important;.r5px!important;}
+.dropdown-small{
+	.ant-select-item-option-content{.f12!important;}
+	.ant-select-item{.mh(22)!important;.lh18!important;.p(2px 10px)!important;}
+}
+.ant-btn-sm{.h24!important;.f12!important;}
+
+.submit-form{
+	.ant-form-item-label{.w(120)}
+	label{.f12!important;.g6 !important; .h(30)!important;.tr;}
+	.ant-form-item-explain{.lh(18)!important;}
+}
+.person-form{
+	.ant-form-item-label{.w(80)}
 }
