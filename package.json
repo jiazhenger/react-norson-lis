@@ -2,6 +2,7 @@
   "name": "react-my",
   "version": "0.1.0",
   "private": true,
+  "homepage": "./",
   "dependencies": {
     "antd": "^4.10.2",
     "axios": "^0.21.1",
