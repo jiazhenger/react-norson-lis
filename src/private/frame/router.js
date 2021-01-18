@@ -11,7 +11,7 @@ export default ({ data }) => {
 	const { path, root, to, component } = data[0]
 	const _to = to ? to : path
 	return (
-		<CacheSwitch>
+		<Switch>
 			{
 				data.map((v,i)=> {
 					const { children, child } = v
@@ -105,6 +105,6 @@ export default ({ data }) => {
 			}
 			{/* 404 */}
 			<Route component={ Import('404') } />
-		</CacheSwitch>
+		</Switch>
 	)
 }

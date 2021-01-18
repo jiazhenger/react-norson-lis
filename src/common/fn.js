@@ -197,7 +197,7 @@ const Index = {
 	 **/
     updateCacheList(updateList) {
 		let api = ''
-		updateList.map((item) => {
+		updateList.forEach((item) => {
 			api = item.api.replace('api/', '')
 			window.$http.submit(null, api).then(data=>{
 				let save = data.items ? data.items : data
@@ -240,7 +240,7 @@ const Index = {
 	getCache({cache, name, id, callback}) {
 		this.dataSave(cache).then(data => {
 			if (this.hasArray(data)) {
-				data.map(item => {
+				data.forEach(item => {
 					item['name'] = item[name] || item['name']
 					item['value'] = item[id] || item['value']
 				})

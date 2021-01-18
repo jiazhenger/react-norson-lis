@@ -48,12 +48,14 @@ export default {
 	get(key){
 		return new Promise((resolve, reject) => {
 			DB().then( store => {
-				let req = store.get(key);
-				req.onsuccess = (e) => {
-					resolve(e.target.result);
-				}
-				req.onerror = (e) => {
-					console.log('获取 indexdb 数据失败');
+				if(key){
+					let req = store.get(key);
+					req.onsuccess = (e) => {
+						resolve(e.target.result);
+					}
+					req.onerror = (e) => {
+						console.log('获取 indexdb 数据失败');
+					}
 				}
 			})
 		});

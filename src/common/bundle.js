@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 // ===================================================================== loadding 
 import PageLoading from '@tp/page-loading'
 // =====================================================================
-export const Bundle = importComponent => {
+const Bundle = importComponent => {
     return class extends Component {
        	
        	state = {
@@ -24,4 +24,6 @@ export const Bundle = importComponent => {
     }
 }
 
-export default path => Bundle(() => import('@views/' + path))
+const Index = path => Bundle(() => import('@views/' + path))
+
+export default Index
