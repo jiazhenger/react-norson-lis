@@ -8,13 +8,14 @@ let apt = 'http://test.norsonmed.com:890/api/'		    // 测试访问 api
 // let apr = 'http://t.ubzyw.com/'						// 预发访问 api
 
 if(env){ // 开发环境
-	api = api
+	api = apt
 }else{ // 生产环境
-	if (exist('//testt.ubzyw.com/')) {	 		// 测试环境
-        api = api
-    } else if(exist('//:preapi.ubzyw.com')) {	 	// 预发环境
-    	api = api
-    }
+	// if (exist('//testt.ubzyw.com/')) {	 		// 测试环境
+ //        api = api
+ //    } else if(exist('//:preapi.ubzyw.com')) {	 	// 预发环境
+ //    	api = api
+ //    }
+	api = apt
 }
 /* ====================================== 全局变量配置  ====================================== */
 module.exports = {
