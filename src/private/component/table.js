@@ -31,12 +31,13 @@ const getOffset = function(el){
 let $move = null
 let index = 0
 // ===================================================================== Component
-const Table = ({ cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr }) => {
+const Table = ({ cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr, virtual }) => {
 	const scrollRef = React.useRef()
 	const dragRef = React.useRef()
 	const [ checked, setChecked ] = React.useState()
 	const [ indeter, setIndeter ] = React.useState()
 	const [ result, setResult ] = React.useState([])
+	const [ offset, setOffset ] = React.useState(0)
 	const p = { current:1, total:0, pageSize:10, ...pag}
 	const typeWidth = 40
 	
@@ -108,7 +109,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		// const $bodyTable = $scroll.querySelector('.js-body')
 		const resize = function(){
 			if($scroll.scrollHeight > 0){
-				$scroll.onscroll = function(e){
+				$scroll.addEventListener('scroll', function(e){
 					const { scrollTop } = this
 					this.querySelector('.js-fixed').style.top = scrollTop + 'px'
 					if(scrollTop>0){
@@ -118,7 +119,10 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 						$fixedTable.style.removeProperty('box-shadow')
 						$fixedTable.style.removeProperty('border-bottom')
 					}
-				}
+					if(virtual){
+						scrollEvent()
+					}
+				})
 			}else{
 				$scroll.onscroll = null
 			}
@@ -186,7 +190,6 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	}, [result, onRow])
 	// 点击横排
 	const _onRow = React.useCallback( (rows, i) =>{
-		console.log(rows, i)
 		if(rows.rowDisabled) return;
 		const { type } = cols[0]
 		if( type === 'checkbox'){
@@ -250,7 +253,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		$scroll.addEventListener('mousemove',move)
 	}, [move])
 	
-	const TableComponent = () => (
+	const TableComponent = ({ result }) => (
 		<>
 			{
 				$fn.hasArray(cols) ? (
@@ -347,11 +350,56 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		</>
 	)
 	
+	// 虚拟滚动
+	// 页面数据初始化
+	const headHeight = 32
+	const rowHeight = 32
+	let screenHeight = 0    // 可视区域高度
+	let start = 0           // 起始索引
+	let end = null          // 结束索引
+	let visibleCount = 0	// 容器显示节点数量
+	const init = React.useCallback(()=>{
+		const $scroll = scrollRef.current
+		screenHeight = $scroll.clientHeight
+		start = 0
+		// 这里的截取结束位置需要根据开始位置和首屏显示的条数来确定
+		visibleCount = (screenHeight - headHeight)  / rowHeight
+		end = start + visibleCount
+	}, [])
+	
+	const scrollEvent = React.useCallback(()=>{
+		const $scroll = scrollRef.current
+		const { scrollTop  } = $scroll // 当前滚动位置
+		start = Math.floor(scrollTop / rowHeight)   // 此时的开始索引
+		
+		end = start + visibleCount  // 此时的结束索引
+		
+		setOffset(scrollTop - (scrollTop % rowHeight)) // 滚动时列表盒子的偏移量
+		
+		const _data = Array.isArray(data) && data.length > 0 ? data.slice(start, Math.min(end, data.length)) : [];
+		
+		console.log(_data)
+		
+		setResult(_data)
+	},[ data ])
+	
 	return (
 		<div className={`fv rel ex ${className||''}`}>
-			<div className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
-				<TableComponent />
-			</div>
+			{
+				virtual ? (
+					<div name='虚拟滚动盒子' className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
+					    <div name='占位盒子'  style={{ height: data.length * rowHeight, position:'absolute',left:0,top:0,right:0, zIndex:-1 }}></div>
+					    <div name='计算内容盒子' style={{ transform:`translate3d(0, ${offset}px, 0)`, position:'absolute', left:0, top:0, right:0 }}>
+							<TableComponent result={result} />
+					    </div>
+					</div>
+				) : (
+					<div className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
+						<TableComponent result={result} />
+					</div>
+				)
+			}
+			
 			{/* 分页 */}
 			{
 				pag && result.length > 0 ? (
@@ -375,7 +423,7 @@ export default class extends React.Component{
 	}
 
 	render(){
-		const { cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr } = this.props
+		const { cols, data, className, width, style, pag, onChange, loading, sort, onSort, onRow, checkbox, selectedKeys, disabledKeys, otherInfo, idStr, virtual } = this.props
 		return <Table 
 			cols = { cols }
 			data = { data }
@@ -393,6 +441,7 @@ export default class extends React.Component{
 			disabledKeys = { disabledKeys }
 			otherInfo = { otherInfo }
 			idStr = { idStr || 'id' }
+			virtual = { virtual }
 		/>
 	}
 }

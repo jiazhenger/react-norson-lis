@@ -11,8 +11,8 @@ const data = [
 		component: 'laboratory/testing-center',
 		children: [
 			// 44008  液基细胞病理岗
-			// 44011  血培养岗
-			// 44012  支原体岗
+			{ title: '血培养岗44011', 		component: 'laboratory/testing-center/result44011', path: 'testing-center/result44011/44011/1bcaf6fb-cda6-1a8f-481f-8417e03bb099/0' }, 
+			{ title: '支原体岗44012', 		component: 'laboratory/testing-center/result44012', path: 'testing-center/result44012/44012/6375f08f-02ad-9805-6a5e-801afe188844/0' }, 
 			{ title: '特殊染色岗44013', 	component: 'laboratory/testing-center/result44013', path: 'testing-center/result44013/44013/64ee74bc-1247-e85b-f15c-22c8ba77c798/0' }, 
 			{ title: '常规生化岗44014', 	component: 'laboratory/testing-center/result44014', path: 'testing-center/result44014/44014/a6890c25-3238-206f-38da-aa8b59657582/0' }, 
 			{ title: '细胞遗传岗44015', 	component: 'laboratory/testing-center/result44015', path: 'testing-center/result44015/44015/9394162e-208f-b8e7-5c81-c18c1edaa749/0' }, 
@@ -20,7 +20,7 @@ const data = [
 			{ title: '血液杂项岗44017', 	component: 'laboratory/testing-center/result44014', path: 'testing-center/result44017/44017/67a5fd1c-8aeb-2ac9-8ce4-53cb9804809d/0' }, 
 			{ title: '荧光原位杂交岗44018',	component: 'laboratory/testing-center/result44018', path: 'testing-center/result44018/44018/4c61ed22-06c6-92f4-b996-ab09af26fe30/0' }, 
 			{ title: '院感岗44019', 		component: 'laboratory/testing-center/result44014', path: 'testing-center/result44019/44019/235a168d-9f16-3e1a-87b3-2eadf6325e56/0' }, 
-			// result44020  培养鉴定药敏岗
+			{ title: '培养鉴定药敏岗44020', component: 'laboratory/testing-center/result44020', path: 'testing-center/result44020/44020/11dd6fde-8aa0-857f-a88f-0c5009862069/0' }, 
 			{ title: '组织病理岗44021', 	component: 'laboratory/testing-center/result44021', path: 'testing-center/result44021/44021/39c1b0fd-0515-7f73-3da7-d7ea7a6a0269/0' }, 
 			{ title: '免疫组化岗44022', 	component: 'laboratory/testing-center/result44022', path: 'testing-center/result44022/44022/fd5ec2e5-5caa-1c44-2ee1-72bfd29849c3/0' }, 
 			{ title: '常规涂片岗44024', 	component: 'laboratory/testing-center/result44014', path: 'testing-center/result44024/44024/7e8a74bb-b6fc-50cc-dfc0-d2ab25747552/0' }, 

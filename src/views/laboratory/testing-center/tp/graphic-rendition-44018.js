@@ -43,9 +43,8 @@ export default class extends React.Component{
 		this.setForms() 
 	}
 	componentWillReceiveProps ({infos}) { 
-		this.setState({infos: infos})
+		this.setState({infos: infos, operation_44018: infos.operation_44018})
 		this.setProcess(infos.operation_44018)
-		this.setState({operation_44018: infos.operation_44018})
 		this.setForms(infos.content)
 	}
 	setForms = (v) => { 

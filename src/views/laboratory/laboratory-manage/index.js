@@ -17,7 +17,7 @@ const data = [
 					{ title: '添加设备', path: 'add', component:'laboratory/laboratory-manage/device/equipment-list-add', cache:true }
 				]
 			},
-			{ title: 'GPS设备',			path: 'laboratory-manage/equipment-gps',		component:'laboratory/laboratory-manage/device/equipment-gps', },
+			{ title: 'GPS设备',		path: 'laboratory-manage/equipment-gps',		component:'laboratory/laboratory-manage/device/equipment-gps', },
 			{ title: '校准计划',		path: 'laboratory-manage/calibration-plan',		component: 'laboratory/laboratory-manage/device/calibration-plan' },
 			{ title: '校准记录',		path: 'laboratory-manage/calibration-record',	component: 'laboratory/laboratory-manage/device/calibration-record' },
 			{ title: '项目关联',		path: 'laboratory-manage/project-related',		component: 'laboratory/laboratory-manage/device/project-related' },
@@ -26,9 +26,10 @@ const data = [
 				title: '设备维护',
 				path: 'laboratory-manage/equipment-maintain',
 				component: 'laboratory/laboratory-manage/device/equipment-maintain',
+				cache:true,
 				child:[
 					{ title: '设备维修', path: 'repair',		component:'laboratory/laboratory-manage/device/equipment-repair',	cache:true },
-					{ title: '维修记录', path: 'repair-record', component:'laboratory/laboratory-manage/device/repair-record',		cache:true }
+					{ title: '维修记录', path: 'repair-record', component:'laboratory/laboratory-manage/device/repair-record',	cache:true }
 				]
 			},
 			{ title: '设备结果管理',	path: 'laboratory-manage/equipment-result-manage',	component: 'laboratory/laboratory-manage/device/equipment-result-manage' },
@@ -113,7 +114,6 @@ const data = [
 				title: '轮转规则列表',
 				path: 'laboratory-manage/rotation-rule',
 				component: 'laboratory/laboratory-manage/rotation-manage/index',
-				cache:true,
 				child:[
 					{ title: '轮转绑定', path: 'bind', component:'laboratory/laboratory-manage/rotation-manage/bind-rotation', cache:true }
 				]
