@@ -1,0 +1,1 @@
+(this["webpackJsonpreact-my"]=this["webpackJsonpreact-my"]||[]).push([[15],{176:function(e,c,s){"use strict";s.r(c);var t=s(5);s(0);c.default=function(e){var c=e.value,s=e.color;return Object(t.jsx)(t.Fragment,{children:window.$fn.isValid(c)?c:Object(t.jsx)("span",{className:"g9",style:{color:s},children:"--"})})}}}]);

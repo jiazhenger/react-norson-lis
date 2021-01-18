@@ -1,0 +1,1 @@
+(this["webpackJsonpreact-my"]=this["webpackJsonpreact-my"]||[]).push([[389],{642:function(c,e,t){"use strict";t.r(e);t(618);var a=t(80),r=t(5),n=(t(0),t(637));e.default=function(c){var e=c.children;return Object(r.jsx)(a.a,{locale:n.a,children:e})}}}]);
