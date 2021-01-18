@@ -6,7 +6,7 @@ import Inner from './core/inner'
 import FormTable from './core/form-table'
 
 /* ====================================== 全局变量及方法  ====================================== */
-export default {
+const Index = {
 	// ======================================================================== 功能函数
 	...DataType,
 	...Storage,
@@ -306,3 +306,5 @@ export default {
 		return stack
 	}
 }
+
+export default Index

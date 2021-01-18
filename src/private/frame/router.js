@@ -1,6 +1,7 @@
 /* ====================================== 模块子路由配置  ====================================== */
 import React from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
+import { CacheSwitch, CacheRoute } from 'react-cache-router'
 // ===================================================================== 异步加载
 import Import from '@com/bundle'
 
@@ -10,7 +11,7 @@ export default ({ data }) => {
 	const { path, root, to, component } = data[0]
 	const _to = to ? to : path
 	return (
-		<Switch>
+		<CacheSwitch>
 			{
 				data.map((v,i)=> {
 					const { children, child } = v
@@ -30,15 +31,20 @@ export default ({ data }) => {
 								const { child } = m
 								if($fn.hasArray(child)){
 									return <Route key={m + '-' + k} path={_path} render={ ({ match }) => {
-										return <Switch>
-												<Route path={match.url} component={ Import(_component) } exact />
+										return <CacheSwitch>
+												{
+													m.cache ? <CacheRoute path={match.url} component={ Import(_component) } exact />
+															: <Route path={match.url} component={ Import(_component) } exact />
+												}
+												
 												{
 													$fn.hasArray(child) && child.map((n,j)=>{
-														return <Route key={m + '-' + k + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+														return n.cache ? <CacheRoute key={m + '-' + k + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+																		: <Route key={m + '-' + k + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
 													})
 												}
 												<Route component={ Import('404') } />
-											</Switch>
+											</CacheSwitch>
 									}}/>
 								}else{
 									return <Route key={m + '-' + k} path={_path} component={ Import(_component) } exact/>
@@ -61,15 +67,19 @@ export default ({ data }) => {
 							const { child } = v
 							if($fn.hasArray(child)){
 								return <Route key={v + '-' + i} path={_path} render={ ({ match }) => {
-									return <Switch>
-											<Route path={match.url} component={ Import(_component) } exact />
+									return <CacheSwitch>
+											{
+												v.cache ? <CacheRoute path={match.url} component={ Import(_component) } exact />
+														: <Route path={match.url} component={ Import(_component) } exact />
+											}
 											{
 												$fn.hasArray(child) && child.map((n,j)=>{
-													return <Route key={v + '-' + i + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+													return v.cache ? <CacheRoute key={v + '-' + i + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
+																   : <Route key={v + '-' + i + '-' + j} path={`${match.url}/${n.path}`} 	component={ Import( n.component ) } exact />
 												})
 											}
 											<Route component={ Import('404') } />
-										</Switch>
+										</CacheSwitch>
 								}}/>
 							}else{
 								return <Route key={v + '-' + i} path={_path} component={ Import(_component) } exact/>
@@ -95,6 +105,6 @@ export default ({ data }) => {
 			}
 			{/* 404 */}
 			<Route component={ Import('404') } />
-		</Switch>
+		</CacheSwitch>
 	)
 }

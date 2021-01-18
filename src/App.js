@@ -9,7 +9,7 @@ const Lang = $async(()=>import('@antd/lang'))
 const Toast = $async(()=>import('@tp/toast'))
 const DataLoading = $async(()=>import('@tp/data-loading'))
 // ===================================================================== 二级路由
-export default ( ) => (
+const App = ( ) => (
 	<>
 		<Lang>
 			<HashRouter children={<AppRouter />}/>
@@ -18,3 +18,4 @@ export default ( ) => (
 		<DataLoading />
 	</>
 )
+export default App

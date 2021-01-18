@@ -12,6 +12,7 @@ const data = [
 				title: '设备列表', 
 				path: 'laboratory-manage/equipment-list',
 				component:'laboratory/laboratory-manage/device/equipment-list',
+				cache:true,
 				child:[
 					{ title: '添加设备', path: 'add', component:'laboratory/laboratory-manage/device/equipment-list-add', cache:true }
 				]
@@ -40,6 +41,7 @@ const data = [
 				title: '实验号模板',
 				path: 'laboratory-manage/expno-template',
 				component: 'laboratory/laboratory-manage/label/expno-template',
+				cache:true,
 				child:[
 					{ title: '实验号模板-设置规则', path: 'add', component:'laboratory/laboratory-manage/label/expno-template-add', cache:true }
 				]
@@ -58,6 +60,7 @@ const data = [
 				title: '出库',
 				path: 'laboratory-manage/material-export',
 				component: 'laboratory/laboratory-manage/material/material-export',
+				cache:true,
 				child:[
 					{ title: '申请单列表', path: 'application', component:'laboratory/laboratory-manage/material/application-list', cache:true }
 				]
@@ -73,6 +76,7 @@ const data = [
 				title: '报告单管理',
 				path: 'laboratory-manage/report-manage',
 				component: 'laboratory/laboratory-manage/report/report-manage',
+				cache:true,
 				child:[
 					{ title: '查看报告单', path: 'info', component:'laboratory/laboratory-manage/report/view-report', cache:true }
 				]
@@ -81,6 +85,7 @@ const data = [
 				title: '报告单模板',
 				path: 'laboratory-manage/report-template',
 				component: 'laboratory/laboratory-manage/report/report-template',
+				cache:true,
 				child:[
 					{ title: '版本管理', path: 'version', component:'laboratory/laboratory-manage/report/version-manage', cache:true }
 				]
@@ -108,6 +113,7 @@ const data = [
 				title: '轮转规则列表',
 				path: 'laboratory-manage/rotation-rule',
 				component: 'laboratory/laboratory-manage/rotation-manage/index',
+				cache:true,
 				child:[
 					{ title: '轮转绑定', path: 'bind', component:'laboratory/laboratory-manage/rotation-manage/bind-rotation', cache:true }
 				]

@@ -250,99 +250,107 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		$scroll.addEventListener('mousemove',move)
 	}, [move])
 	
+	const TableComponent = () => (
+		<>
+			{
+				$fn.hasArray(cols) ? (
+					<>
+						{/* 表头 */}
+						<div className='thead rel bcf i10'>
+							<div className='wraper js-fixed abs_lt bcf'>
+								<table>
+									<colgroup>
+										{
+											cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
+										}
+									</colgroup>
+									<thead>
+										<tr>
+											{
+												cols.map( (v,i) => {
+													const isSort = v['field'] && (sort||v.sort)
+													const sortStyle = isSort ? {paddingRight: 8} : null
+													return (
+														<th key={i} className={`${v.thCss||''}${v.align||''} ${isSort?'cp':'cd'}`}>
+															<div className='con' style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
+																{
+																	v.type==='checkbox' ? <div className='fxmc'><div className='h30 oh'><Checkbox indeter={indeter} value={checked} disabled={!$fn.hasArray(data)} outer onChange={onSelectALL} /></div></div> : (
+																		<>
+																			{v['title']}
+																			{
+																				isSort && (
+																					<div className='abs_rt fxm lh' style={{right:5}}>
+																						<div className='rel'>
+																							<div className='rel' style={{top:2}}><CaretUpOutlined style={{color:v.order===true?$fn.c0:'#999'}} /></div>
+																							<div className='rel' style={{top:-2}}><CaretDownOutlined style={{color:v.order===false?$fn.c0:'#999'}} /></div>
+																						</div>
+																					</div>
+																				)
+																			}
+																		</>
+																	)
+																}
+															</div>
+															<i className='abs_rt h' onMouseDown={e=>onDrag(e,i)} style={{width:5, cursor:'w-resize'}}></i>
+														</th>
+													)
+												} )
+											}
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+						{/* 表体 */}
+						<div className='tbody ex rel'>
+							<div className='abs h' style={{top:0,bottom:0}}>
+								<table className='js-body'>
+									<colgroup>
+										{
+											cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
+										}
+									</colgroup>
+									<tbody>
+										{
+											$fn.hasArray(result) && result.map( (p,j) => (
+												<tr key={j} onClick={_onRow.bind(null, p, j)} className={`${p.rowChecked ? 'checked' : ''} ${p.rowDisabled?'disabled':''} ${p.rowsStart?'start':''}`}>
+													{
+														cols.map( (v,i) => {
+															return (
+																<td key={i} className={`${v.tdCss||''}${v.align||''}`}>
+																	{
+																		v.type ? <div className='fxmc'><Checkbox value={p.rowChecked} disabled={p.rowDisabled} outer/></div> : (
+																			<div className={`${v.tdCss ? 'p5' : 'con'}`}>
+																				{
+																					v['render'] ? v['render']({ text:$fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>, rows: p , index: j}) : $fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>
+																				}
+																			</div>
+																		)
+																	}
+																</td>
+															)
+														} )
+													}
+												</tr>
+											))
+										}
+									</tbody>
+								</table>
+							</div>
+							{/* 空数据 */}
+							<Empty loading={loading} data={result} />
+						</div>
+						<i ref={dragRef} className='abs_lt h bcm i10 dn' style={{width:1, cursor:'w-resize'}}></i>
+					</>
+				) : null
+			}
+		</>
+	)
+	
 	return (
 		<div className={`fv rel ex ${className||''}`}>
 			<div className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
-				{
-					$fn.hasArray(cols) ? (
-						<>
-							{/* 表头 */}
-							<div className='thead rel bcf i10'>
-								<div className='wraper js-fixed abs_lt bcf'>
-									<table>
-										<colgroup>
-											{
-												cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
-											}
-										</colgroup>
-										<thead>
-											<tr>
-												{
-													cols.map( (v,i) => {
-														const isSort = v['field'] && (sort||v.sort)
-														const sortStyle = isSort ? {paddingRight: 8} : null
-														return (
-															<th key={i} className={`${v.thCss||''}${v.align||''} ${isSort?'cp':'cd'}`}>
-																<div className='con' style={sortStyle} onClick={isSort ? _onSort.bind(null,v) : null}>
-																	{
-																		v.type==='checkbox' ? <div className='fxmc'><div className='h30 oh'><Checkbox indeter={indeter} value={checked} disabled={!$fn.hasArray(data)} outer onChange={onSelectALL} /></div></div> : (
-																			<>
-																				{v['title']}
-																				{
-																					isSort && (
-																						<div className='abs_rt fxm lh' style={{right:5}}>
-																							<div className='rel'>
-																								<div className='rel' style={{top:2}}><CaretUpOutlined style={{color:v.order===true?$fn.c0:'#999'}} /></div>
-																								<div className='rel' style={{top:-2}}><CaretDownOutlined style={{color:v.order===false?$fn.c0:'#999'}} /></div>
-																							</div>
-																						</div>
-																					)
-																				}
-																			</>
-																		)
-																	}
-																</div>
-																<i className='abs_rt h' onMouseDown={e=>onDrag(e,i)} style={{width:5, cursor:'w-resize'}}></i>
-															</th>
-														)
-													} )
-												}
-											</tr>
-										</thead>
-									</table>
-								</div>
-							</div>
-							{/* 表体 */}
-							<div className='tbody ex rel'>
-								<div className='abs h' style={{top:0,bottom:0}}>
-									<table className='js-body'>
-										<colgroup>
-											{
-												cols.map( (v,i) => <col key={i} width={v.type ? (v.width ? v.width :typeWidth) : v.width} /> )
-											}
-										</colgroup>
-										<tbody>
-											{
-												$fn.hasArray(result) && result.map( (p,j) => (
-													<tr key={j} onClick={_onRow.bind(null, p, j)} className={`${p.rowChecked ? 'checked' : ''} ${p.rowDisabled?'disabled':''} ${p.rowsStart?'start':''}`}>
-														{
-															cols.map( (v,i) => {
-																return (
-																	<td key={i} className={`${v.tdCss||''}${v.align||''}`}>
-																		{
-																			v.type ? <div className='fxmc'><Checkbox value={p.rowChecked} disabled={p.rowDisabled} outer/></div> : (
-																				<div className={`${v.tdCss ? 'p5' : 'con'}`}>
-																					{
-																						v['render'] ? v['render']({ text:$fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>, rows: p , index: j}) : $fn.isValid(p[v['field']]) ? p[v['field']] : <span className='g9'>--</span>
-																					}
-																				</div>
-																			)
-																		}
-																	</td>
-																)
-															} )
-														}
-													</tr>
-												))
-											}
-										</tbody>
-									</table>
-								</div>
-							</div>
-							<i ref={dragRef} className='abs_lt h bcm i10 dn' style={{width:1, cursor:'w-resize'}}></i>
-						</>
-					) : null
-				}
+				<TableComponent />
 			</div>
 			{/* 分页 */}
 			{
@@ -355,8 +363,6 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 					/>
 				) : null
 			}
-			{/* 空数据 */}
-			<Empty loading={loading} data={result} />
 			{/* 加载效果 */}
 			<Loading loading={loading} />
 		</div>

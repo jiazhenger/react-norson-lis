@@ -5,7 +5,7 @@ const exist = str => window.location.host.indexOf(str) >= 0
 
 let api = 'http://mapi.norsonmed.com/api/'		    // 正式访问 api
 let apt = 'http://test.norsonmed.com:890/api/'		    // 测试访问 api
-let apr = 'http://t.ubzyw.com/'						// 预发访问 api
+// let apr = 'http://t.ubzyw.com/'						// 预发访问 api
 
 if(env){ // 开发环境
 	api = api
