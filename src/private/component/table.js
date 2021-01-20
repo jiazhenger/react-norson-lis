@@ -37,6 +37,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 	const [ checked, setChecked ] = React.useState()
 	const [ indeter, setIndeter ] = React.useState()
 	const [ result, setResult ] = React.useState([])
+	const [ rs, setRs ] = React.useState([])
 	const [ offset, setOffset ] = React.useState(0)
 	const p = { current:1, total:0, pageSize:10, ...pag}
 	const typeWidth = 40
@@ -341,7 +342,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 								</table>
 							</div>
 							{/* 空数据 */}
-							<Empty loading={loading} data={result} />
+							<Empty loading={loading} data={data} />
 						</div>
 						<i ref={dragRef} className='abs_lt h bcm i10 dn' style={{width:1, cursor:'w-resize'}}></i>
 					</>
@@ -367,7 +368,7 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		end = start + visibleCount
 	}, [])
 	
-	const scrollEvent = React.useCallback(()=>{
+	const scrollEvent = ()=>{
 		const $scroll = scrollRef.current
 		const { scrollTop  } = $scroll // 当前滚动位置
 		start = Math.floor(scrollTop / rowHeight)   // 此时的开始索引
@@ -376,19 +377,20 @@ const Table = ({ cols, data, className, width, style, pag, onChange, loading, so
 		
 		setOffset(scrollTop - (scrollTop % rowHeight)) // 滚动时列表盒子的偏移量
 		
-		const _data = Array.isArray(data) && data.length > 0 ? data.slice(start, Math.min(end, data.length)) : [];
 		
-		console.log(_data)
+		const _data = Array.isArray(result) && result.length > 0 ? result.slice(start, Math.min(end, result.length)) : [];
 		
 		setResult(_data)
-	},[ data ])
+		
+		console.log(Math.min(end, result.length));
+	}
 	
 	return (
 		<div className={`fv rel ex ${className||''}`}>
 			{
 				virtual ? (
 					<div name='虚拟滚动盒子' className='norson-table ex fv oxys scrollbar rel' style={{minHeight:200,...style}} ref={scrollRef}>
-					    <div name='占位盒子'  style={{ height: data.length * rowHeight, position:'absolute',left:0,top:0,right:0, zIndex:-1 }}></div>
+					    <div name='占位盒子'  style={{ height: result.length * rowHeight, position:'absolute',left:0,top:0,right:0, zIndex:-1 }}></div>
 					    <div name='计算内容盒子' style={{ transform:`translate3d(0, ${offset}px, 0)`, position:'absolute', left:0, top:0, right:0 }}>
 							<TableComponent result={result} />
 					    </div>
